@@ -624,7 +624,8 @@ data.frame(`Hyperparameter` = c("Number of base filters", "Dropout rate for conv
            `32` = c("32", "0.4", "true", "max", "false", "256", "false", "0.2", "0.0003"),
            `64` = c("64", "0.3", "true", "average", "false", "256", "true", "0.4", "0.0006"),
            `128` = c("64", "0.4", "true", "average", "false", "256", "true", "0.1", "0.0052")) %>%
-  kableExtra::kable(booktabs = TRUE, 
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
                     label = "best-hyperparameter",
                     caption = "Hyperparameters values for the optimized computer vision models with different input sizes.",
                     col.names = c("Hyperparameter", "$32 \\times 32$", "$64 \\times 64$", "$128 \\times 128$"),
@@ -679,7 +680,8 @@ test_summary %>%
   mutate(res = glue::glue("${res} \\times {res}$")) %>%
   mutate(across(RMSE:MAE, ~format(.x, digits = 3))) %>%
   mutate(across(HUBER, ~format(.x, digits = 2))) %>%
-  kableExtra::kable(booktabs = TRUE, 
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
                     label = "performance",
                     caption = "The test performance of three optimized models with different input sizes.",
                     escape = FALSE,
@@ -782,7 +784,8 @@ model_pred %>%
   mutate(across(c(train_RMSE, test_RMSE), ~format(.x, digits = 3))) %>%
   mutate(violations = ifelse(violations == "null", "no violations", violations)) %>%
   select(-train_n, -train_RMSE) %>%
-  kableExtra::kable(booktabs = TRUE,
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
                     label = "performance-sub",
                     caption = "The training and test performance of the $32 \\times 32$ model presented with different model violations.",
                     escape = FALSE,
