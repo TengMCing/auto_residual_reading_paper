@@ -557,6 +557,8 @@ Equation \ref{eq:data-sim} accommodates the incorporation of the second predicto
 
 In real-world analysis, it is not uncommon to encounter instances where multiple model violations coexist. In such cases, the residual plots often exhibit a mixed pattern of visual anomalies corresponding to different types of model violations. Figure \ref{fig:different-j-heter} and Figure \ref{fig:different-e-heter} show the visual patterns of models with multiple model violations.
 
+The predictors, $\boldsymbol{x}_1$ and $\boldsymbol{x}_2$, are randomly generated from four distinct distributions, including $U(-1, 1)$ (uniform), $N(0, 0.3^2)$ (normal), $\text{lognormal}(0, 0.6^2)/3$ (skewed) and $U\{-1, 1\}$ (discrete uniform). 
+
 ## Balanced Dataset
 
 To train a robust computer vision model, we deliberately controlled the distribution of the target variable $D$ in the training data. We ensured that it followed a uniform distribution between $0$ and $7$. This was achieved by organizing $50$ buckets, each exclusively accepting training samples with $D$ falling within the range $[7(i - 1)/49, 7i/49)$ for $i < 50$, where $i$ represents the index of the $i$-th bucket. For the $50$-th bucket, any training samples with $D \geq 7$ were accepted.
