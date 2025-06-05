@@ -849,7 +849,8 @@ experiment %>%
             MAE = yardstick::mae_vec(actual_ss, vss),
             HUBER = yardstick::huber_loss_vec(actual_ss, vss)) %>%
   mutate(across(RMSE:HUBER, ~format(.x, digits = 3))) %>%
-  kableExtra::kable(booktabs = TRUE, 
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
                     label = "experiment-performance",
                     caption = "The performance of the $32 \\times 32$ model on the data used in the human subject experiment.",
                     escape = FALSE,
@@ -926,7 +927,8 @@ bind_rows(
     group_by(type) %>%
     summarise(n = format(n()), agree = format(sum(model_reject == reject)), rate = format(mean(model_reject == reject), digits = 4))
   ) %>%
-  kableExtra::kable(booktabs = TRUE,
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
                     label = "human-conv-table",
                     caption = "Summary of the comparison of decisions made by computer vision model with decisions made by conventional tests and visual tests conducted by human.",
                     escape = FALSE,
