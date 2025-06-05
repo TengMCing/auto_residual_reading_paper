@@ -270,7 +270,8 @@ Figure \ref{fig:poly-heter-index} displays the residual plots for fitted models 
 ```{r}
 data.frame(degree = c("Strong", "Moderate", "Weak"),
            range = c("$\\text{MVI} > 8$", "$6 < \\text{MVI} < 8$", "$\\text{MVI} < 6$")) %>%
-  kableExtra::kable(booktabs = TRUE,
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
                     label = "mvi",
                     caption = "Degree of model violations or the strength of the visual signals according to the Model Violations Index (MVI). The constant $C$ is set to be 10.",
                     escape = FALSE,
