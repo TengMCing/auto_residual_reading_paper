@@ -118,7 +118,7 @@ Providing multiple residual plots to the model, such as a pair of plots, a tripl
 
 Presenting a lineup to a model aligns closely with the lineup protocol. However, as the number of residual plots in a lineup increases, the resolution of the input image grows rapidly, posing challenges in training the model. We experimented with this approach in a pilot study, but the performance of the trained model was sub-optimal.
 
-Taking into account the implementation cost and the need for model interpretability, we used the single residual plot input format in this chapter.
+Taking into account the implementation cost and the need for model interpretability, we used the single residual plot input format in this paper.
 
 ## Output Formats
 
