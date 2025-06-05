@@ -396,7 +396,8 @@ $$g(\boldsymbol{x}, k) = 2k \cdot \frac{\boldsymbol{x} - x_{\min}\boldsymbol{1}_
 ```{r}
 tibble(Factor = c("j", "a", "b", "$\\beta_1$", "$\\beta_2$", " $\\text{dist}_\\varepsilon$", "$\\text{dist}_{x1}$", "$\\text{dist}_{x2}$", "$\\sigma_{\\varepsilon}$", "$\\sigma_{X1}$", "$\\sigma_{X2}$", "n"),
        Domain = c("\\{2, 3, ..., 18\\}", "[-1, 1]", "[0, 100]", "\\{0, 1\\}", "\\{0, 1\\}", "\\{discrete, uniform, normal, lognormal\\}", "\\{discrete, uniform, normal, lognormal\\}", "\\{discrete, uniform, normal, lognormal\\}", "[0.0625, 9]", "[0.3, 0.6]", "[0.3, 0.6]", "[50, 500]")) %>%
-  kableExtra::kable(escape = FALSE,
+  kableExtra::kable(format = "latex",
+                    escape = FALSE,
                     label = "factor",
                     caption = "Factors used in the data generating process for synthetic data simulation. Factor $j$ and $a$ controls the non-linearity shape and the heteroskedasticity shape respectively. Factor $b$, $\\sigma_\\varepsilon$ and $n$ control the signal strength. Factor $\\text{dist}_\\varepsilon$, $\\text{dist}_{x1}$ and $\\text{dist}_{x2}$ specifies the distribution of $\\varepsilon$, $X_1$ and $X_2$ respectively.",
                     booktabs = TRUE)
@@ -604,7 +605,8 @@ Our model was trained on the MASSIVE M3 high-performance computing platform [@go
 ```{r}
 data.frame(`Hyperparameter` = c("Number of base filters", "Dropout rate for convolutional blocks", "Batch normalization for convolutional blocks", "Type of global pooling", "Ignore additional inputs", "Number of units for the fully-connected layer", "Batch normalization for the fully-connected layer", "Dropout rate for the fully-connected layer", "Learning rate"),
            Domain = c("\\{4, 8, 16, 32, 64\\}", "[0.1, 0.6]", "\\{false, true\\}", "\\{max, average\\}", "\\{false, true\\}", "\\{128, 256, 512, 1024, 2048\\}", "\\{false, true\\}", "[0.1, 0.6]", "[$10^{-8}$, $10^{-1}$]")) %>%
-  kableExtra::kable(booktabs = TRUE, 
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
                     label = "hyperparameter",
                     caption = "Name of hyperparameters and their correspoding domain for the computer vision model.",
                     escape = FALSE)
