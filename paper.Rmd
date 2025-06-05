@@ -2,8 +2,8 @@
 title: "Automated Assessment of Residual Plots with Computer Vision Models"
 author:
   - name: Weihao Li
-    affil: a
-    email: weihao.li@monash.edu
+    affil: a, b
+    email: patrick.li@anu.edu.au
   - name: Dianne Cook
     affil: a
     email: dicook@monash.edu
