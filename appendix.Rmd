@@ -43,3 +43,225 @@ header-includes: |
   \doublespacing
 output: rticles::tf_article
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  echo = FALSE,
+  fig.width = 8,
+  fig.height = 6,
+  out.width = "100%", 
+  fig.align = "center")
+```
+
+```{r}
+# Visual inference models and p-value calculation
+# remotes::install_github("TengMCing/visage")
+options(tinytex.clean = FALSE)
+library(tidyverse)
+library(visage)
+library(glue)
+
+# To control the simulation in this file
+set.seed(10086)
+```
+
+
+# Data Generation {#sec-model-data-generation}
+
+## Simulation Scheme
+
+While observational data is frequently employed in training models for real-world applications, the data generating process of observational data often remains unknown, making computation for our target variable $D$ unattainable. Consequently, the computer vision models developed in this study were trained using synthetic data, including 80,000 training images and 8,000 test images. This approach provided us with precise label annotations. Additionally, it ensured a large and diverse training dataset, as we had control over the data generating process, and the simulation of the training data was relatively cost-effective.
+
+We have incorporated three types of residual departures of linear regression model in the training data, including non-linearity, heteroskedasticity and non-normality. All three departures can be summarized by the data generating process formulated as
+
+
+\begin{align} \label{eq:data-sim}
+\boldsymbol{y} &= \boldsymbol{1}_n + \boldsymbol{x}_1 + \beta_1\boldsymbol{x}_2 + \beta_2(\boldsymbol{z} + \beta_1\boldsymbol{w}) + \boldsymbol{k} \odot \boldsymbol{\varepsilon}, \\
+\boldsymbol{z} &= \text{He}_j(g(\boldsymbol{x}_1, 2)), \\
+\boldsymbol{w} &= \text{He}_j(g(\boldsymbol{x}_2, 2)), \\
+\boldsymbol{k} &= \left[\boldsymbol{1}_n + b(2 - |a|)(\boldsymbol{x}_1 + \beta_1\boldsymbol{x}_2 - a\boldsymbol{1}_n)^{\circ2}\right]^{\circ1/2},
+\end{align}
+
+
+\noindent where $\boldsymbol{y}$, $\boldsymbol{x}_1$, $\boldsymbol{x}_2$, $\boldsymbol{z}$, $\boldsymbol{w}$, $\boldsymbol{k}$ and $\boldsymbol{\varepsilon}$ are vectors of size $n$, $\boldsymbol{1}_n$ is a vector of ones of size $n$, $\boldsymbol{x}_1$ and $\boldsymbol{x}_2$ are two independent predictors, $\text{He}_j(.)$ is the $j$th-order probabilist's Hermite polynomials [@hermite1864nouveau], $(.)^{\circ2}$ and $(.)^{\circ1/2}$ are Hadamard square and square root, $\odot$ is the Hadamard product, and $g(\boldsymbol{x}, k)$ is a scaling function to enforce the support of the random vector to be $[-k, k]^n$ defined as
+
+$$g(\boldsymbol{x}, k) = 2k \cdot \frac{\boldsymbol{x} - x_{\min}\boldsymbol{1}_n}{x_{\max} - x_{\min}} - k\boldsymbol{1}_n,~for~k > 0,$$
+\noindent where $x_{\min} = \underset{i \in \{ 1,...,n\}}{\min} x_i$, $x_{\max} = \underset{i \in \{ 1,...,n\}}{\max} x_i$ and $x_i$ is the $i$-th entry of $\boldsymbol{x}$.
+
+
+```{r}
+tibble(Factor = c("j", "a", "b", "$\\beta_1$", "$\\beta_2$", " $\\text{dist}_\\varepsilon$", "$\\text{dist}_{x1}$", "$\\text{dist}_{x2}$", "$\\sigma_{\\varepsilon}$", "$\\sigma_{X1}$", "$\\sigma_{X2}$", "n"),
+       Domain = c("\\{2, 3, ..., 18\\}", "[-1, 1]", "[0, 100]", "\\{0, 1\\}", "\\{0, 1\\}", "\\{discrete, uniform, normal, lognormal\\}", "\\{discrete, uniform, normal, lognormal\\}", "\\{discrete, uniform, normal, lognormal\\}", "[0.0625, 9]", "[0.3, 0.6]", "[0.3, 0.6]", "[50, 500]")) %>%
+  kableExtra::kable(format = "latex",
+                    escape = FALSE,
+                    label = "factor",
+                    caption = "Factors used in the data generating process for synthetic data simulation. Factor $j$ and $a$ controls the non-linearity shape and the heteroskedasticity shape respectively. Factor $b$, $\\sigma_\\varepsilon$ and $n$ control the signal strength. Factor $\\text{dist}_\\varepsilon$, $\\text{dist}_{x1}$ and $\\text{dist}_{x2}$ specifies the distribution of $\\varepsilon$, $X_1$ and $X_2$ respectively.",
+                    booktabs = TRUE)
+```
+
+The residuals and fitted values of the fitted model were obtained by regressing $\boldsymbol{y}$ on $\boldsymbol{x}_1$. If $\beta_1 \neq 0$, $\boldsymbol{x}_2$ was also included in the design matrix. This data generation process was adapted from @li2024plot, where it was utilized to simulate residual plots exhibiting non-linearity and heteroskedasticity visual patterns for human subject experiments. A summary of the factors utilized in Equation \ref{eq:data-sim} is provided in Table \ref{tab:factor}.
+
+In Equation \ref{eq:data-sim}, $\boldsymbol{z}$ and $\boldsymbol{w}$ represent higher-order terms of $\boldsymbol{x}_1$ and $\boldsymbol{x}_2$, respectively. If $\beta_2 \neq 0$, the regression model will encounter non-linearity issues. Parameter $j$ serves as a shape parameter that controls the number of tuning points in the non-linear pattern. Typically, higher values of $j$ lead to an increase in the number of tuning points, as illustrated in Figure \ref{fig:different-j}.
+
+```{r different-j, fig.pos="!h", fig.cap = "Non-linearity forms generated for the synthetic data simulation. The 17 shapes are generated by varying the order of polynomial given by $j$ in $He_j(.)$."}
+
+set.seed(10086)
+
+# Data for shape 1
+dat_shape_1 <- phn_model(j = 2, include_x2 = FALSE, sigma = 0.05)$gen(500) %>%
+  mutate(j = 2)
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+map_df(3:18, function(j) {
+  phn_model(j = j, include_x2 = FALSE, sigma = 0.05)$
+    gen(500, computed = select(dat_shape_1, x1, e)) %>%
+  mutate(j = j)
+}) %>%
+  
+  # Combined with data for shape 1
+  bind_rows(dat_shape_1) %>%
+  mutate(j = factor(j)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~j, scales = "free", labeller = label_parsed, ncol = 5)
+```
+
+Additionally, scaling factor $\boldsymbol{k}$ directly affects the error distribution and it is correlated with $\boldsymbol{x}_1$ and $\boldsymbol{x}_2$. If $b \neq 0$ and $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \sigma^2\boldsymbol{I}_n)$, the constant variance assumption will be violated. Parameter $a$ is a shape parameter controlling the location of the smallest variance in a residual plot as shown in Figure \ref{fig:different-a}.
+
+```{r different-a, fig.width=8/5*3*2, fig.height=6/4*3*2, fig.pos="!h", fig.cap = 'Heteroskedasticity forms generated for the synthetic data simulation. Different shapes are controlled by the continuous factor $a$ between -1 and 1. For $a = -1$, the residual plot exhibits a "left-triangle" shape. And for $a = 1$, the residual plot exhibits a "right-triangle" shape. '}
+
+set.seed(10085)
+
+# Generate data for a = -1
+dat_a_n1 <- phn_model(include_z = FALSE,
+                      include_x2 = FALSE,
+                      a = -1,
+                      b = 100)$gen(500) %>%
+  mutate(a = -1)
+
+# Generate data for other a
+map(c(-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1), function(a) {
+  phn_model(include_z = FALSE,
+            include_x2 = FALSE,
+            a = a,
+            b = 100)$gen(500) %>%
+  mutate(a = a)
+}) %>%
+  
+  # Combined with data for a = -1
+  bind_rows(dat_a_n1) %>%
+  mutate(a = factor(a)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~a, scales = "free", ncol = 3) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+```{r different-e, fig.pos="!h", fig.cap = 'Non-normality forms generated for the synthetic data simulation. Four different error distributions including discrete, lognormal, normal and uniform are considered.'}
+
+set.seed(10086)
+
+# Data for shape 1
+dat_shape_1 <- phn_model(include_z = FALSE, include_x2 = FALSE, e = rand_uniform(-1.4, 1.4))$gen(500) %>%
+  mutate(e_dist = "uniform")
+
+dat_shape_2 <- phn_model(include_z = FALSE, include_x2 = FALSE, sigma = 0.8)$gen(500) %>%
+  mutate(e_dist = "normal")
+
+dat_shape_3 <- phn_model(include_z = FALSE, include_x2 = FALSE, e = rand_lognormal(sigma = 0.6))$gen(500) %>%
+  mutate(e_dist = "lognormal")
+
+dat_shape_4 <- phn_model(include_z = FALSE, include_x2 = FALSE, e = rand_uniform_d(-1.4, 1.4, even = TRUE))$gen(500) %>%
+  mutate(e_dist = "discrete")
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+bind_rows(dat_shape_1, dat_shape_2, dat_shape_3, dat_shape_4) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~e_dist, scales = "free", labeller = label_parsed, ncol = 2)
+```
+
+Non-normality violations arise from specifying a non-normal distribution for $\boldsymbol{\varepsilon}$. In the synthetic data simulation, four distinct error distributions are considered, including discrete, uniform, normal, and lognormal distributions, as presented in Figure \ref{fig:different-e}. Each distribution imparts unique characteristics in the residual plot. The discrete error distribution introduces discrete clusters in residuals, while the lognormal distribution typically yields outliers. Uniform error distribution may result in residuals filling the entire space of the residual plot. All of these distributions exhibit visual distinctions from the normal error distribution.
+
+```{r different-j-x2, fig.pos="!h", fig.cap = "Residual plots of multiple linear regression models with non-linearity issues. The 17 shapes are generated by varying the order of polynomial given by $j$ in $He_j(.)$. A second predictor $\\boldsymbol{x}_2$ is introduced to the regression model to create complex shapes."}
+
+set.seed(10086)
+
+# Data for shape 1
+dat_shape_1 <- phn_model(j = 2, include_x2 = TRUE, sigma = 0.05)$gen(500) %>%
+  mutate(j = 2)
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+map_df(3:18, function(j) {
+  phn_model(j = j, include_x2 = TRUE, sigma = 0.05)$
+    gen(500, computed = select(dat_shape_1, x1, e)) %>%
+  mutate(j = j)
+}) %>%
+  
+  # Combined with data for shape 1
+  bind_rows(dat_shape_1) %>%
+  mutate(j = factor(j)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~j, scales = "free", labeller = label_parsed, ncol = 5)
+```
+
+```{r different-j-heter, fig.pos="!h", fig.cap = 'Residual plots of models violating both the non-linearity and the heteroskedasticity assumptions. The 17 shapes are generated by varying the order of polynomial given by $j$ in $He_j(.)$, and the "left-triangle" shape is introduced by setting $a = -1$.'}
+
+set.seed(10086)
+
+# Data for shape 1
+dat_shape_1 <- phn_model(j = 2, a = -1, b = 100, include_x2 = FALSE, sigma = 0.05)$gen(500) %>%
+  mutate(j = 2)
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+map_df(3:18, function(j) {
+  phn_model(j = j, a = -1, b = 100, include_x2 = FALSE, sigma = 0.05)$
+    gen(500, computed = select(dat_shape_1, x1, e)) %>%
+  mutate(j = j)
+}) %>%
+  
+  # Combined with data for shape 1
+  bind_rows(dat_shape_1) %>%
+  mutate(j = factor(j)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~j, scales = "free", labeller = label_parsed, ncol = 5)
+```
+
+
+```{r different-e-heter, fig.pos="!h", fig.cap = 'Residual plots of models violating both the non-normality and the heteroskedasticity assumptions. The four shapes are generated by using four different error distributions including discrete, lognormal, normal and uniform, and the "left-triangle" shape is introduced by setting $a = -1$. '}
+
+set.seed(10085)
+
+# Data for shape 1
+dat_shape_1 <- phn_model(a = -1, b = 100, include_z = FALSE, include_x2 = FALSE, e = rand_uniform(-1.4, 1.4))$gen(500) %>%
+  mutate(e_dist = "uniform")
+
+dat_shape_2 <- phn_model(a = -1, b = 100, include_z = FALSE, include_x2 = FALSE, sigma = 0.8)$gen(500) %>%
+  mutate(e_dist = "normal")
+
+dat_shape_3 <- phn_model(a = -1, b = 100, include_z = FALSE, include_x2 = FALSE, e = rand_lognormal(sigma = 0.6))$gen(500) %>%
+  mutate(e_dist = "lognormal")
+
+dat_shape_4 <- phn_model(a = -1, b = 100, include_z = FALSE, include_x2 = FALSE, e = rand_uniform_d(-1.4, 1.4, even = TRUE))$gen(500) %>%
+  mutate(e_dist = "discrete")
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+bind_rows(dat_shape_1, dat_shape_2, dat_shape_3, dat_shape_4) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~e_dist, scales = "free", labeller = label_parsed, ncol = 2)
+```
+
+Equation \ref{eq:data-sim} accommodates the incorporation of the second predictor $\boldsymbol{x}_2$. Introducing it into the data generation process by setting $\beta_1 = 1$ significantly enhances the complexity of the shapes, as illustrated in Figure \ref{fig:different-j-x2}. In comparison to Figure \ref{fig:different-j}, Figure \ref{fig:different-j-x2} demonstrates that the non-linear shape resembles a surface rather than a single curve. This augmentation can facilitate the computer vision model in learning visual patterns from residual plots of the multiple linear regression model.
+
+In real-world analysis, it is not uncommon to encounter instances where multiple model violations coexist. In such cases, the residual plots often exhibit a mixed pattern of visual anomalies corresponding to different types of model violations. Figure \ref{fig:different-j-heter} and Figure \ref{fig:different-e-heter} show the visual patterns of models with multiple model violations.
+
+The predictors, $\boldsymbol{x}_1$ and $\boldsymbol{x}_2$, are randomly generated from four distinct distributions, including $U(-1, 1)$ (uniform), $N(0, 0.3^2)$ (normal), $\text{lognormal}(0, 0.6^2)/3$ (skewed) and $U\{-1, 1\}$ (discrete uniform). 
+
+
+## Balanced Dataset
+
+To train a robust computer vision model, we deliberately controlled the distribution of the target variable $D$ in the training data. We ensured that it followed a uniform distribution between $0$ and $7$. This was achieved by organizing $50$ buckets, each exclusively accepting training samples with $D$ falling within the range $[7(i - 1)/49, 7i/49)$ for $i < 50$, where $i$ represents the index of the $i$-th bucket. For the $50$-th bucket, any training samples with $D \geq 7$ were accepted.
+
+With 80,000 training images prepared, each bucket accommodated a maximum of $80000/ 50 = 1600$ training samples. The simulator iteratively sampled parameter values from the parameter space, generated residuals and fitted values using the data generation process, computed the distance, and checked if the sample fitted within the corresponding bucket. This process continued until all buckets were filled.
+
+Similarly, we adopted the same methodology to prepare 8,000 test images for performance evaluation and model diagnostics.
