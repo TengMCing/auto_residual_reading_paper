@@ -1,0 +1,104 @@
+% interactcadsample.tex
+% v1.04 - May 2023
+
+\documentclass[]{interact}
+
+\usepackage{epstopdf}% To incorporate .eps illustrations using PDFLaTeX, etc.
+\usepackage{subfigure}% Support for small, `sub' figures and tables
+%\usepackage[nolists,tablesfirst]{endfloat}% To `separate' figures and tables from text if required
+
+\usepackage{natbib}% Citation support using natbib.sty
+\bibpunct[, ]{(}{)}{;}{a}{}{,}% Citation support using natbib.sty
+\renewcommand\bibfont{\fontsize{10}{12}\selectfont}% Bibliography support using natbib.sty
+
+\theoremstyle{plain}% Theorem-like structures provided by amsthm.sty
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+\usepackage{lscape}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\def\tightlist{}
+\usepackage{setspace}
+\doublespacing
+
+
+\begin{document}
+
+
+\articletype{}
+
+\title{Appendix to ``Automated Assessment of Residual Plots with
+Computer Vision Models''}
+
+
+\author{\name{Weihao Li$^{a, b}$, Dianne Cook$^{a}$, Emi Tanaka$^{a, b,
+c}$, Susan VanderPlas$^{d}$, Klaus Ackermann$^{a}$}
+\affil{$^{a}$Department of Econometrics and Business Statistics, Monash
+University, Clayton, VIC, Australia; $^{b}$Biological Data Science
+Institute, Australian National University, Acton, ACT,
+Australia; $^{c}$Research School of Finance, Actuarial Studies and
+Statistics, Australian National University, Acton, ACT,
+Australia; $^{d}$Department of Statistics, University of Nebraska,
+Lincoln, Nebraska, USA}
+}
+
+
+\maketitle
+
+\begin{abstract}
+Plotting the residuals is a recommended procedure to diagnose deviations
+from linear model assumptions, such as non-linearity,
+heteroscedasticity, and non-normality. The presence of structure in
+residual plots can be tested using the lineup protocol to do visual
+inference. There are a variety of conventional residual tests, but the
+lineup protocol, used as a statistical test, performs better for
+diagnostic purposes because it is less sensitive and applies more
+broadly to different types of departures. However, the lineup protocol
+relies on human judgment which limits its scalability. This work
+presents a solution by providing a computer vision model to automate the
+assessment of residual plots. It is trained to predict a distance
+measure that quantifies the disparity between the residual distribution
+of a fitted classical normal linear regression model and the reference
+distribution, based on Kullback-Leibler divergence. From extensive
+simulation studies, the computer vision model exhibits lower sensitivity
+than conventional tests but higher sensitivity than human visual tests.
+It is slightly less effective on non-linearity patterns. Several
+examples from classical papers and contemporary data illustrate the new
+procedures, highlighting its usefulness in automating the diagnostic
+process and supplementing existing methods.
+\end{abstract}
+
+\begin{keywords}
+statistical graphics; data visualization; visual inference; computer
+vision; machine learning; hypothesis testing; reression analysis;
+cognitive perception; simulation; practical significance
+\end{keywords}
+
+
+
+\bibliographystyle{tfcad}
+\bibliography{bibliography.bib}
+
+
+
+
+
+\end{document}
