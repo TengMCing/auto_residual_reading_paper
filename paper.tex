@@ -846,8 +846,9 @@ variable \(D\), a bucket sampling scheme was used to create a balanced
 dataset. Samples were iteratively simulated and accepted into one of 50
 buckets, each representing a distinct range of \(D\).
 
-All mathematical formulations, parameter specifications, and supporting
-figures are detailed in the Appendix.
+The mathematical formulations of the synthetic data model, parameter
+specifications, supporting tables and example figures of visual patterns
+of simulated residuals are provided in the Appendix.
 
 \section{Model Architecture}\label{sec-model-architecture}
 
@@ -928,124 +929,16 @@ and the number of observations.
 
 \section{Model Training}\label{sec-model-training}
 
-To achieve a near-optimal deep learning model, hyperparameters like the
-learning rate often need to be fine-tuned using a tuner. In our study,
-we utilized the Bayesian optimization tuner from the \texttt{KerasTuner}
-Python library \citep{omalley2019kerastuner} for this purpose. A
-comprehensive list of hyperparameters is provided in Table
-\ref{tab:hyperparameter}.
-
-The number of base filters determines the number of filters for the
-first 2D convolutional layer. In the VGG16 architecture, the number of
-filters for the 2D convolutional layer in a block is typically twice the
-number in the previous block, except for the last block, which maintains
-the same number of convolution filters as the previous one. This
-hyperparameter aids in controlling the complexity of the computer vision
-model. A higher number of base filters results in more trainable
-parameters. Likewise, the number of units for the fully-connected layer
-determines the complexity of the final prediction block. Increasing the
-number of units enhances model complexity, resulting in more trainable
-parameters.
-
-The dropout rate and batch normalization are flexible hyperparameters
-that work in conjunction with other parameters to facilitate smooth
-training. A higher dropout rate is necessary when the model tends to
-overfit the training dataset by learning too much noise
-\citep{srivastava2014dropout}. Conversely, a lower dropout rate is
-preferred when the model is complex and challenging to converge. Batch
-normalization, on the other hand, addresses the internal covariate shift
-problem arising from the randomness in weight initialization and input
-data \citep{goodfellow2016deep}. It helps stabilize and accelerate the
-training process by normalizing the activations of each layer.
-
-Additionally, incorporating additional inputs such as scagnostics and
-the number of observations can potentially enhance prediction accuracy.
-Therefore, we allow the tuner to determine whether these inputs were
-necessary for optimal model performance.
-
-The learning rate is a crucial hyperparameter, as it dictates the step
-size of the optimization algorithm. A high learning rate can help the
-model avoid local minima but risks overshooting and missing the global
-minimum. Conversely, a low learning rate smoothens the training process
-but makes the convergence time longer and increases the likelihood of
-getting trapped in local minima.
-
-Our model was trained on the MASSIVE M3 high-performance computing
-platform \citep{goscinski2014multi}, using TensorFlow
-\citep{abadi2016tensorflow} and Keras \citep{chollet2015keras}. During
-training, 80\% of the training data was utilized for actual training,
-while the remaining 20\% was used as validation data. The Bayesian
-optimization tuner conducted 100 trials to identify the best
-hyperparameter values based on validation root mean square error. The
-tuner then restored the best epoch of the best model from the trials.
-Additionally, we applied early stopping, terminating the training
-process if the validation root mean square error fails to improve for 50
-epochs. The maximum allowed epochs was set at 2,000, although no models
-reached this threshold.
-
-\begin{table}
-
-\caption{\label{tab:hyperparameter}Name of hyperparameters and their correspoding domain for the computer vision model.}
-\centering
-\begin{tabular}[t]{ll}
-\toprule
-Hyperparameter & Domain\\
-\midrule
-Number of base filters & \{4, 8, 16, 32, 64\}\\
-Dropout rate for convolutional blocks & {}[0.1, 0.6]\\
-Batch normalization for convolutional blocks & \{false, true\}\\
-Type of global pooling & \{max, average\}\\
-Ignore additional inputs & \{false, true\}\\
-\addlinespace
-Number of units for the fully-connected layer & \{128, 256, 512, 1024, 2048\}\\
-Batch normalization for the fully-connected layer & \{false, true\}\\
-Dropout rate for the fully-connected layer & {}[0.1, 0.6]\\
-Learning rate & {}[$10^{-8}$, $10^{-1}$]\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Based on the tuning process described above, the optimized
-hyperparameter values are presented in Table
-\ref{tab:best-hyperparameter}. It was observable that a minimum of
-\(32\) base filters was necessary, with the preferable choice being
-\(64\) base filters for both the \(64 \times 64\) and \(128 \times 128\)
-models, mirroring the original VGG16 architecture. The optimized dropout
-rate for convolutional blocks hovered around \(0.4\), and incorporating
-batch normalization for convolutional blocks proved beneficial for
-performance.
-
-All optimized models chose to retain the additional inputs, contributing
-to the reduction of validation error. The number of units required for
-the fully-connected layer was \(256\), a relatively modest number
-compared to the VGG16 classifier, suggesting that the problem at hand
-was less complex. The optimized learning rates were higher for models
-with higher resolution input, likely because models with more parameters
-are more prone to getting stuck in local minima, requiring a higher
-learning rate.
-
-\begin{table}
-\centering
-\caption{\label{tab:best-hyperparameter}Hyperparameters values for the optimized computer vision models with different input sizes.}
-\centering
-\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Hyperparameter & $32 \times 32$ & $64 \times 64$ & $128 \times 128$\\
-\midrule
-Number of base filters & 32 & 64 & 64\\
-Dropout rate for convolutional blocks & 0.4 & 0.3 & 0.4\\
-Batch normalization for convolutional blocks & true & true & true\\
-Type of global pooling & max & average & average\\
-Ignore additional inputs & false & false & false\\
-\addlinespace
-Number of units for the fully-connected layer & 256 & 256 & 256\\
-Batch normalization for the fully-connected layer & false & true & true\\
-Dropout rate for the fully-connected layer & 0.2 & 0.4 & 0.1\\
-Learning rate & 0.0003 & 0.0006 & 0.0052\\
-\bottomrule
-\end{tabular}}
-\end{table}
+The computer vision models were trained on the MASSIVE M3
+high-performance computing platform \citep{goscinski2014multi}, using
+TensorFlow \citep{abadi2016tensorflow} and Keras
+\citep{chollet2015keras}, with hyperparameters optimized via Bayesian
+tuning in \texttt{KerasTuner} \citep{omalley2019kerastuner} to minimize
+validation RMSE. The tuning process involved 100 trials, early stopping,
+and consideration of factors such as dropout, batch normalization, input
+resolution, and auxiliary inputs. Details of the hyperparameter domains,
+optimization strategy, and final selected values are provided in
+Appendix.
 
 \section{Results}\label{sec-model-results}
 
