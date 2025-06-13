@@ -610,7 +610,7 @@ observing a distance equally or greater than \(\hat{D}\) under \(H_0\),
 and it can be estimated as
 \(\frac{1}{m} + \frac{1}{m}\sum_{i=1}^{m-1}I\left(\hat{D}_{null}^{(i)} \geq \hat{D}\right)\).
 
-To reduce computational cost, a precomputed lattice of \(\hat{D}\)
+To reduce computational cost, a pre-computed lattice of \(\hat{D}\)
 quantiles under \(H_0\) for various sample sizes can be used. By
 matching observed values to the closest entries in this lattice,
 approximate \(p\)-values can be obtained efficiently, with minor loss of
@@ -646,48 +646,33 @@ practice, \(Q_{null}(0.95)\) can be used to replace
 
 \section{Model Violations Index}\label{sec-model-violations-index}
 
-While statistical testing is a powerful tool for detecting model
-violations, it can become cumbersome and time-consuming when quick
-decisions are needed, particularly due to the need to evaluate numerous
-null plots. In practice, a more convenient and immediate method for
-assessing model performance is often required. This is where an index,
-such as the Model Violations Index (MVI), becomes valuable. It offers a
-straightforward way to quantify deviations from model assumptions,
-enabling rapid assessment and easier comparison across models.
+In \ref{sec-model-lineup-evaluation}, we noted that a pre-computed
+lattice of \(\hat{D}\) quantiles can reduce the computation cost of
+lineup tests. Another practical approach is to assess model performance
+directly using the value of \(\hat{D}\).
 
-The estimator \(\hat{D}\) measures the difference between the true
-residual distribution and the reference residual distribution, a
-difference primarily arises from deviations in model assumptions. The
-magnitude of \(D\) directly reflects the degree of these deviations,
-thus making \(\hat{D}\) instrumental in forming a model violations index
-(MVI).
+The estimator \(\hat{D}\) captures the difference between the true and
+reference residual distributions, which reflects the extent of model
+violations, making it instrumental in forming a model violations index
+(MVI). However, when more observations are used in regression, the value
+of \(\hat{D}\) tends to increase logarithmically. This is because
+\(D = \log(1 + D_{KL})\), and under the assumption of independence,
+\(D_{KL}\) is the sum of \(D_{KL}^{(i)}\) across all observations. This
+does not mean that \(\hat{D}\) becomes less reliable. In fact, larger
+samples often make model violations more visible in residual plots,
+unless strong overlapping masks the patterns.
 
-Note that if more observations are used for estimating the linear
-regression, the result of Equation \ref{eq:kl-1} will increase, as the
-integration will be performed with larger \(n\). For a given data
-generating process, \(D\) typically increases logarithmically with the
-number of observations. This behavior comes from the relationship
-\(D = \text{log}(1 + D_{KL})\), where
-\(D_{KL} = \sum_{i=1}^{n}D_{KL}^{(i)}\) under the assumption of
-independence.
-
-Since \(\hat{D}\) is an estimate of \(D\), it is expected that a larger
-number of observations will also lead to a higher \(\hat{D}\). However,
-this does not imply that \(\hat{D}\) fails to accurately represent the
-extent of model violations. In fact, when examining residual plots with
-more observations, we often observe a stronger visual signal strength,
-as the underlying patterns are more likely to be revealed, except in
-cases of significant overlapping.
-
-Therefore, the Model Violations Index (MVI) can be proposed as
+However, to create a standardized and generalizable index, it is
+important to adjust for the effect of sample size. Therefore, the Model
+Violations Index (MVI) is proposed as
 
 \begin{equation} \label{eq:mvi}
 \text{MVI} = C + \hat{D} - \log(n),
 \end{equation}
 
-\noindent where \(C\) is a large enough constant keeping the result
-positive and the term \(-\log(n)\) is used to offset the increase in
-\(D\) due to sample size.
+\noindent where \(C\) is a sufficiently large constant to ensure the
+result remains positive, and the \(\log(n)\) term offset the increase in
+\(D\) with larger sample sizes.
 
 Figure \ref{fig:poly-heter-index} displays the residual plots for fitted
 models exhibiting varying degrees of non-linearity and
@@ -735,9 +720,9 @@ Weak & $\text{MVI} < 6$\\
 \caption{Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.}\label{fig:cnn-diag}
 \end{figure}
 
-The architecture of the computer vision model is adapted from the
-well-established VGG16 architecture \citep{simonyan2014very}. While more
-recent architectures like ResNet \citep{he2016deep} and
+The architecture of the computer vision model \(f_{CV}\) is adapted from
+the well-established VGG16 architecture \citep{simonyan2014very}. While
+more recent architectures like ResNet \citep{he2016deep} and
 DenseNet\citep{huang2017densely}, have achieved even greater
 performance, VGG16 remains a solid choice for many applications due to
 its simplicity and effectiveness. Our decision to use VGG16 aligns with

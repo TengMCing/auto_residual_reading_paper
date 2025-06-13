@@ -218,7 +218,7 @@ To address this issue we can adhere to the paradigm of visual inference, by comp
 
 Moreover, if the number of plots in a lineup, denoted by $m$, is sufficiently large, the empirical distribution of ${\hat{D}_{null}^{(i)}}$ can be viewed as an approximation of the null distribution of the estimated distance. Consequently, quantiles of the null distribution can be estimated using the sample quantiles and used for decision-making purposes. The details of the sample quantile computation can be found in @hyndman1996sample. For instance, if $\hat{D}$ is greater than or equal to the 95% sample quantile, denoted as $Q_{null}(0.95)$, we can conclude that the estimated distance for the true residual plot is significantly different from the estimated distance for null plots with a 95% significance level. Based on our experience, at least 100 null plots are typically needed for stable estimation, but more may be required if the null distribution has heavy tails. Alternatively, a $p$-value is the probability of observing a distance equally or greater than $\hat{D}$ under $H_0$, and it can be estimated as $\frac{1}{m} + \frac{1}{m}\sum_{i=1}^{m-1}I\left(\hat{D}_{null}^{(i)} \geq \hat{D}\right)$.
 
-To reduce computational cost, a precomputed lattice of $\hat{D}$ quantiles under $H_0$ for various sample sizes can be used. By matching observed values to the closest entries in this lattice, approximate $p$-values can be obtained efficiently, with minor loss of precision.
+To reduce computational cost, a pre-computed lattice of $\hat{D}$ quantiles under $H_0$ for various sample sizes can be used. By matching observed values to the closest entries in this lattice, approximate $p$-values can be obtained efficiently, with minor loss of precision.
 
 ## Bootstrapping
 
@@ -230,25 +230,20 @@ Alternatively, since each $M_{boot}^{(i)}$ has its own residual distribution, a 
 
 # Model Violations Index {#sec-model-violations-index}
 
-While statistical testing is a powerful tool for detecting model violations, it can become cumbersome and time-consuming when quick decisions are needed, particularly due to the need to evaluate numerous null plots. In practice, a more convenient and immediate method for assessing model performance is often required. This is where an index, such as the Model Violations Index (MVI), becomes valuable. It offers a straightforward way to quantify deviations from model assumptions, enabling rapid assessment and easier comparison across models.
+In \ref{sec-model-lineup-evaluation}, we noted that a pre-computed lattice of $\hat{D}$ quantiles can reduce the computation cost of lineup tests. Another practical approach is to assess model performance directly using the value of $\hat{D}$.
 
-The estimator $\hat{D}$ measures the difference between the true residual distribution and the reference residual distribution, a difference primarily arises from deviations in model assumptions. The magnitude of $D$ directly reflects the degree of these deviations, thus making $\hat{D}$ instrumental in forming a model violations index (MVI).
+The estimator $\hat{D}$ captures the difference between the true and reference residual distributions, which reflects the extent of model violations, making it instrumental in forming a model violations index (MVI). However, when more observations are used in regression, the value of $\hat{D}$ tends to increase logarithmically. This is because $D = \log(1 + D_{KL})$, and under the assumption of independence, $D_{KL}$ is the sum of $D_{KL}^{(i)}$ across all observations. This does not mean that $\hat{D}$ becomes less reliable. In fact, larger samples often make model violations more visible in residual plots, unless strong overlapping masks the patterns.
 
-Note that if more observations are used for estimating the linear regression, the result of Equation \ref{eq:kl-1} will increase, as the integration will be performed with larger $n$. For a given data generating process, $D$ typically increases logarithmically with the number of observations. This behavior comes from the relationship $D = \text{log}(1 + D_{KL})$, where $D_{KL} = \sum_{i=1}^{n}D_{KL}^{(i)}$ under the assumption of independence.
-
-Since $\hat{D}$ is an estimate of $D$, it is expected that a larger number of observations will also lead to a higher $\hat{D}$. However, this does not imply that $\hat{D}$ fails to accurately represent the extent of model violations. In fact, when examining residual plots with more observations, we often observe a stronger visual signal strength, as the underlying patterns are more likely to be revealed, except in cases of significant overlapping.
-
-Therefore, the Model Violations Index (MVI) can be proposed as
-
+However, to create a standardized and generalizable index, it is important to adjust for the effect of sample size. Therefore, the Model Violations Index (MVI) is proposed as
 
 \begin{equation} \label{eq:mvi}
 \text{MVI} = C + \hat{D} - \log(n),
 \end{equation}
 
-
-\noindent where $C$ is a large enough constant keeping the result positive and the term $-\log(n)$ is used to offset the increase in $D$ due to sample size.
+\noindent where $C$ is a sufficiently large constant to ensure the result remains positive, and the $\log(n)$ term offset the increase in $D$ with larger sample sizes.
 
 Figure \ref{fig:poly-heter-index} displays the residual plots for fitted models exhibiting varying degrees of non-linearity and heteroskedasticity. Each residual plot's MVI is computed using Equation \ref{eq:mvi} with $C = 10$. When $\text{MVI} > 8$, the visual patterns are notably strong and easily discernible by humans. In the range $6 < \text{MVI} < 8$, the visibility of the visual pattern diminishes as MVI decreases. Conversely, when $\text{MVI} < 6$, the visual pattern tends to become relatively faint and challenging to observe. Table \ref{tab:mvi} provides a summary of the MVI usage and it is applicable to other linear regression models.
+
 
 ```{r}
 data.frame(degree = c("Strong", "Moderate", "Weak"),
@@ -361,7 +356,7 @@ patchwork::wrap_plots(p1, p2, ncol = 1)
 magick::image_read_pdf("figures/cnn.pdf")
 ```
 
-The architecture of the computer vision model is adapted from the well-established VGG16 architecture [@simonyan2014very]. While more recent architectures like ResNet [@he2016deep] and DenseNet[@huang2017densely], have achieved even greater performance, VGG16 remains a solid choice for many applications due to its simplicity and effectiveness. Our decision to use VGG16 aligns with our goal of starting with a proven and straightforward model. Figure \ref{fig:cnn-diag} provides a diagram of the architecture. More details about the neural network layers used in this study are provided in the Appendix.
+The architecture of the computer vision model $f_{CV}$ is adapted from the well-established VGG16 architecture [@simonyan2014very]. While more recent architectures like ResNet [@he2016deep] and DenseNet[@huang2017densely], have achieved even greater performance, VGG16 remains a solid choice for many applications due to its simplicity and effectiveness. Our decision to use VGG16 aligns with our goal of starting with a proven and straightforward model. Figure \ref{fig:cnn-diag} provides a diagram of the architecture. More details about the neural network layers used in this study are provided in the Appendix.
 
 The model begins with an input layer of shape $n \times h \times w \times 3$, capable of handling $n$ RGB images. This is followed by a grayscale conversion layer utilizing the luma formula under the Rec. 601 standard [@series2011studio], which converts the color image to grayscale. Grayscale suffices for our task since data points are plotted in black. We experiment with three combinations of $h$ and $w$: $32 \times 32$, $64 \times 64$, and $128 \times 128$, aiming to achieve sufficiently high image resolution for the problem at hand.
 
