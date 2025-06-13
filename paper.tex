@@ -215,13 +215,13 @@ models estimate this distance measure. Section
 \ref{sec-model-statistical-testing} covers the statistical tests based
 on the estimated distance, and Section \ref{sec-model-violations-index}
 introduces a Model Violations Index, which offers a quicker and more
-convenient assessment. Sections \ref{sec-model-data-generation},
-\ref{sec-model-architecture}, and \ref{sec-model-training} detail the
-data preparation, model architecture, and training process,
-respectively. The results are presented in Section
-\ref{sec-model-results}. Example dataset applications are discussed in
-Section \ref{sec-examples}. Finally, we conclude with a discussion of
-our findings and propose ideas for future research directions.
+convenient assessment. Sections \ref{sec-model-architecture} and
+\ref{sec-model-data-generation} describe the model architecture and the
+corresponding data generation and training process, respectively. The
+results are presented in Section \ref{sec-model-results}. Example
+dataset applications are discussed in Section \ref{sec-examples}.
+Finally, we conclude with a discussion of our findings and propose ideas
+for future research directions.
 
 \begin{figure}[!h]
 
@@ -359,7 +359,7 @@ measure has to be quantifiable.
 
 In this study, we chose to define and use a distance between a true
 residual plot and a theoretically ``good'' residual plot. This is
-further explained in \citet{sec-model-distance-between-residual-plots}.
+further explained in \ref{sec-model-distance-estimation}.
 \citet{vo2016localizing} have also demonstrated that defining a proper
 distance between images can enhance the matching accuracy in image
 search compared to a binary outcome model.
@@ -822,34 +822,6 @@ Weak & $\text{MVI} < 6$\\
 \caption{Residual plots generated from fitted models exhibiting varying degrees of (A) non-linearity and (B) heteroskedasticity violations. The model violations index (MVI) is displayed atop each residual plot. The non-linearity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$, while the heteroskedasticity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$.}\label{fig:poly-heter-index}
 \end{figure}
 
-\section{Data Generation}\label{sec-model-data-generation}
-
-To enable supervised training of computer vision models for detecting
-violations in linear regression, we generated a synthetic dataset of
-80,000 training and 8,000 test residual plots. This simulation-based
-approach provided full control over the data-generating process,
-allowing precise computation of \(D\), cost-effective data scaling, and
-the ability to model diverse visual patterns of model violations.
-
-The simulated data incorporated three common types of residual
-departures: non-linearity, heteroskedasticity, and non-normality. These
-were introduced by fitting a standard simple linear regression model to
-data generated from a more flexible model based on Hermite polynomials,
-multiple predictors, and varying distributions in both predictors and
-error terms. A comprehensive grid of parameter combinations was explored
-to generate a wide range of residual patterns. Importantly, the
-simulation included scenarios with multiple violations occurring
-simultaneously.
-
-To ensure uniform coverage across the difficulty scale of the target
-variable \(D\), a bucket sampling scheme was used to create a balanced
-dataset. Samples were iteratively simulated and accepted into one of 50
-buckets, each representing a distinct range of \(D\).
-
-The mathematical formulations of the synthetic data model, parameter
-specifications, supporting tables and example figures of visual patterns
-of simulated residuals are provided in the Appendix.
-
 \section{Model Architecture}\label{sec-model-architecture}
 
 \begin{figure}
@@ -927,18 +899,41 @@ the mean square error loss function
 information about the \(i\)-th residual plot including four scagnostics
 and the number of observations.
 
-\section{Model Training}\label{sec-model-training}
+\section{Data Generation and Model
+Training}\label{sec-model-data-generation}
 
-The computer vision models were trained on the MASSIVE M3
-high-performance computing platform \citep{goscinski2014multi}, using
-TensorFlow \citep{abadi2016tensorflow} and Keras
-\citep{chollet2015keras}, with hyperparameters optimized via Bayesian
-tuning in \texttt{KerasTuner} \citep{omalley2019kerastuner} to minimize
-validation RMSE. The tuning process involved 100 trials, early stopping,
-and consideration of factors such as dropout, batch normalization, input
-resolution, and auxiliary inputs. Details of the hyperparameter domains,
-optimization strategy, and final selected values are provided in
-Appendix.
+To enable supervised training of computer vision models for detecting
+violations in linear regression, we generated a synthetic dataset of
+80,000 training and 8,000 test residual plots. This simulation-based
+approach provided full control over the data-generating process,
+allowing precise computation of \(D\), cost-effective data scaling, and
+the ability to model diverse visual patterns of model violations.
+
+The simulated data incorporated three common types of residual
+departures: non-linearity, heteroskedasticity, and non-normality. These
+were introduced by fitting a standard simple linear regression model to
+data generated from a more flexible model based on Hermite polynomials
+\citep{hermite1864nouveau}, multiple predictors, and varying
+distributions in both predictors and error terms. A comprehensive grid
+of parameter combinations was explored to generate a wide range of
+residual patterns. Importantly, the simulation included scenarios with
+multiple violations occurring simultaneously. To ensure uniform coverage
+across the difficulty scale of the target variable \(D\), a bucket
+sampling scheme was used to create a balanced dataset. Samples were
+iteratively simulated and accepted into one of 50 buckets, each
+representing a distinct range of \(D\).
+
+Model training was conducted on the MASSIVE M3 high-performance
+computing platform \citep{goscinski2014multi} using TensorFlow
+\citep{abadi2016tensorflow} and Keras \citep{chollet2015keras}.
+Hyperparameters were optimized via Bayesian tuning with KerasTuner
+\citep{omalley2019kerastuner}, minimizing validation RMSE across 100
+trials. The tuning process included early stopping and considered
+dropout, batch normalization, input resolution, and auxiliary inputs.
+
+Further details, including mathematical formulations of the simulation
+model, parameter specifications, sampling scheme, example residual plots
+and hyperparameter tuning configuration, are provided in the Appendix.
 
 \section{Results}\label{sec-model-results}
 
@@ -1066,12 +1061,13 @@ distribution evaluated by 5 participants. Attention check lineups and
 null lineups will not be assessed in the following analysis.
 
 In \citet{li2024plot}, the residual plots are simulated from a data
-generating process which is a special case of Equation
-\ref{eq:data-sim}. The main characteristic is the model violations are
-introduced separately, meaning non-linearity and heteroskedasticity will
-not co-exist in one lineup but assigned uniformly to all lineups.
-Additionally, non-normality and multiple predictors are not considered
-in the experimental design.
+generating process that corresponds to a special case of the synthetic
+data model used in this study. A key feature of the design is that model
+violations are introduced independently, meaning non-linearity and
+heteroskedasticity do not co-exist within a single lineup but are
+instead assigned uniformly across different lineups. Moreover, the
+experimental design does not account for non-normality or multiple
+predictors.
 
 \subsubsection{Model Performance on the Human-evaluated
 Data}\label{model-performance-on-the-human-evaluated-data}

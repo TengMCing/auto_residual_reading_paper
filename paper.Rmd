@@ -83,7 +83,7 @@ The utilization of computers to interpret data plots has a rich history, with ea
 
 Modern computer vision models are well-suited for addressing this challenge. They rely on deep neural networks with convolutional layers [@fukushima1982neocognitron]. These layers use small, sliding windows to scan the image, performing a dot product to extract local features and patterns. Numerous studies have demonstrated the efficacy of convolutional layers in addressing various vision tasks, including image recognition [@rawat2017deep]. Despite the widespread use of computer vision models in fields like computer-aided diagnosis [@lee2015image], pedestrian detection [@brunetti2018computer], and facial recognition [@emami2012facial], their application in reading data plots remains limited. While some studies have explored the use of computer vision models for tasks such as reading recurrence plots for time series regression [@ojeda2020multivariate], time series classification [@chu2019automatic; @hailesilassie2019financial; @hatami2018classification; @zhang2020encoding], anomaly detection [@chen2020convolutional], and pairwise causality analysis [@singh2017deep], the application of reading residual plots with computer vision models is a new field of study.
 
-In this paper, we develop computer vision models and integrate them into the residual plots diagnostics workflow, addressing the need for an automated visual inference. The paper is structured as follows. Section \ref{sec-model-specifications} discusses various specifications of the computer vision models. Section \ref{sec-model-distance-between-residual-plots} defines the distance measure used to detect model violations, while Section \ref{sec-model-distance-estimation} explains how the computer vision models estimate this distance measure. Section \ref{sec-model-statistical-testing} covers the statistical tests based on the estimated distance, and Section \ref{sec-model-violations-index} introduces a Model Violations Index, which offers a quicker and more convenient assessment. Sections \ref{sec-model-data-generation}, \ref{sec-model-architecture}, and  \ref{sec-model-training} detail the data preparation, model architecture, and training process, respectively. The results are presented in Section \ref{sec-model-results}. Example dataset applications are discussed in Section \ref{sec-examples}. Finally, we conclude with a discussion of our findings and propose ideas for future research directions.
+In this paper, we develop computer vision models and integrate them into the residual plots diagnostics workflow, addressing the need for an automated visual inference. The paper is structured as follows. Section \ref{sec-model-specifications} discusses various specifications of the computer vision models. Section \ref{sec-model-distance-between-residual-plots} defines the distance measure used to detect model violations, while Section \ref{sec-model-distance-estimation} explains how the computer vision models estimate this distance measure. Section \ref{sec-model-statistical-testing} covers the statistical tests based on the estimated distance, and Section \ref{sec-model-violations-index} introduces a Model Violations Index, which offers a quicker and more convenient assessment. Sections \ref{sec-model-architecture} and \ref{sec-model-data-generation} describe the model architecture and the corresponding data generation and training process, respectively. The results are presented in Section \ref{sec-model-results}. Example dataset applications are discussed in Section \ref{sec-examples}. Finally, we conclude with a discussion of our findings and propose ideas for future research directions.
 
 
 
@@ -132,7 +132,7 @@ One significant advantage of the lineup protocol for residual diagnostics is its
 
 Alternatively, the output could be a meaningful and interpretable numerical measure useful for assessing residual plots, such as the strength of suspicious visual patterns reflecting the extent of model violations, or the difficulty index for identifying whether a residual plot has no issues. However, these numeric measures are often informally used in daily communication but are not typically formalized or rigorously defined. For the purpose of training a model, this numeric measure has to be quantifiable. 
 
-In this study, we chose to define and use a distance between a true residual plot and a theoretically "good" residual plot. This is further explained in @sec-model-distance-between-residual-plots. @vo2016localizing have also demonstrated that defining a proper distance between images can enhance the matching accuracy in image search compared to a binary outcome model.
+In this study, we chose to define and use a distance between a true residual plot and a theoretically "good" residual plot. This is further explained in \ref{sec-model-distance-estimation}. @vo2016localizing have also demonstrated that defining a proper distance between images can enhance the matching accuracy in image search compared to a binary outcome model.
 
 ## Auxiliary Information with Scagnostics
 
@@ -370,15 +370,7 @@ patchwork::wrap_plots(p1, p2, ncol = 1)
 
 
 
-# Data Generation {#sec-model-data-generation}
 
-To enable supervised training of computer vision models for detecting violations in linear regression, we generated a synthetic dataset of 80,000 training and 8,000 test residual plots. This simulation-based approach provided full control over the data-generating process, allowing precise computation of $D$, cost-effective data scaling, and the ability to model diverse visual patterns of model violations.
-
-The simulated data incorporated three common types of residual departures: non-linearity, heteroskedasticity, and non-normality. These were introduced by fitting a standard simple linear regression model to data generated from a more flexible model based on Hermite polynomials, multiple predictors, and varying distributions in both predictors and error terms. A comprehensive grid of parameter combinations was explored to generate a wide range of residual patterns. Importantly, the simulation included scenarios with multiple violations occurring simultaneously.
-
-To ensure uniform coverage across the difficulty scale of the target variable $D$, a bucket sampling scheme was used to create a balanced dataset. Samples were iteratively simulated and accepted into one of 50 buckets, each representing a distinct range of $D$.
-
-The mathematical formulations of the synthetic data model, parameter specifications, supporting tables and example figures of visual patterns of simulated residuals are provided in the Appendix.
 
 # Model Architecture {#sec-model-architecture}
 
@@ -402,9 +394,15 @@ $$\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\fra
 
 \noindent where $n_{\text{train}}$ is the number of training samples, $V_i$ is the $i$-th residual plot and $S_i$ is the additional information about the $i$-th residual plot including four scagnostics and the number of observations. 
 
-# Model Training {#sec-model-training}
+# Data Generation and Model Training {#sec-model-data-generation}
 
-The computer vision models were trained on the MASSIVE M3 high-performance computing platform [@goscinski2014multi], using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras], with hyperparameters optimized via Bayesian tuning in `KerasTuner` [@omalley2019kerastuner] to minimize validation RMSE. The tuning process involved 100 trials, early stopping, and consideration of factors such as dropout, batch normalization, input resolution, and auxiliary inputs. Details of the hyperparameter domains, optimization strategy, and final selected values are provided in Appendix.
+To enable supervised training of computer vision models for detecting violations in linear regression, we generated a synthetic dataset of 80,000 training and 8,000 test residual plots. This simulation-based approach provided full control over the data-generating process, allowing precise computation of $D$, cost-effective data scaling, and the ability to model diverse visual patterns of model violations.
+
+The simulated data incorporated three common types of residual departures: non-linearity, heteroskedasticity, and non-normality. These were introduced by fitting a standard simple linear regression model to data generated from a more flexible model based on Hermite polynomials [@hermite1864nouveau], multiple predictors, and varying distributions in both predictors and error terms. A comprehensive grid of parameter combinations was explored to generate a wide range of residual patterns. Importantly, the simulation included scenarios with multiple violations occurring simultaneously. To ensure uniform coverage across the difficulty scale of the target variable $D$, a bucket sampling scheme was used to create a balanced dataset. Samples were iteratively simulated and accepted into one of 50 buckets, each representing a distinct range of $D$.
+
+Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation RMSE across 100 trials. The tuning process included early stopping and considered dropout, batch normalization, input resolution, and auxiliary inputs.
+
+Further details, including mathematical formulations of the simulation model, parameter specifications, sampling scheme, example residual plots and hyperparameter tuning configuration, are provided in the Appendix.
 
 
 # Results {#sec-model-results}
@@ -583,7 +581,7 @@ In order to check the validity of the proposed computer vision model, residual p
 
 This study has collected 7,974 human responses to 1,152 lineups. Each lineup contains one randomly placed true residual plot and 19 null plots. Among the 1,152 lineups, 24 are attention check lineups in which the visual patterns are designed to be extremely obvious and very different from the corresponding to null plots, 36 are null lineups where all the lineups consist of only null plots, 279 are lineups with uniform predictor distribution evaluated by 11 participants, and the remaining 813 are lineups with discrete, skewed or normal predictor distribution evaluated by 5 participants. Attention check lineups and null lineups will not be assessed in the following analysis. 
 
-In @li2024plot, the residual plots are simulated from a data generating process which is a special case of Equation \ref{eq:data-sim}. The main characteristic is the model violations are introduced separately, meaning non-linearity and heteroskedasticity will not co-exist in one lineup but assigned uniformly to all lineups. Additionally, non-normality and multiple predictors are not considered in the experimental design.
+In @li2024plot, the residual plots are simulated from a data generating process that corresponds to a special case of the synthetic data model used in this study. A key feature of the design is that model violations are introduced independently, meaning non-linearity and heteroskedasticity do not co-exist within a single lineup but are instead assigned uniformly across different lineups. Moreover, the experimental design does not account for non-normality or multiple predictors.
 
 
 ### Model Performance on the Human-evaluated Data
