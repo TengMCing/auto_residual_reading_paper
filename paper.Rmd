@@ -196,19 +196,17 @@ D_{KL} &\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}, \\
 
 # Distance Estimation {#sec-model-distance-estimation}
 
-In the previous sections, we have defined a distance measure given in Equation \ref{eq:kl-0} for quantifying the difference between the true residual distribution $P$ and an ideal reference distribution $Q$. However, this distance measure can only be computed when the data generating process is known. In reality, we often have no knowledge about the data generating process, otherwise we do not need to do a residual diagnostic in the first place.
+We previously defined a distance measure (Equation \ref{eq:kl-0}) to quantify the difference between the true residual distribution $P$ and an ideal reference distribution $Q$. However, this distance measure can only be computed when the data generating process is known. In reality, we often have no knowledge about the data generating process, otherwise we do not need to do a residual diagnostic in the first place.
 
-We use a computer vision model to estimate this distance measure for a residual plot. Let $D$ be the result of Equation \ref{eq:kl-0}, and our estimator $\hat{D}$ is formulated as 
+To approximate this distance from a residual plot, we proposed a computer vision estimator $\hat{D}$ formulated as
 
 \begin{equation} \label{eq:d-approx}
 \hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})),
 \end{equation}
 
-\noindent where $V_{h \times w}(.)$ is a plotting function that saves a residuals vs fitted values plot with fixed aesthetic as an image with $h \times w$ pixels in three channels (RGB), $f_{CV}(.)$ is a computer vision model which takes an $h \times w$ image as input and predicts the distance in the domain $[0, +\infty)$.
+\noindent where $V_{h \times w}(.)$ renders the residuals vs fitted values plot as an $h \times w$ RGB image, and $f_{CV}(.)$ is a model that maps the image to an estimated distance $\hat{D} \in [0, +\infty)$.
 
-With the estimated distance $\hat{D}$, we can compare the underlying distribution of the residuals to a theoretically "good" residual distribution. $\hat{D}$ can also be used as an index of the model violations indicating the strength of the visual signal embedded in the residual plot. 
-
-It is not expected that $\hat{D}$ will be equal to original distance $D$. This is largely because information contained in a single residual plot is limited and it may not be able to summarize all the important characteristics of the residual distribution. For a given residual distribution $P$, many different residual plots can be simulated, where many will share similar visual patterns, but some of them could be visually very different from the rest, especially for regression models with small $n$. This suggests the error of the estimation will vary depends on whether the input residual plot is representative or not.
+The distance estimator $\hat{D}$ allows us to assess how closely the residuals resemble an ideal distribution and use as an index of model violation severity. However, $\hat{D}$ is not expected to equal the true distance $D$, as a single residual plot may not capture all characteristics of the residual distribution. For the same distribution $P$, simulated plots can vary visually, especially with small $n$, leading to estimation error that depends on how representative the input plot is.
 
 # Statistical Testing {#sec-model-statistical-testing}
 
