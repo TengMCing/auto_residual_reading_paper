@@ -364,29 +364,6 @@ further explained in \ref{sec-model-distance-estimation}.
 distance between images can enhance the matching accuracy in image
 search compared to a binary outcome model.
 
-\subsection{Auxiliary Information with
-Scagnostics}\label{auxiliary-information-with-scagnostics}
-
-In Section \ref{sec-model-introduction}, we mention that scagnostics
-consist of a set of manually designed visual feature extraction
-functions. While our computer vision model will learn its own feature
-extraction function during training, leveraging additional information
-from scagnostics can enhance the model's predictive accuracy.
-
-For each residual plot used as an input image, we calculated four
-scagnostics --- ``Monotonic'', ``Sparse'', ``Splines'', and ``Striped''
--- using the \texttt{cassowaryr} R package \citep{mason2022cassowaryr}.
-These computed measures, along with the number of observations from the
-fitted model, were provided as the second input for the computer vision
-model. We selected these scagnostics due to their reliability and
-efficiency, as other scagnostics occasionally caused R process crashes
-(approximately 5\% of the time) during training data preparation, due to
-a bug in the \texttt{interp} R package \citep{Albrecht2023interp}.
-Although the package maintainer later fixed this bug at our request, the
-fix came too late to retrain the model, and additionally, their high
-computational costs make them unsuitable for rapid inference, which was
-a critical factor in our choice.
-
 \section{Distance from a Theoretically ``Good'' Residual
 Plot}\label{sec-model-distance-between-residual-plots}
 
@@ -841,8 +818,8 @@ performance, VGG16 remains a solid choice for many applications due to
 its simplicity and effectiveness. Our decision to use VGG16 aligns with
 our goal of starting with a proven and straightforward model. Figure
 \ref{fig:cnn-diag} provides a diagram of the architecture. More details
-about the neural network layers used in this study are provided in
-Appendix A.
+about the neural network layers used in this study are provided in the
+Appendix.
 
 The model begins with an input layer of shape
 \(n \times h \times w \times 3\), capable of handling \(n\) RGB images.
@@ -873,29 +850,37 @@ end of each convolutional block to randomly set some inputs to zero
 during training, further aiding in regularization.
 
 The output of the last convolutional block is summarized by either a
-global max pooling layer or a global average pooling layer, resulting in
-a two-dimensional tensor. To leverage the information contained in
-scagnostics, this tensor is concatenated with an additional
-\(n \times 5\) tensor, which contains the ``Monotonic'', ``Sparse'',
-``Splines'', and ``Striped'' measures, along with the number of
-observations for \(n\) residual plots.
+global max-pooling layer or a global average-pooling layer, resulting in
+a two-dimensional tensor. To enrich predictions with additional
+information beyond visual features, this tensor is concatenated with an
+additional \(n \times 5\) tensor, which contains the ``Monotonic'',
+``Sparse'', ``Splines'', and ``Striped'' measures computed using the
+\texttt{cassowaryr} R package \citep{mason2022cassowaryr} , along with
+the number of observations for \(n\) residual plots. These measures were
+selected for their reliability and efficiency, as other scagnostics
+occasionally caused R process crashes (\(\sim 5\%\)) during data
+preparation due to a bug in the \texttt{interp} package
+\citep{Albrecht2023interp}. Although this bug was later fixed at our
+request, the fix came too late to re-train the model. Moreover, their
+high computational cost makes them unsuitable for fast inference.
 
 The concatenated tensor is then fed into the final prediction block.
 This block consists of two fully-connected layers. The first layer
-contains at least \(128\) units, followed by a dropout layer.
-Occasionally, a batch normalization layer is inserted between the
-fully-connected layer and the dropout layer for regularization purposes.
-The second fully-connected layer consists of only one unit, serving as
-the output of the model.
+contains at least \(128\) units, followed by a dropout layer. A batch
+normalization layer is inserted between the fully-connected layer and
+the dropout layer for regularization purposes. The second
+fully-connected layer consists of only one unit, serving as the output
+of the model.
 
-The model weights \(\boldsymbol{\theta}\) were randomly initialized and
-they were optimized by the Adam optimizer \citep{kingma2014adam} with
-the mean square error loss function
+The model weights \(\boldsymbol{\theta}\) were randomly initialized
+using the Glorot Uniform method \citep{glorot2010understanding} and they
+were optimized by the Adam optimizer \citep{kingma2014adam} with the
+mean square error loss function
 
 \[\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, S_i))^2,\]
 
 \noindent where \(n_{\text{train}}\) is the number of training samples,
-\(V_i\) is the \(i\)-th residual plot and \(S_i\) is the additional
+\(V_i\) is the \(i\)-th residual plot and \(S_i\) is the auxiliary
 information about the \(i\)-th residual plot including four scagnostics
 and the number of observations.
 
@@ -929,7 +914,8 @@ computing platform \citep{goscinski2014multi} using TensorFlow
 Hyperparameters were optimized via Bayesian tuning with KerasTuner
 \citep{omalley2019kerastuner}, minimizing validation RMSE across 100
 trials. The tuning process included early stopping and considered
-dropout, batch normalization, input resolution, and auxiliary inputs.
+dropout rate, batch normalization, input resolution, and auxiliary
+inputs.
 
 Further details, including mathematical formulations of the simulation
 model, parameter specifications, sampling scheme, example residual plots
