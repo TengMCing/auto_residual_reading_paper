@@ -835,52 +835,36 @@ and hyperparameter tuning configuration, are provided in the Appendix.
 
 \subsection{Model Performance}\label{model-performance}
 
-The test performance for the optimized models with three different input
-sizes are summarized in Table \ref{tab:performance}. Among these models,
-the \(32 \times 32\) model consistently exhibited the best test
-performance. The mean absolute error of the \(32 \times 32\) model
-indicated that the difference between \(\hat{D}\) and \(D\) was
-approximately \(0.43\) on the test set, a negligible deviation
-considering the normal range of \(D\) typically falls between \(0\) and
-\(7\). The high \(R^2\) values also suggested that the predictions were
-largely linearly correlated with the target.
+Table \ref{tab:performance} summarizes the test performance of optimized
+models using three input sizes. The \(32 \times 32\) model consistently
+outperformed others, with a mean absolute error of approximately
+\(0.43\), a negligible deviation given the typical \(D\) range of \(0\)
+to \(7\). High \(R^2\) values also indicated strong linear correlation
+between predictions and targets. Based on these results, we used the
+best-performing \(32 \times 32\) model for subsequent analyses.
 
-Figure \ref{fig:model-performance} presents a hexagonal heatmap for
-\(D - \hat{D}\) versus \(D\). The brown smoothing curves, fitted by
-generalized additive models \citep{hastie2017generalized}, demonstrate
-that all the optimized models perform admirably on the test sets when
-\(1.5 < D < 6\), where no structural issues are noticeable. However,
-over-predictions occurred when \(D < 1.5\), while under-predictions
-occurred predominantly when \(\hat{D} > 6\).
+Figure \ref{fig:model-performance} shows a hexagonal heatmap of
+\(D - \hat{D}\) versus \(D\). Smoothing curves (fitted by generalized
+additive models \citep{hastie2017generalized}) reveal that all models
+performed well for \(1.5 < D < 6\), where no structural issues were
+observed. Over-prediction occurred when \(D < 1.5\), and
+under-prediction primarily when \(\hat{D} > 6\).
 
-For input images representing null plots where \(D = 0\), it was
-expected that the models will over-predict the distance, as explained in
-Section \ref{sec-model-lineup-evaluation}. However, it can not explain
-the under-prediction issue. Therefore, we analysed the relationship
-between residuals and all the factors involved in the data generating
-process. We found that most issues actually arose from non-linearity
-problems and the presence of a second predictor in the regression model
-as illustrated in Figure \ref{fig:over-under}. When the variance for the
-error distribution was small, the optimized model tended to
-under-predict the distance. Conversely, when the error distribution had
-a large variance, the model tended to over-predict the distance.
+For null plots (\(D = 0\)), over-prediction was expected (see Section
+\ref{sec-model-lineup-evaluation}), but not under-prediction. Therefore,
+we analysed the relationship between residuals and all the factors
+involved in the data generating process. We found that most deviations
+stemmed from non-linearity and the presence of a second predictor in the
+simulation model, where small \(\varepsilon\) variances caused
+under-predictions and large \(\varepsilon\) variances caused
+over-prediction, as illustrated in Figure \ref{fig:over-under}.
 
-Since most of the deviation stemmed from the presence of non-linearity
-violations, to further investigate this, we split the test set based on
-violation types and re-evaluated the performance, as detailed in Table
-\ref{tab:performance-sub}. It was evident that metrics for null plots
-were notably worse compared to other categories. Furthermore, residual
-plots solely exhibiting non-normality issues were the easiest to
-predict, with very low test root mean square error (RMSE) at around
-\(0.3\). Residual plots with non-linearity issues were more challenging
-to assess than those with heteroskedasticity or non-normality issues.
-When multiple violations were introduced to a residual plot, the
-performance metrics typically lay between the metrics for each
-individual violation.
-
-Based on the model performance metrics, we chose to use the
-best-performing model evaluated on the test set, namely the
-\(32 \times 32\) model, for the subsequent analysis.
+To investigate further, we stratified the test set by violation type and
+re-evaluated performance (Table \ref{tab:performance-sub}). It was found
+that null plots had the poorest metrics, while non-normality cases were
+easiest to predict, with RMSE around \(0.3\). Non-linearity was harder
+to assess than heteroskedasticity or non-normality. Plots with multiple
+violations showed intermediate performance.
 
 \begin{table}
 
@@ -917,7 +901,7 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 
 \begin{table}
 
-\caption{\label{tab:performance-sub}The training and test performance of the $32 \times 32$ model presented with different model violations.}
+\caption{\label{tab:performance-sub}The test performance of the $32 \times 32$ model presented with different model violations.}
 \centering
 \begin{tabular}[t]{lrr}
 \toprule
