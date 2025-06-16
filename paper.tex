@@ -1071,10 +1071,9 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 
 In this section, we present the performance of the trained computer
 vision model on three example datasets, including the dataset associated
-with the residual plot displaying a ``left-triangle'' shape (Figure
-\ref{fig:false-finding}), the Boston housing dataset
-\citep{harrison1978hedonic}, and the ``dino'' datasets from the from the
-\texttt{datasauRus} package \citep{datasaurus}.
+with the residual plot displaying a ``left-triangle'' shape, the Boston
+housing dataset \citep{harrison1978hedonic}, and the ``dino'' datasets
+from the from the \texttt{datasauRus} package \citep{datasaurus}.
 
 In the first case, both the model and human inspection correctly avoid
 rejecting \(H_0\) when it is true, contrary to conventional tests,
@@ -1087,52 +1086,42 @@ decision-making.
 
 \subsection{Left-triangle}\label{left-triangle}
 
-In Section \ref{sec-model-introduction}, we presented an example
-residual plot showcased in Figure \ref{fig:false-finding}, illustrating
-how humans might misinterpret the ``left-triangle'' shape as indicative
-of heteroskedasticity. Additionally, the Breusch-Pagan test yielded a
-rejection with a \(p\)-value of 0.046, despite the residuals originating
-from a correctly specified model. Figure \ref{fig:false-lineup} offers a
-lineup for this fitted model, showcasing various degrees of
-``left-triangle'' shape across all residual plots. This phenomenon is
-evidently caused by the skewed distribution of the fitted values.
-Notably, if the residual plot were evaluated through a visual test, it
-would not be rejected since the true residual plot positioned at 10 can
-not be distinguished from the others.
+In Section \ref{sec-model-introduction}, we introduced a residual plot
+(Figure \ref{fig:false-finding}) where the ``left-triangle'' shape could
+be misinterpreted as evidence of heteroskedasticity. Although the
+residuals are drawn from a correctly specified model, the Breusch-Pagan
+test rejects \(H_0\) (\(p = 0.046\)). This visual artifact stems from
+the skewed distribution of fitted values, as illustrated in the lineup
+in Figure \ref{fig:false-lineup}, where similar ``left-triangle''
+patterns appear across all residual plots. Since the true plot (at
+position 10) is visually indistinguishable from the null plots, a visual
+test would not reject \(H_0\).
 
-Figure \ref{fig:false-check} presents the results of the assessment by
-the computer vision model. Notably, the observed visual signal strength
-is considerably lower than the 95\% sample quantile of the null
-distribution. Moreover, the bootstrapped distribution suggests that it
-is highly improbable for the fitted model to be misspecified as the
-majority of bootstrapped fitted models will not be rejected. Thus, for
-this particular fitted model, both the visual test and the computer
-vision model will not reject \(H_0\). However, the Breusch-Pagan test
-will reject \(H_0\) because it can not effectively utilize information
-from null plots.
+The computer vision model yields a consistent conclusion. As shown in
+Figure \ref{fig:false-check}, the estimated distance \(\hat{D}\) falls
+well below the 95\% quantile of the null distribution, with a
+\(p\)-value of \(0.33\). The bootstrapped distribution further suggests
+that rejection of the fitted model is highly unlikely. Together, the
+visual and model-based tests do not reject \(H_0\), in contrast to the
+Breusch-Pagan test, which lacks the context provided by null plots and
+may be misled by visual artifacts.
 
-The attention map at Figure \ref{fig:false-check}B suggests that the
-estimation is highly influenced by the top-right and bottom-right part
-of the residual plot, as it forms two vertices of the triangular shape.
-A principal component analysis (PCA) is also performed on the output of
-the global pooling layer of the computer vision model. As mentioned in
-\citet{simonyan2014very}, a computer vision model built upon the
-convolutional blocks can be viewed as a feature extractor. For the
-\(32 \times 32\) model, there are 256 features outputted from the global
-pooling layer, which can be further used for different visual tasks not
-limited to distance prediction. To see if these features can be
-effectively used for distinguishing null plots and true residual plot,
-we linearly project them into the first and second principal components
-space as shown in Figure \ref{fig:false-check}D. It can be observed that
-because the bootstrapped plots are mostly similar to the null plots, the
-points drawn in different colors are mixed together. The true residual
-plot is also covered by both the cluster of null plots and cluster of
-bootstrapped plots. This accurately reflects our understanding of Figure
-\ref{fig:false-lineup}.
+To further interpret the model's output, the attention map in Figure
+\ref{fig:false-check}B, computed as the gradient of the output with
+respect to the greyscale input, shows that the top-right and
+bottom-right corners of the residual plot have the most influence,
+corresponding to the triangle's vertices. In addition, a principal
+component analysis (PCA) of the 256 features extracted by the model's
+global pooling layer (Figure \ref{fig:false-check}D) shows that null and
+bootstrapped plots cluster together in the space defined by the first
+two principal components, and the true residual plot is covered by the
+cluster. This overlap reinforces the conclusion that the true plot is
+visually indistinct, aligning with our interpretation of the lineup in
+Figure \ref{fig:false-lineup}.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/false-check-1} 
+{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/false-check-1} 
 
 }
 
@@ -1151,37 +1140,35 @@ bootstrapped plots. This accurately reflects our understanding of Figure
 \subsection{Boston Housing}\label{boston-housing}
 
 The Boston housing dataset, originally published by
-\citet{harrison1978hedonic}, offers insights into housing in the Boston,
-Massachusetts area. For illustration purposes, we utilize a reduced
-version from Kaggle, comprising 489 rows and 4 columns: average number
-of rooms per dwelling (RM), percentage of lower status of the population
-(LSTAT), pupil-teacher ratio by town (PTRATIO), and median value of
-owner-occupied homes in \$1000's (MEDV). In our analysis, MEDV will
-serve as the response variable, while the other columns will function as
-predictors in a linear regression model. Our primary focus is to detect
+\citet{harrison1978hedonic}, provides insights into housing in the
+Boston, Massachusetts area. For illustration, we use a reduced Kaggle
+version containing 489 observations and four variables: average number
+of rooms per dwelling (RM), percentage of lower status population
+(LSTAT), pupil-teacher ratio by town (PTRATIO), and median home value
+(MEDV). We fit a linear regression model with MEDV as the response and
+the remaining variables as predictors, focusing on detecting
 non-linearity, because the relationships between RM and MEDV or LSTAT
 and MEDV are non-linear.
 
-Figure \ref{fig:boston-check} displays the residual plot and the
-assessment conducted by the computer vision model. A clear non-linearity
-pattern resembling a ``U'' shape is shown in the plot A. Furthermore,
-the RESET test yields a very small \(p\)-value. The estimated distance
-\(\hat{D}\) significantly exceeds \(Q_{null}(0.95)\), leading to
-rejection of \(H_0\). The bootstrapped distribution also suggests that
-almost all the bootstrapped fitted models will be rejected, indicating
-that the fitted model is unlikely to be correctly specified. The
-attention map in plot B suggests the center of the image has higher
-leverage than other areas, and it is the turning point of the ``U''
-shape. The PCA provided in plot D shows two distinct clusters of data
-points, further underling the visual differences between bootstrapped
-plots and null plots. This coincides the findings from Figure
-\ref{fig:boston-lineup}, where the true residual plot exhibiting a ``U''
-shape is visually distinctive from null plots. If a visual test is
-conducted by human, \(H_0\) will also be rejected.
+Figure \ref{fig:boston-check} summarizes the model evaluation. The
+residual plot (Figure \ref{fig:boston-check}A) reveals a distinct
+``U''-shaped pattern, suggesting non-linearity. The RESET test strongly
+rejects \(H_0\) with a very small \(p\)-value, and the computer vision
+model yields a large estimated distance \(\hat{D}\), well above the 95\%
+quantile of the null distribution (\(p\text{-value} = 0.00498\)). The
+bootstrapped distribution also shows widespread rejection, indicating
+the model is likely misspecified. The attention map (Figure
+\ref{fig:boston-check}B) highlights the central region of the residual
+plot, corresponding to the turning point of the ``U'', as most
+influential. In the PCA projection (Figure \ref{fig:boston-check}D),
+bootstrapped and null plots form two distinct clusters, emphasizing the
+visual separability. This aligns with the lineup in Figure
+\ref{fig:boston-lineup}, where the true plot stands out clearly. A human
+visual test would also likely reject \(H_0\) in this case.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/boston-check-1} 
+{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/boston-check-1} 
 
 }
 
@@ -1199,52 +1186,49 @@ conducted by human, \(H_0\) will also be rejected.
 
 \subsection{DatasauRus}\label{datasaurus}
 
-The computer vision model possesses the capability to detect not only
-typical issues like non-linearity, heteroskedasticity, and non-normality
-but also artifact visual patterns resembling real-world objects, as long
-as they do not appear in null plots. These visual patterns can be
-challenging to categorize in terms of model violations. Therefore, we
-will employ the RESET test, the Breusch-Pagan test, and the Shapiro-Wilk
-test \citep{shapiro1965analysis} for comparison.
+Beyond detecting common issues like non-linearity, heteroskedasticity,
+and non-normality, the computer vision model can also identify unusual
+visual artifacts, such as shapes resembling real-world objects, as long
+as such patterns do not appear in null plots. These cases are
+challenging to categorize using conventional model diagnostics, so we
+compare the model's output with results from the RESET test,
+Breusch-Pagan test, and Shapiro-Wilk test \citep{shapiro1965analysis}.
 
-The ``dino'' dataset within the \texttt{datasauRus} R package
-exemplifies this scenario. With only two columns, x and y, fitting a
-regression model to this data yields a residual plot resembling a
-``dinosaur'', as displayed in Figure \ref{fig:dino-check}A.
-Unsurprisingly, this distinct residual plot stands out in a lineup, as
-shown in Figure \ref{fig:dino-lineup}. A visual test conducted by humans
-would undoubtedly reject \(H_0\).
+The ``dino'' dataset from the \texttt{datasauRus} R package illustrates
+this situation. It contains only two variables, \(x\) and \(y\), but
+fitting a regression model produces a residual plot that clearly
+resembles a dinosaur (Figure \ref{fig:dino-check}A). This pattern is
+visually distinctive in the lineup shown in Figure
+\ref{fig:dino-lineup}, where a human visual test would undoubtedly
+reject \(H_0\).
 
-According to the residual plot assessment by the computer vision model,
-\(\hat{D}\) exceeds \(Q_{null}(0.95)\), warranting a rejection of
-\(H_0\). Additionally, most of the bootstrapped fitted models will be
-rejected, indicating an misspecified model. However, both the RESET test
-and the Breusch-Pagan test yield \(p\)-values greater than 0.3, leading
-to a non-rejection of \(H_0\). Only the Shapiro-Wilk test rejects the
-normality assumption with a small \(p\)-value.
+Consistent with this, the computer vision model assigns a distance
+\(\hat{D}\) above the 95\% quantile of the null distribution
+(\(p-\text{value} = 0.00498\)), leading to rejection of \(H_0\). The
+bootstrapped distribution further supports this, with most fitted models
+also being rejected. In contrast, the RESET and Breusch-Pagan tests
+yield \(p\)-values above \(0.3\), suggesting no violation. Only the
+Shapiro-Wilk test rejects normality with a small \(p\)-value.
 
-More importantly, the attention map in Figure \ref{fig:dino-check}B
-clearly exhibits a ``dinosaur'' shape, strongly suggesting that the
-distance prediction is based on human-perceptible visual patterns. The
-computer vision model effectively captures the contour or outline of the
-embedded shape, similar to how humans interpret residual plots.
-Additionally, the PCA in Figure \ref{fig:dino-check}D demonstrates that
-the cluster of bootstrapped plots is positioned at the corner of the
-cluster of null plots.
+Crucially, the attention map in Figure \ref{fig:dino-check}B highlights
+the dinosaur shape, indicating that the model's decision is driven by
+human-perceptible features. The model appears to capture contours and
+outlines in a manner similar to human visual interpretation. In the PCA
+plot (Figure \ref{fig:dino-check}D), the cluster of bootstrapped plots
+is positioned at the corner of the cluster of null plots, isolated from
+the cluster of null plots.
 
-In practice, without accessing the residual plot, it would be
-challenging to identify the artificial pattern of the residuals.
-Moreover, conducting a normality test for a fitted regression model is
-not always standard practice among analysts. Even when performed,
-violating the normality assumption is sometimes deemed acceptable,
-especially considering the application of quasi-maximum likelihood
-estimation in linear regression. This example underscores the importance
-of evaluating residual plots and highlights how the proposed computer
-vision model can facilitate this process.
+In practice, such visual artifacts would be difficult to detect without
+inspecting the residual plot directly. Furthermore, analysts do not
+always test for normality, and even when violations are found, they are
+often deemed acceptable due to the robustness of linear regression under
+quasi-likelihood theory. This example highlights the value of visual
+diagnostics and the unique role of the proposed computer vision model in
+supporting them.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/dino-check-1} 
+{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/dino-check-1} 
 
 }
 
@@ -1262,87 +1246,76 @@ vision model can facilitate this process.
 
 \section{Limitations and Future Work}\label{limitations-and-future-work}
 
-Despite the computer vision model performing well with general cases
-under the synthetic data generation scheme and the three examples used
-in this paper, this study has several limitations that could guide
-future work.
+While the computer vision model performs well under the synthetic data
+generation scheme and across the three illustrative examples, this study
+has several limitations that point to directions for future work.
 
-The proposed distance measure assumes that the true model is a classical
-normal linear regression model, which can be restrictive. Although this
-paper does not address the relaxation of this assumption, there are
-potential methods to evaluate other types of regression models. The most
-comprehensive approach would be to define a distance measure for each
-different class of regression model and then train the computer vision
-model following the methodology described in this paper. To accelerate
-training, one could use the convolutional blocks of our trained model as
-a feature extractor and perform transfer learning on top of it, as these
-blocks effectively capture shapes in residual plots. Another approach
-would be to transform the residuals so they are roughly normally
-distributed and have constant variance. If only raw residuals are used,
-the distance-based statistical testing compares the difference in
-distance to a classical normal linear regression model for the true
-residual plot and null plots. This comparison is meaningful only if the
-difference can be identified by the distance measure proposed in this
-paper.
+First, the proposed distance measure assumes the true model follows a
+classical normal linear regression framework, which may be restrictive.
+Although we do not explore relaxation of this assumption here, future
+work could extend the approach to other types of regression models. One
+possibility is to define a distance measure tailored to each model class
+and re-train the computer vision model accordingly. To reduce
+computational cost, the convolutional blocks from our current model
+could be reused via transfer learning, as it is already effective at
+capturing visual features. Alternatively, transforming residuals to
+approximate normality and constant variance could allow for meaningful
+comparisons under our current distance measure. However, if raw
+residuals are used, the interpretation remains valid only when the
+visual differences between the true and null plots are detectable by the
+proposed distance measure.
 
-There are other types of residual plots commonly used in diagnostics,
-such as residuals vs.~predictor and quantile-quantile plots. In this
-study, we focused on the most commonly used residual plot as a starting
-point for exploring the new field of automated visual inference.
-Similarly, we did not explore other, more sophisticated computer vision
-model architectures and specifications for the same reason. While the
-performance of the computer vision model is acceptable, there is still
-room for improvement to achieve behavior more closely resembling that of
-humans interpreting residual plots. This may require external survey
-data or human subject experiment data to understand the fundamental
-differences between our implementation and human evaluation.
+Second, this study focused solely on the standard residuals vs.~fitted
+values plot, leaving out other common diagnostic plots such as residuals
+vs.~predictors and Q-Q plots. These alternative plots may offer
+additional information and could be incorporated into a broader visual
+testing framework in future research.
+
+Finally, we chose a relatively simple computer vision architecture to
+establish a baseline for automated visual inference. While the current
+model shows promise, there is room to improve its alignment with human
+judgment. Achieving this may require external data from surveys or
+controlled experiments to better understand how human observers
+interpret residual plots and how these judgments differ from the model's
+outputs.
 
 \section{Conclusions}\label{conclusions}
 
-In this paper, we have introduced a distance measure based on
-Kullback-Leibler divergence to quantify the disparity between the
-residual distribution of a fitted classical normal linear regression
-model and the reference residual distribution assumed under correct
-model specification. This distance measure effectively captures the
-magnitude of model violations in misspecified models. We propose a
-computer vision model to estimate this distance, utilizing the residual
-plot of the fitted model as input.
+In this paper, we have introduced a distance measure based on the
+Kullback-Leibler divergence to quantify disparity between the residual
+distribution of a fitted classical normal linear regression model and
+the reference distribution under correct specification. This measure
+captures the extent of model violations and forms the basis of a
+computer vision model that estimates the distance using residual plots
+as input.
 
-Moreover, the estimated distance enables the development of a formal
-statistical testing procedure by evaluating a large number of null plots
-generated from the fitted model. Additionally, employing bootstrapping
-techniques and refitting the regression model allows us to ascertain how
-frequently the fitted model is considered misspecified if data were
-repeatedly obtained from the same data generating process.
+The estimated distance supports a formal statistical testing procedure
+by comparing the true residual plot against null plots generated from
+the fitted model. Through bootstrapping and model refitting, we also
+evaluate how often a correctly specified model would be flagged as
+misspecified under repeated sampling.
 
-The trained computer vision model demonstrates strong performance on
-both the training and test sets, although it exhibits slightly lower
-performance on residual plots with non-linearity visual patterns
-compared to other types of violations. The statistical tests relying on
-the estimated distance predicted by the computer vision model exhibit
-lower sensitivity compared to conventional tests but higher sensitivity
-compared to visual tests conducted by humans. While the estimated
-distance generally mirrors the strength of the visual signal perceived
-by humans, there remains scope for further improvement in its
-performance.
+The trained computer vision model performs well on both training and
+test data, though its performance is somewhat lower for non-linear
+patterns. Statistical tests based on the model's predicted distance show
+lower sensitivity than conventional tests but higher sensitivity than
+human visual tests. Importantly, the predicted distance broadly aligns
+with the strength of visual signals perceived by humans, though further
+improvements are possible.
 
-Several examples are provided to showcase the effectiveness of the
-proposed method across different scenarios, emphasizing the similarity
-between visual tests and distance-based tests. Overall, both visual
-tests and distance-based tests can be viewed as ensemble of tests,
-aiming to assess any violations of model assumptions collectively. In
-contrast, individual residual diagnostic tests such as the RESET test
-and the Breusch-Pagan test only evaluate specific violations of model
-assumptions. In practice, selecting an appropriate set of statistical
-tests for regression diagnostics can be challenging, particularly given
-the necessity of adjusting the significance level for each test.
+We demonstrate the method across several scenarios, highlighting its
+effectiveness and its conceptual alignment with visual inference. Both
+visual and distance-based tests act as omnibus procedures, detecting a
+wide range of model violations collectively. In contrast, conventional
+tests such as RESET and Breusch-Pagan target specific assumptions,
+making them less flexible and potentially harder to combine without
+adjusting for multiple testing.
 
-Our method holds significant value as it helps alleviate a portion of
-analysts' workload associated with assessing residual plots. While we
-recommend analysts to continue reading residual plots whenever feasible,
-as they offer invaluable insights, our approach serves as a valuable
-tool for automating the diagnostic process or for supplementary purposes
-when needed.
+Overall, our approach offers a practical tool to support regression
+diagnostics by reducing the manual effort required for residual plot
+inspection. While we recommend analysts to continue reading residual
+plots whenever feasible, our method can augment the process, either as
+an automated screening tool or a supplement to human judgment.
 
 \section*{Acknowledgement}\label{acknowledgement}
 \addcontentsline{toc}{section}{Acknowledgement}
