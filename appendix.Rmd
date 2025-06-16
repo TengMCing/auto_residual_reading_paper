@@ -30,10 +30,6 @@ affiliation:
     address: |
       Department of Statistics, University of Nebraska, Lincoln, Nebraska, USA
 bibliography: bibliography.bib
-abstract: |
-  Plotting the residuals is a recommended procedure to diagnose deviations from linear model assumptions, such as non-linearity, heteroscedasticity, and non-normality. The presence of structure in residual plots can be tested using the lineup protocol to do visual inference. There are a variety of conventional residual tests, but the lineup protocol, used as a statistical test, performs better for diagnostic purposes because it is less sensitive and applies more broadly to different types of departures. However, the lineup protocol relies on human judgment which limits its scalability. This work presents a solution by providing a computer vision model to automate the assessment of residual plots. It is trained to predict a distance measure that quantifies the disparity between the residual distribution of a fitted classical normal linear regression model and the reference distribution, based on Kullback-Leibler divergence. From extensive simulation studies, the computer vision model exhibits lower sensitivity than conventional tests but higher sensitivity than human visual tests. It is slightly less effective on non-linearity patterns. Several examples from classical papers and contemporary data illustrate the new procedures, highlighting its usefulness in automating the diagnostic process and supplementing existing methods.
-keywords: |
-  statistical graphics; data visualization; visual inference; computer vision; machine learning; hypothesis testing; reression analysis; cognitive perception; simulation; practical significance
 header-includes: |
   \usepackage{lscape}
   \usepackage{hyperref}
@@ -67,6 +63,7 @@ library(glue)
 set.seed(10086)
 ```
 
+\appendix
 
 # Data Generation {#sec-model-data-generation}
 
@@ -310,3 +307,122 @@ data.frame(`Hyperparameter` = c("Number of base filters", "Dropout rate for conv
   kableExtra::kable_styling(latex_options = c("scale_down"))
 ```
 
+
+# Model Violations Index {#sec-model-violations-index}
+
+In Section 5.1, we noted that a pre-computed lattice of $\hat{D}$ quantiles can reduce the computation cost of lineup tests. Another practical approach is to assess model performance directly using the value of $\hat{D}$.
+
+The estimator $\hat{D}$ captures the difference between the true and reference residual distributions, which reflects the extent of model violations, making it instrumental in forming a model violations index (MVI). However, when more observations are used in regression, the value of $\hat{D}$ tends to increase logarithmically. This is because $D = \log(1 + D_{KL})$, and under the assumption of independence, $D_{KL}$ is the sum of $D_{KL}^{(i)}$ across all observations. This does not mean that $\hat{D}$ becomes less reliable. In fact, larger samples often make model violations more visible in residual plots, unless strong overlapping masks the patterns.
+
+However, to create a standardized and generalizable index, it is important to adjust for the effect of sample size. Therefore, the Model Violations Index (MVI) is proposed as
+
+\begin{equation} \label{eq:mvi}
+\text{MVI} = C + \hat{D} - \log(n),
+\end{equation}
+
+\noindent where $C$ is a sufficiently large constant to ensure the result remains positive, and the $\log(n)$ term offset the increase in $D$ with larger sample sizes.
+
+Figure \ref{fig:poly-heter-index} displays the residual plots for fitted models exhibiting varying degrees of non-linearity and heteroskedasticity. Each residual plot's MVI is computed using Equation \ref{eq:mvi} with $C = 10$. When $\text{MVI} > 8$, the visual patterns are notably strong and easily discernible by humans. In the range $6 < \text{MVI} < 8$, the visibility of the visual pattern diminishes as MVI decreases. Conversely, when $\text{MVI} < 6$, the visual pattern tends to become relatively faint and challenging to observe. Table \ref{tab:mvi} provides a summary of the MVI usage and it is applicable to other linear regression models.
+
+
+```{r}
+data.frame(degree = c("Strong", "Moderate", "Weak"),
+           range = c("$\\text{MVI} > 8$", "$6 < \\text{MVI} < 8$", "$\\text{MVI} < 6$")) %>%
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
+                    label = "mvi",
+                    caption = "Degree of model violations or the strength of the visual signals according to the Model Violations Index (MVI). The constant $C$ is set to be 10.",
+                    escape = FALSE,
+                    col.names = c("Degree of model violations", "Range ($C$ = 10)"),
+                    align = "lc")
+```
+
+
+```{r}
+set.seed(1495)
+if (!file.exists(here::here("cached_data/poly_index.rds"))) {
+  e_sigma_factor <- 3
+  keras_mod <- autovi::get_keras_model("vss_phn_32")
+  poly_dgp <- phn_model(j = 3, sigma = 0.1^e_sigma_factor)
+  ori_dat <- poly_dgp$gen(300)
+  
+  vss <- c()
+  actual_ss <- c()
+  dat_combined <- tibble()
+    
+  for (e_sigma in seq(0.7, 1.8, length.out = 20)^e_sigma_factor) {
+    poly_dgp <- phn_model(j = 3, sigma = e_sigma)
+    dat <- poly_dgp$gen(300, computed = list(x1 = ori_dat$x1, e = ori_dat$e, k = ori_dat$k * e_sigma / 0.1^e_sigma_factor))
+    mod <- lm(y ~ x1, data = dat)
+    my_vi <- autovi::auto_vi(fitted_mod = mod, keras_mod = keras_mod)
+    vss <- c(vss, my_vi$vss()$vss)
+    actual_ss <- c(actual_ss, log(poly_dgp$sample_effect_size(dat) + 1))
+    
+    dat_combined <- bind_rows(dat_combined, mutate(dat, e_sigma = e_sigma))
+  }
+  
+  saveRDS(dat_combined, here::here("cached_data/poly_index.rds"))
+  saveRDS(vss, here::here("cached_data/poly_index_vss.rds"))
+}
+
+dat_combined <- readRDS(here::here("cached_data/poly_index.rds"))
+vss <- readRDS(here::here("cached_data/poly_index_vss.rds"))
+
+p1 <- dat_combined %>%
+  autovi::AUTO_VI$plot_resid() +
+  facet_wrap(~e_sigma, scales = "free", 
+             labeller = function(...){ 
+               tibble(nb = map(glue("'MVI' == {format(vss - log(300) + 10, digits = 3)}"), str2expression))
+               },
+             ncol = 5) +
+  theme(strip.text = element_text(size = 10), plot.title = element_text(size = 10)) +
+  ggtitle("(A) Non-linearity")
+```
+
+```{r}
+set.seed(1495)
+if (!file.exists(here::here("cached_data/heter_index.rds"))) {
+  b_factor <- 2
+  keras_mod <- autovi::get_keras_model("vss_phn_32")
+  heter_dgp <- phn_model(include_z = FALSE, b = 0)
+  ori_dat <- poly_dgp$gen(300)
+  
+  vss <- c()
+  actual_ss <- c()
+  dat_combined <- tibble()
+    
+  for (b in rev(seq(0.2, 4, length.out = 20))^b_factor) {
+    heter_dgp <- phn_model(include_z = FALSE, b = b)
+    dat <- heter_dgp$gen(300, computed = list(x1 = ori_dat$x1, e = ori_dat$e))
+    mod <- lm(y ~ x1, data = dat)
+    my_vi <- autovi::auto_vi(fitted_mod = mod, keras_mod = keras_mod)
+    vss <- c(vss, my_vi$vss()$vss)
+    actual_ss <- c(actual_ss, log(heter_dgp$sample_effect_size(dat) + 1))
+    
+    dat_combined <- bind_rows(dat_combined, mutate(dat, nb = -b))
+  }
+  
+  saveRDS(dat_combined, here::here("cached_data/heter_index.rds"))
+  saveRDS(vss, here::here("cached_data/heter_index_vss.rds"))
+}
+
+dat_combined <- readRDS(here::here("cached_data/heter_index.rds"))
+vss <- readRDS(here::here("cached_data/heter_index_vss.rds"))
+
+p2 <- dat_combined %>%
+  autovi::AUTO_VI$plot_resid() +
+  facet_wrap(~nb, scales = "free", 
+             labeller = function(...){ 
+               tibble(nb = map(glue("'MVI' == {format(vss - log(300) + 10, digits = 3)}"), str2expression))
+               },
+             ncol = 5) +
+  theme(strip.text = element_text(size = 10), plot.title = element_text(size = 10)) +
+  ggtitle("(B) Heteroskedasticity")
+```
+
+```{r poly-heter-index, fig.pos = "!h", fig.cap = "Residual plots generated from fitted models exhibiting varying degrees of (A) non-linearity and (B) heteroskedasticity violations. The model violations index (MVI) is displayed atop each residual plot. The non-linearity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$, while the heteroskedasticity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$.", fig.height = 10}
+patchwork::wrap_plots(p1, p2, ncol = 1)
+```
+
+
+\clearpage
