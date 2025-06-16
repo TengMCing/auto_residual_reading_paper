@@ -213,9 +213,7 @@ measure used to detect model violations, while Section
 \ref{sec-model-distance-estimation} explains how the computer vision
 models estimate this distance measure. Section
 \ref{sec-model-statistical-testing} covers the statistical tests based
-on the estimated distance, and Section \ref{sec-model-violations-index}
-introduces a Model Violations Index, which offers a quicker and more
-convenient assessment. Sections \ref{sec-model-architecture} and
+on the estimated distance. Sections \ref{sec-model-architecture} and
 \ref{sec-model-data-generation} describe the model architecture and the
 corresponding data generation and training process, respectively. The
 results are presented in Section \ref{sec-model-results}. Example
@@ -556,12 +554,12 @@ that maps the image to an estimated distance
 
 The distance estimator \(\hat{D}\) allows us to assess how closely the
 residuals resemble an ideal distribution and use as an index of model
-violation severity. However, \(\hat{D}\) is not expected to equal the
-true distance \(D\), as a single residual plot may not capture all
-characteristics of the residual distribution. For the same distribution
-\(P\), simulated plots can vary visually, especially with small \(n\),
-leading to estimation error that depends on how representative the input
-plot is.
+violation severity (see Appendix for details). However, \(\hat{D}\) is
+not expected to equal the true distance \(D\), as a single residual plot
+may not capture all characteristics of the residual distribution. For
+the same distribution \(P\), simulated plots can vary visually,
+especially with small \(n\), leading to estimation error that depends on
+how representative the input plot is.
 
 \section{Statistical Testing}\label{sec-model-statistical-testing}
 
@@ -643,71 +641,6 @@ computationally very expensive because it requires
 \(n_{boot} \times (n_{null} + 1)\) times of residual plot assessment. In
 practice, \(Q_{null}(0.95)\) can be used to replace
 \(Q_{boot}^{(i)}(0.95)\) in the computation.
-
-\section{Model Violations Index}\label{sec-model-violations-index}
-
-In \ref{sec-model-lineup-evaluation}, we noted that a pre-computed
-lattice of \(\hat{D}\) quantiles can reduce the computation cost of
-lineup tests. Another practical approach is to assess model performance
-directly using the value of \(\hat{D}\).
-
-The estimator \(\hat{D}\) captures the difference between the true and
-reference residual distributions, which reflects the extent of model
-violations, making it instrumental in forming a model violations index
-(MVI). However, when more observations are used in regression, the value
-of \(\hat{D}\) tends to increase logarithmically. This is because
-\(D = \log(1 + D_{KL})\), and under the assumption of independence,
-\(D_{KL}\) is the sum of \(D_{KL}^{(i)}\) across all observations. This
-does not mean that \(\hat{D}\) becomes less reliable. In fact, larger
-samples often make model violations more visible in residual plots,
-unless strong overlapping masks the patterns.
-
-However, to create a standardized and generalizable index, it is
-important to adjust for the effect of sample size. Therefore, the Model
-Violations Index (MVI) is proposed as
-
-\begin{equation} \label{eq:mvi}
-\text{MVI} = C + \hat{D} - \log(n),
-\end{equation}
-
-\noindent where \(C\) is a sufficiently large constant to ensure the
-result remains positive, and the \(\log(n)\) term offset the increase in
-\(D\) with larger sample sizes.
-
-Figure \ref{fig:poly-heter-index} displays the residual plots for fitted
-models exhibiting varying degrees of non-linearity and
-heteroskedasticity. Each residual plot's MVI is computed using Equation
-\ref{eq:mvi} with \(C = 10\). When \(\text{MVI} > 8\), the visual
-patterns are notably strong and easily discernible by humans. In the
-range \(6 < \text{MVI} < 8\), the visibility of the visual pattern
-diminishes as MVI decreases. Conversely, when \(\text{MVI} < 6\), the
-visual pattern tends to become relatively faint and challenging to
-observe. Table \ref{tab:mvi} provides a summary of the MVI usage and it
-is applicable to other linear regression models.
-
-\begin{table}
-
-\caption{\label{tab:mvi}Degree of model violations or the strength of the visual signals according to the Model Violations Index (MVI). The constant $C$ is set to be 10.}
-\centering
-\begin{tabular}[t]{lc}
-\toprule
-Degree of model violations & Range ($C$ = 10)\\
-\midrule
-Strong & $\text{MVI} > 8$\\
-Moderate & $6 < \text{MVI} < 8$\\
-Weak & $\text{MVI} < 6$\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/poly-heter-index-1} 
-
-}
-
-\caption{Residual plots generated from fitted models exhibiting varying degrees of (A) non-linearity and (B) heteroskedasticity violations. The model violations index (MVI) is displayed atop each residual plot. The non-linearity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$, while the heteroskedasticity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$.}\label{fig:poly-heter-index}
-\end{figure}
 
 \section{Model Architecture}\label{sec-model-architecture}
 
@@ -827,9 +760,10 @@ trials. The tuning process included early stopping and considered
 dropout rate, batch normalization, input resolution, and auxiliary
 inputs.
 
-Further details, including mathematical formulations of the simulation
-model, parameter specifications, sampling scheme, example residual plots
-and hyperparameter tuning configuration, are provided in the Appendix.
+Further details, including mathematical formulations of the synthetic
+data model, parameter specifications, sampling scheme, example residual
+plots and hyperparameter tuning configuration, are provided in the
+Appendix.
 
 \section{Results}\label{sec-model-results}
 
@@ -855,16 +789,18 @@ For null plots (\(D = 0\)), over-prediction was expected (see Section
 we analysed the relationship between residuals and all the factors
 involved in the data generating process. We found that most deviations
 stemmed from non-linearity and the presence of a second predictor in the
-simulation model, where small \(\varepsilon\) variances caused
+synthetic data model, where small \(\varepsilon\) variances caused
 under-predictions and large \(\varepsilon\) variances caused
 over-prediction, as illustrated in Figure \ref{fig:over-under}.
 
 To investigate further, we stratified the test set by violation type and
 re-evaluated performance (Table \ref{tab:performance-sub}). It was found
 that null plots had the poorest metrics, while non-normality cases were
-easiest to predict, with RMSE around \(0.3\). Non-linearity was harder
-to assess than heteroskedasticity or non-normality. Plots with multiple
-violations showed intermediate performance.
+easiest to predict, with RMSE around \(0.3\). Non-linearity
+(\(\text{RMSE} \approx  0.8\)) was harder to assess than
+heteroskedasticity (\(\text{RMSE} \approx  0.6\)) or non-normality
+(\(\text{RMSE} \approx  0.3\)). Plots with multiple violations showed
+intermediate performance.
 
 \begin{table}
 
@@ -1399,10 +1335,7 @@ model and the reference residual distribution assumed under correct
 model specification. This distance measure effectively captures the
 magnitude of model violations in misspecified models. We propose a
 computer vision model to estimate this distance, utilizing the residual
-plot of the fitted model as input. The resulting estimated distance
-serves as the foundation for constructing a single Model Violations
-Index (MVI), facilitating the quantification of various model
-violations.
+plot of the fitted model as input.
 
 Moreover, the estimated distance enables the development of a formal
 statistical testing procedure by evaluating a large number of null plots
