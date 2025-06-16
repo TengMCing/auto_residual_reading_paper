@@ -902,116 +902,89 @@ non-linearity & 0.738 & 0.770 & 0.566 & 0.246\\
 \end{tabular}
 \end{table}
 
-For each lineup used in \citet{li2024plot}, there is one true residual
-plot and 19 null plots. While the distance \(D\) for the true residual
-plot depends on the underlying data generating process, the distance
-\(D\) for the null plots is zero. We have used our optimized computer
-vision model to estimate distance for both the true residual plots and
-the null plots. To have a fair comparison, \(H_0\) will be rejected if
-the true residual plot has the greatest estimated distance among all
-plots in a lineup. Additionally, the appropriate conventional tests
-including the Ramsey Regression Equation Specification Error Test
-(RESET) \citep{ramsey1969tests} for non-linearity and the Breusch-Pagan
-test \citep{breusch1979simple} for heteroskedasticity were applied on
-the same data for comparison.
+Each lineup in \citet{li2024plot} contains one true residual plot and 19
+null plots. While the true plot's distance \(D\) depends on the
+data-generating process, null plots have \(D = 0\). We used our
+optimized computer vision model to estimate \(D\) for all plots. To
+ensure fair comparison, we reject \(H_0\) if the true plot has the
+highest estimated distance. Conventional tests, including the Ramsey
+RESET \citep{ramsey1969tests} for non-linearity and the Breusch-Pagan
+test \citep{breusch1979simple} for heteroskedasticity, were also applied
+to the same data.
 
-The performance metrics of \(\hat{D}\) for true residual plots are
-outlined in Table \ref{tab:experiment-performance}. It is notable that
-all performance metrics are slightly worse than those evaluated on the
-test data. Nevertheless, the mean absolute error remains at a low level,
-and the linear correlation between the prediction and the true value
-remains very high. Consistent with results in Table
-\ref{tab:performance-sub}, lineups with non-linearity issues are more
-challenging to predict than those with heteroskedasticity issues.
+Table \ref{tab:experiment-performance} reports performance metrics for
+\(\hat{D}\) on true plots. While the performance is slightly worse than
+on the test data provided in Table \ref{tab:performance}, the mean
+absolute error remains low and the correlation between predictions and
+true values remains high. Consistent with results in Table
+\ref{tab:performance-sub}, non-linearity cases are harder to predict
+than heteroskedasticity cases.
 
-Table \ref{tab:human-conv-table} provides a summary of the agreement
-between decisions made by the computer vision model and conventional
-tests. The agreement rates between conventional tests and the computer
-vision model are 85.95\% and 79.69\% for residual plots containing
-heteroskedasticity and non-linearity patterns, respectively. These
-figures are higher than those calculated for visual tests conducted by
-human, indicating that the computer vision model exhibits behavior more
-akin to the best available conventional tests. However, Figure
-\ref{fig:conv-mosaic} shows that the computer vision model does not
-always reject when the conventional tests reject. And a small number of
-plots will be rejected by computer vision model but not by conventional
-tests. This suggests that conventional tests are more sensitive than the
-computer vision model.
+To assess how well the model's decisions align with other methods, Table
+\ref{tab:human-conv-table} compares its rejection decisions with those
+of conventional tests and human visual tests. Agreement rates are
+85.95\% for heteroskedasticity cases and 79.69\% for non-linearity
+cases, higher than those observed for human visual tests (67.96\% and
+66.84\%, respectively). This suggests that the model aligns more closely
+with the best available conventional tests. However, as Figure
+\ref{fig:conv-mosaic} shows, the model does not always reject when
+conventional tests do, indicating a lower sensitivity to model
+violations.
 
-Figure \ref{fig:pcp} further illustrates the decisions made by visual
-tests conducted by human, computer vision models, and conventional
-tests, using a parallel coordinate plots. It can be observed that all
-three tests will agree with each other for around 50\% of the cases.
-When visual tests conducted by human do not reject, there are
-substantial amount of cases where computer vision model also do not
-reject but conventional tests reject. There are much fewer cases that do
-not reject by visual tests and conventional tests, but is rejected by
-computer vision models. This indicates computer vision model can behave
-like visual tests conducted by human better than conventional tests.
-Moreover, there are great proportion of cases where visual tests
-conducted by human is the only test who does not reject.
+To further illustrate these patterns, Figure \ref{fig:pcp} presents
+parallel coordinate plots comparing decisions from human visual tests,
+the computer vision model, and conventional tests. All three agree in
+about 50\% of cases. When humans do not reject, conventional tests
+reject in about half of those cases, whereas the model rejects in only
+25\%. Notably, the model rarely rejects when both humans and
+conventional tests do not, suggesting that while it is more sensitive
+than humans, its rejection behavior is more aligned with human judgment
+than with conventional tests.
 
-When plotting the decision against the distance, as illustrated in
-Figure \ref{fig:power}, several notable observations emerge. Firstly,
-compared to conventional tests, the computer vision model tends to have
-fewer rejected cases when \(D < 2\) and fewer non-rejected cases when
-\(2< D < 4\). This suggests tests based on the computer vision model are
-less sensitive to small deviations from model assumptions than
-conventional tests but more sensitive to moderate deviations.
-Additionally, visual tests demonstrate the lowest sensitivity to
-residual plots with small distances where not many residual plots are
-rejected when \(D < 2\). Similarly, for large distances where \(D > 4\),
-almost all residual plots are rejected by the computer vision model and
-conventional tests, but for visual tests conducted by humans, the
-threshold is higher with \(D > 5\).
+Figure \ref{fig:power} plots rejection decisions against the true
+distance \(D\). Compared to conventional tests, the computer vision
+model rejects fewer cases when \(D < 4\), but a similar number of cases
+when \(D > 4\). This indicates that the model is less sensitive to minor
+deviations from model assumptions, while remaining comparably sensitive
+to more substantial violations. Visual tests are the least sensitive
+overall, showing few rejections for \(D < 2\), and requiring a higher
+threshold (\(D > 5\)) for near-universal rejection, compared to
+\(D > 4\) for both the model and conventional tests.
 
-In Figure \ref{fig:power}, rejection decisions are fitted by logistic
-regression models with no intercept terms and an offset equals to
-\(\text{log}(0.05/0.95)\). The fitted curves for the computer vision
-model fall between those of conventional tests and visual tests for both
-non-linearity and heteroskedasticity, which means there is still
-potential to refine the computer vision model to better align its
-behavior with visual tests conducted by humans.
+Finally, the power curves in Figure \ref{fig:power} are fitted using
+logistic regression without intercepts and with an offset of
+\(\log(0.05/0.95)\) to ensure a 5\% rejection rate under \(H_0\). The
+model's rejection curve consistently lies between those of conventional
+and human visual tests, indicating potential to further align its
+decision boundary with human visual assessment.
 
-In the experiment conducted in \citet{li2024plot}, participants were
-allowed to make multiple selections for a lineup. The weighted detection
-rate was computed by assigning weights to each detection. If the
-participant selected zero plots, a weight of 0.05 was assigned;
-otherwise, if the true residual plot was detected, the weight was 1
-divided by the number of selections. This weighted detection rate allow
-us to assess the quality of the distance measure purposed in this paper,
-by using the \(\delta\)-difference statistic. The \(\delta\)-difference
-is originally defined by \citet{chowdhury2018measuring}, is given by
+\subsubsection{\texorpdfstring{Adjusted
+\(\delta\)-difference}{Adjusted \textbackslash delta-difference}}\label{adjusted-delta-difference}
+
+In the experiment conducted by \citet{li2024plot}, participants could
+select multiple plots per lineup. To reflect detection confidence, a
+weighted detection rate was computed for each lineup: selecting zero
+plots yielded a weight of 0.05; otherwise, if the true residual plot was
+selected, its weight was \(1 / \text{(number of selections)}\).
+
+To evaluate the proposed distance measure, we could examine the
+relationship between the weighted detection rate and the
+\(\delta\)-difference statistic from \citet{chowdhury2018measuring}:
 
 \[
 \delta = \bar{d}_{\text{true}} - \underset{j}{\text{max}}\left(\bar{d}_{\text{null}}^{(j)}\right) \quad \text{for}~j = 1,...,m-1,
 \]
 
-where \(\bar{d}_{\text{null}}^{(j)}\) is the mean distance between the
-\(j\)-th null plot and the other null plots, \(\bar{d}_{\text{true}}\)
-is the mean distance between the true residual plot and null plots, and
-\(m\) is the number of plots in a lineup. These mean distances are used
-because, as noted by \citet{chowdhury2018measuring}, the distances can
-vary depending on which data plot is used for comparison. For instance,
-with three null plots, A, B and C, the distance between A and B may
-differ from the distance between A and C. To obtain a consistent
-distance for null plot A, averaging is necessary. However, this approach
-is not applicable to the distance proposed in this paper, as we only
-compare the residual plot against a theoretically good residual plot.
-Consequently, the statistic must be adjusted to evaluate our distance
-measure effectively.
+\noindent where \(\bar{d}_{\text{true}}\) is the mean distance between
+the true plot and all null plots, and \(\bar{d}_{\text{null}}^{(j)}\) is
+the mean distance from null plot \(j\) to other nulls. These averages
+help address asymmetries in pairwise distances.
 
-One important aspect that the \(\delta\)-difference was designed to
-capture is the empirical distribution of distances for null plot. If we
-were to replace the mean distances \(\bar{d}_{\text{null}}^{(j)}\)
-directly with \(D_{\text{null}}^{(j)}\), the distance of the \(j\)-th
-null plot, the resulting distribution would be degenerate, since
-\(D_{null}\) equals zero by definition. Additionally, \(D\) can not be
-derived from an image, meaning it falls outside the scope of the
-distances considered by \citet{chowdhury2018measuring}. Instead, the
-focus should be on the empirical distribution of \(\hat{D}\), as it
-influences decision-making. Therefore, the adjusted \(\delta\)-different
-is defined as
+However, our method only compares each plot to a theoretically ``good''
+residual plot, making the original formulation inapplicable. Moreover,
+since \(D_{\text{null}} = 0\) by definition and \(D\) can not be derived
+from an image, we instead focus on \(\hat{D}\), the model-estimated
+distance. This leads to the adjusted \(\delta\)-difference:
 
 \[
 \delta_{\text{adj}} = \hat{D} - \underset{j}{\text{max}}\left(\hat{D}_{\text{null}}^{(j)}\right) \quad \text{for}~j = 1,...,m-1,
@@ -1022,14 +995,12 @@ distance for the \(j\)-th null plot, and \(m\) is the number of plots in
 a lineup.
 
 Figure \ref{fig:delta} displays the scatter plot of the weighted
-detection rate vs the adjusted \(\delta\)-difference. It indicates that
-the weighted detection rate increases as the adjusted
-\(\delta\)-difference increases, particularly when the adjusted
-\(\delta\)-difference is greater than zero. A negative adjusted
-\(\delta\)-difference suggests that there is at least one null plot in
-the lineup with a stronger visual signal than the true residual plot. In
-some instances, the weighted detection rate is close to one, yet the
-adjusted \(\delta\)-difference is negative. This discrepancy implies
+detection rate against \(\delta_{\text{adj}}\). It shows that weighted
+detection generally increases with \(\delta_{\text{adj}}\), especially
+when it is positive. A negative \(\delta_{\text{adj}}\) suggests some
+null plots may appear more visually distinctive to humans than the true
+plot. In some instances, the weighted detection rate is close to one,
+yet the \(\delta_{\text{adj}}\) is negative. This discrepancy implies
 that the distance measure, or the estimated distance, may not perfectly
 reflect actual human behavior.
 
@@ -1062,15 +1033,6 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 \caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
 \end{figure}
 
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/power-1} 
-
-}
-
-\caption{Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\text{log}(0.05/0.95)$.}\label{fig:power}
-\end{figure}
-
 \begin{figure}
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/pcp-1} 
@@ -1078,6 +1040,15 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 }
 
 \caption{Parallel coordinate plots of decisions made by computer vision model, conventional tests and visual tests made by human.}\label{fig:pcp}
+\end{figure}
+
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/power-1} 
+
+}
+
+\caption{Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\text{log}(0.05/0.95)$.}\label{fig:power}
 \end{figure}
 
 \begin{figure}[!h]
