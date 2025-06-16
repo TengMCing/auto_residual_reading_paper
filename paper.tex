@@ -223,7 +223,7 @@ for future research directions.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/false-finding-1} 
+{\centering \includegraphics[width=0.5\linewidth]{paper_files/figure-latex/false-finding-1} 
 
 }
 
@@ -903,20 +903,20 @@ non-linearity & 0.738 & 0.770 & 0.566 & 0.246\\
 \end{table}
 
 Each lineup in \citet{li2024plot} contains one true residual plot and 19
-null plots. While the true plot's distance \(D\) depends on the
+null plots. While the true residual plot's distance \(D\) depends on the
 data-generating process, null plots have \(D = 0\). We used our
 optimized computer vision model to estimate \(D\) for all plots. To
-ensure fair comparison, we reject \(H_0\) if the true plot has the
-highest estimated distance. Conventional tests, including the Ramsey
+ensure fair comparison, we reject \(H_0\) if the true residual plot has
+the highest estimated distance. Conventional tests, including the Ramsey
 RESET \citep{ramsey1969tests} for non-linearity and the Breusch-Pagan
 test \citep{breusch1979simple} for heteroskedasticity, were also applied
 to the same data.
 
 Table \ref{tab:experiment-performance} reports performance metrics for
-\(\hat{D}\) on true plots. While the performance is slightly worse than
-on the test data provided in Table \ref{tab:performance}, the mean
-absolute error remains low and the correlation between predictions and
-true values remains high. Consistent with results in Table
+\(\hat{D}\) on true residual plots. While the performance is slightly
+worse than on the test data provided in Table \ref{tab:performance}, the
+mean absolute error remains low and the correlation between predictions
+and true values remains high. Consistent with results in Table
 \ref{tab:performance-sub}, non-linearity cases are harder to predict
 than heteroskedasticity cases.
 
@@ -976,9 +976,10 @@ relationship between the weighted detection rate and the
 \]
 
 \noindent where \(\bar{d}_{\text{true}}\) is the mean distance between
-the true plot and all null plots, and \(\bar{d}_{\text{null}}^{(j)}\) is
-the mean distance from null plot \(j\) to other nulls. These averages
-help address asymmetries in pairwise distances.
+the true residual plot and all null plots, and
+\(\bar{d}_{\text{null}}^{(j)}\) is the mean distance from null plot
+\(j\) to other nulls. These averages help address asymmetries in
+pairwise distances.
 
 However, our method only compares each plot to a theoretically ``good''
 residual plot, making the original formulation inapplicable. Moreover,
@@ -997,12 +998,18 @@ a lineup.
 Figure \ref{fig:delta} displays the scatter plot of the weighted
 detection rate against \(\delta_{\text{adj}}\). It shows that weighted
 detection generally increases with \(\delta_{\text{adj}}\), especially
-when it is positive. A negative \(\delta_{\text{adj}}\) suggests some
-null plots may appear more visually distinctive to humans than the true
-plot. In some instances, the weighted detection rate is close to one,
-yet the \(\delta_{\text{adj}}\) is negative. This discrepancy implies
-that the distance measure, or the estimated distance, may not perfectly
-reflect actual human behavior.
+when it is positive. This suggests that the differences in \(\hat{D}\)
+capture some aspect of the visual separability between the true and null
+plots as perceived by humans, with larger positive differences generally
+indicating greater distinctiveness. However, the considerable
+variability in detection rates for similar \(\delta_{\text{adj}}\)
+values implies that \(\hat{D}\) does not fully account for all factors
+influencing human perception, and the alignment remains imperfect. A
+negative \(\delta_{\text{adj}}\) suggests some null plots may appear
+more visually distinctive to humans than the true residual plot. In some
+instances, the weighted detection rate is close to one despite a
+negative \(\delta_{\text{adj}}\). This discrepancy implies that the
+distance measure may not perfectly reflect actual human behavior.
 
 \begin{table}
 
@@ -1053,7 +1060,7 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/delta-1} 
+{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/delta-1} 
 
 }
 
@@ -1062,29 +1069,21 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 
 \section{Examples}\label{sec-examples}
 
-In this section, we present the performance of trained computer vision
-model on three example datasets. These include the dataset associated
-with the residual plot displaying a ``left-triangle'' shape, as
-displayed in Figure \ref{fig:false-finding}, along with the Boston
-housing dataset \citep{harrison1978hedonic}, and the ``dino'' datasets
-from the \texttt{datasauRus} R package \citep{datasaurus}.
+In this section, we present the performance of the trained computer
+vision model on three example datasets, including the dataset associated
+with the residual plot displaying a ``left-triangle'' shape (Figure
+\ref{fig:false-finding}), the Boston housing dataset
+\citep{harrison1978hedonic}, and the ``dino'' datasets from the from the
+\texttt{datasauRus} package \citep{datasaurus}.
 
-The first example illustrates a scenario where both the computer vision
-model and human visual inspection successfully avoid rejecting \(H_0\)
-when \(H_0\) is true, contrary to conventional tests. This underscores
-the necessity of visually examining the residual plot.
-
-In the second example, we encounter a more pronounced violation of the
-model, resulting in rejection of \(H_0\) by all three tests. This
-highlights the practicality of the computer vision model, particularly
-for less intricate tasks.
-
-The third example presents a situation where the model deviation is
-non-typical. Here, the computer vision model and human visual inspection
-reject \(H_0\), whereas some commonly used conventional tests do not.
-This emphasizes the benefits of visual inspection and the unique
-advantage of the computer vision model, which, like humans, makes
-decisions based on visual discoveries.
+In the first case, both the model and human inspection correctly avoid
+rejecting \(H_0\) when it is true, contrary to conventional tests,
+highlighting the necessity of visual examination. The second case shows
+a clear model violation detected by all tests, demonstrating the model's
+practical use for less intricate tasks. The third case involves an
+unusual deviation where the model and humans reject \(H_0\), but some
+conventional tests do not, illustrating the benefits of visual-based
+decision-making.
 
 \subsection{Left-triangle}\label{left-triangle}
 
@@ -1142,7 +1141,7 @@ bootstrapped plots. This accurately reflects our understanding of Figure
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/false-lineup-1} 
+{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/false-lineup-1} 
 
 }
 
@@ -1176,9 +1175,9 @@ leverage than other areas, and it is the turning point of the ``U''
 shape. The PCA provided in plot D shows two distinct clusters of data
 points, further underling the visual differences between bootstrapped
 plots and null plots. This coincides the findings from Figure
-\ref{fig:boston-lineup}, where the true plot exhibiting a ``U'' shape is
-visually distinctive from null plots. If a visual test is conducted by
-human, \(H_0\) will also be rejected.
+\ref{fig:boston-lineup}, where the true residual plot exhibiting a ``U''
+shape is visually distinctive from null plots. If a visual test is
+conducted by human, \(H_0\) will also be rejected.
 
 \begin{figure}[!h]
 
@@ -1191,7 +1190,7 @@ human, \(H_0\) will also be rejected.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/boston-lineup-1} 
+{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/boston-lineup-1} 
 
 }
 
@@ -1254,7 +1253,7 @@ vision model can facilitate this process.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/dino-lineup-1} 
+{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/dino-lineup-1} 
 
 }
 
@@ -1281,9 +1280,10 @@ blocks effectively capture shapes in residual plots. Another approach
 would be to transform the residuals so they are roughly normally
 distributed and have constant variance. If only raw residuals are used,
 the distance-based statistical testing compares the difference in
-distance to a classical normal linear regression model for the true plot
-and null plots. This comparison is meaningful only if the difference can
-be identified by the distance measure proposed in this paper.
+distance to a classical normal linear regression model for the true
+residual plot and null plots. This comparison is meaningful only if the
+difference can be identified by the distance measure proposed in this
+paper.
 
 There are other types of residual plots commonly used in diagnostics,
 such as residuals vs.~predictor and quantile-quantile plots. In this

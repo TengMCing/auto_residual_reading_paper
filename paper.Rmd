@@ -87,7 +87,7 @@ In this paper, we develop computer vision models and integrate them into the res
 
 
 
-```{r false-finding, fig.pos="!h", fig.width = 4, fig.height = 4*4/5, fig.pos="!h", fig.cap="An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\\% significance level ($p\\text{-value} = 0.046$)."}
+```{r false-finding, fig.pos="!h", fig.width = 4, fig.height = 4*4/5, fig.pos="!h", fig.cap="An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\\% significance level ($p\\text{-value} = 0.046$).", out.width = "50%"}
 set.seed(452)
 ori_x <- rand_lognormal()
 mod <- heter_model(b = 0, x = closed_form(~-ori_x))
@@ -357,7 +357,7 @@ model_pred %>%
 ```
 
 
-```{r over-under, fig.pos="!h", fig.cap = "Scatter plots for difference in $D$ and $\\hat{D}$ vs $\\sigma$ on test data for the $32 \\times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.", dev = 'png', dpi = 300}
+```{r over-under, fig.pos="!h", fig.cap = "Scatter plots for difference in $D$ and $\\hat{D}$ vs $\\sigma$ on test data for the $32 \\times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.", dev = 'png', dpi = 300, fig.height = 4.5}
 model_pred %>%
   filter(res == 32L) %>%
   filter(type == "test") %>%
@@ -480,9 +480,9 @@ experiment %>%
                     col.names = c("Violation", "RMSE", "$R^2$", "MAE", "Huber loss"))
 ```
 
-Each lineup in @li2024plot contains one true residual plot and 19 null plots. While the true plot’s distance $D$ depends on the data-generating process, null plots have $D = 0$. We used our optimized computer vision model to estimate $D$ for all plots. To ensure fair comparison, we reject $H_0$ if the true plot has the highest estimated distance. Conventional tests, including the Ramsey RESET [@ramsey1969tests] for non-linearity and the Breusch-Pagan test [@breusch1979simple] for heteroskedasticity, were also applied to the same data.
+Each lineup in @li2024plot contains one true residual plot and 19 null plots. While the true residual plot’s distance $D$ depends on the data-generating process, null plots have $D = 0$. We used our optimized computer vision model to estimate $D$ for all plots. To ensure fair comparison, we reject $H_0$ if the true residual plot has the highest estimated distance. Conventional tests, including the Ramsey RESET [@ramsey1969tests] for non-linearity and the Breusch-Pagan test [@breusch1979simple] for heteroskedasticity, were also applied to the same data.
 
-Table \ref{tab:experiment-performance} reports performance metrics for $\hat{D}$ on true plots. While the performance is slightly worse than on the test data provided in Table \ref{tab:performance}, the mean absolute error remains low and the correlation between predictions and true values remains high. Consistent with results in Table \ref{tab:performance-sub}, non-linearity cases are harder to predict than heteroskedasticity cases.
+Table \ref{tab:experiment-performance} reports performance metrics for $\hat{D}$ on true residual plots. While the performance is slightly worse than on the test data provided in Table \ref{tab:performance}, the mean absolute error remains low and the correlation between predictions and true values remains high. Consistent with results in Table \ref{tab:performance-sub}, non-linearity cases are harder to predict than heteroskedasticity cases.
 
 To assess how well the model’s decisions align with other methods, Table \ref{tab:human-conv-table} compares its rejection decisions with those of conventional tests and human visual tests. Agreement rates are 85.95% for heteroskedasticity cases and 79.69% for non-linearity cases, higher than those observed for human visual tests (67.96% and 66.84%, respectively). This suggests that the model aligns more closely with the best available conventional tests. However, as Figure \ref{fig:conv-mosaic} shows, the model does not always reject when conventional tests do, indicating a lower sensitivity to model violations.
 
@@ -503,7 +503,7 @@ $$
 \delta = \bar{d}_{\text{true}} - \underset{j}{\text{max}}\left(\bar{d}_{\text{null}}^{(j)}\right) \quad \text{for}~j = 1,...,m-1,
 $$
 
-\noindent where $\bar{d}_{\text{true}}$ is the mean distance between the true plot and all null plots, and $\bar{d}_{\text{null}}^{(j)}$ is the mean distance from null plot $j$ to other nulls. These averages help address asymmetries in pairwise distances.
+\noindent where $\bar{d}_{\text{true}}$ is the mean distance between the true residual plot and all null plots, and $\bar{d}_{\text{null}}^{(j)}$ is the mean distance from null plot $j$ to other nulls. These averages help address asymmetries in pairwise distances.
 
 However, our method only compares each plot to a theoretically "good" residual plot, making the original formulation inapplicable. Moreover, since $D_{\text{null}} = 0$ by definition and $D$ can not be derived from an image, we instead focus on $\hat{D}$, the model-estimated distance. This leads to the adjusted $\delta$-difference:
 
@@ -513,7 +513,7 @@ $$
 
 \noindent where $\hat{D}_{\text{null}}^{(j)}$ is the estimated distance for the $j$-th null plot, and $m$ is the number of plots in a lineup.
 
-Figure \ref{fig:delta} displays the scatter plot of the weighted detection rate against $\delta_{\text{adj}}$. It shows that weighted detection generally increases with $\delta_{\text{adj}}$, especially when it is positive. A negative $\delta_{\text{adj}}$ suggests some null plots may appear more visually distinctive to humans than the true plot. In some instances, the weighted detection rate is close to one, yet the $\delta_{\text{adj}}$ is negative. This discrepancy implies that the distance measure, or the estimated distance, may not perfectly reflect actual human behavior.
+Figure \ref{fig:delta} displays the scatter plot of the weighted detection rate against $\delta_{\text{adj}}$. It shows that weighted detection generally increases with $\delta_{\text{adj}}$, especially when it is positive. This suggests that the differences in $\hat{D}$ capture some aspect of the visual separability between the true and null plots as perceived by humans, with larger positive differences generally indicating greater distinctiveness. However, the considerable variability in detection rates for similar $\delta_{\text{adj}}$ values implies that $\hat{D}$ does not fully account for all factors influencing human perception, and the alignment remains imperfect. A negative $\delta_{\text{adj}}$ suggests some null plots may appear more visually distinctive to humans than the true residual plot. In some instances, the weighted detection rate is close to one despite a negative $\delta_{\text{adj}}$. This discrepancy implies that the distance measure may not perfectly reflect actual human behavior.
 
 
 ```{r hist-null-human}
@@ -562,7 +562,7 @@ bind_rows(
 ```
 
 
-```{r conv-mosaic, fig.pos = "!h", fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.", fig.height = 4}
+```{r conv-mosaic, fig.pos = "!h", fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.", fig.height = 3}
 library(ggmosaic)
 
 experiment %>%
@@ -587,7 +587,7 @@ experiment %>%
   coord_fixed()
 ```
 
-```{r pcp, fig.cap = "Parallel coordinate plots of decisions made by computer vision model, conventional tests and visual tests made by human.", eval = TRUE, fig.height = 4}
+```{r pcp, fig.cap = "Parallel coordinate plots of decisions made by computer vision model, conventional tests and visual tests made by human.", eval = TRUE, fig.height = 3.5}
 library(ggpcp)
 mutate(experiment, type = ifelse(type == "polynomial", "Non-linearity", "Heteroskedasticity")) %>%
   mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity"))) %>%
@@ -616,7 +616,7 @@ mutate(experiment, type = ifelse(type == "polynomial", "Non-linearity", "Heteros
         axis.title = element_blank())
 ```
 
-```{r power, fig.pos = "!h", fig.cap = "Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\\text{log}(0.05/0.95)$.", fig.height = 4}
+```{r power, fig.pos = "!h", fig.cap = "Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\\text{log}(0.05/0.95)$.", fig.width = 7, fig.height = 3.5}
 
 max_actual_ss <- max(filter(experiment, !attention_check, !null_lineup)$actual_ss)
 max_poly_ss <- max(filter(experiment, !attention_check, !null_lineup, type == "polynomial")$actual_ss)
@@ -703,7 +703,7 @@ ggplot() +
 
 
 
-```{r delta, fig.pos = "!h", fig.cap = "A weighted detection rate vs adjusted $\\delta$-difference plot. The brown line is smoothing curve produced by fitting generalized additive models.", fig.height = 4}
+```{r delta, fig.pos = "!h", fig.cap = "A weighted detection rate vs adjusted $\\delta$-difference plot. The brown line is smoothing curve produced by fitting generalized additive models.", fig.width = 6, fig.height = 3, out.width = "80%"}
 experiment %>%
   left_join(lineup_vss %>%
               group_by(unique_lineup_id) %>%
@@ -721,14 +721,9 @@ experiment %>%
 
 # Examples {#sec-examples}
 
+In this section, we present the performance of the trained computer vision model on three example datasets, including the dataset associated with the residual plot displaying a "left-triangle" shape (Figure \ref{fig:false-finding}), the Boston housing dataset [@harrison1978hedonic], and the "dino" datasets from the from the `datasauRus` package [@datasaurus]. 
 
-In this section, we present the performance of trained computer vision model on three example datasets. These include the dataset associated with the residual plot displaying a "left-triangle" shape, as displayed in Figure \ref{fig:false-finding}, along with the Boston housing dataset [@harrison1978hedonic], and the "dino" datasets from the `datasauRus` R package [@datasaurus]. 
-
-The first example illustrates a scenario where both the computer vision model and human visual inspection successfully avoid rejecting $H_0$ when $H_0$ is true, contrary to conventional tests. This underscores the necessity of visually examining the residual plot.
-
-In the second example, we encounter a more pronounced violation of the model, resulting in rejection of $H_0$ by all three tests. This highlights the practicality of the computer vision model, particularly for less intricate tasks.
-
-The third example presents a situation where the model deviation is non-typical. Here, the computer vision model and human visual inspection reject $H_0$, whereas some commonly used conventional tests do not. This emphasizes the benefits of visual inspection and the unique advantage of the computer vision model, which, like humans, makes decisions based on visual discoveries.
+In the first case, both the model and human inspection correctly avoid rejecting $H_0$ when it is true, contrary to conventional tests, highlighting the necessity of visual examination. The second case shows a clear model violation detected by all tests, demonstrating the model’s practical use for less intricate tasks. The third case involves an unusual deviation where the model and humans reject $H_0$, but some conventional tests do not, illustrating the benefits of visual-based decision-making.
 
 ## Left-triangle
 
@@ -922,7 +917,7 @@ p4 <- pca_result %>%
 patchwork::wrap_plots(p1, p2, p3, p4, nrow = 2, widths = c(1, 1), heights = c(1, 1))
 ```
 
-```{r false-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots displaying "left-triangle" visual patterns. The true residual plot occupies position 10, yet there are no discernible visual patterns that distinguish it from the other plots.', fig.height = 8}
+```{r false-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots displaying "left-triangle" visual patterns. The true residual plot occupies position 10, yet there are no discernible visual patterns that distinguish it from the other plots.', fig.height = 8, out.width = "70%"}
 pos <- 10
 result <- tibble()
 for (i in c(1:20)[-pos]) {
@@ -943,7 +938,7 @@ result %>%
 
 The Boston housing dataset, originally published by @harrison1978hedonic, offers insights into housing in the Boston, Massachusetts area. For illustration purposes, we utilize a reduced version from Kaggle, comprising 489 rows and 4 columns: average number of rooms per dwelling (RM), percentage of lower status of the population (LSTAT), pupil-teacher ratio by town (PTRATIO), and median value of owner-occupied homes in $1000's (MEDV). In our analysis, MEDV will serve as the response variable, while the other columns will function as predictors in a linear regression model. Our primary focus is to detect non-linearity, because the relationships between RM and MEDV or LSTAT and MEDV are non-linear.
 
-Figure \ref{fig:boston-check} displays the residual plot and the assessment conducted by the computer vision model. A clear non-linearity pattern resembling a "U" shape is shown in the plot A. Furthermore, the RESET test yields a very small $p$-value. The estimated distance $\hat{D}$ significantly exceeds $Q_{null}(0.95)$, leading to rejection of $H_0$. The bootstrapped distribution also suggests that almost all the bootstrapped fitted models will be rejected, indicating that the fitted model is unlikely to be correctly specified. The attention map in plot B suggests the center of the image has higher leverage than other areas, and it is the turning point of the "U" shape. The PCA provided in plot D shows two distinct clusters of data points, further underling the visual differences between bootstrapped plots and null plots. This coincides the findings from Figure \ref{fig:boston-lineup}, where the true plot exhibiting a "U" shape is visually distinctive from null plots. If a visual test is conducted by human, $H_0$ will also be rejected.
+Figure \ref{fig:boston-check} displays the residual plot and the assessment conducted by the computer vision model. A clear non-linearity pattern resembling a "U" shape is shown in the plot A. Furthermore, the RESET test yields a very small $p$-value. The estimated distance $\hat{D}$ significantly exceeds $Q_{null}(0.95)$, leading to rejection of $H_0$. The bootstrapped distribution also suggests that almost all the bootstrapped fitted models will be rejected, indicating that the fitted model is unlikely to be correctly specified. The attention map in plot B suggests the center of the image has higher leverage than other areas, and it is the turning point of the "U" shape. The PCA provided in plot D shows two distinct clusters of data points, further underling the visual differences between bootstrapped plots and null plots. This coincides the findings from Figure \ref{fig:boston-lineup}, where the true residual plot exhibiting a "U" shape is visually distinctive from null plots. If a visual test is conducted by human, $H_0$ will also be rejected.
 
 
 ```{r}
@@ -1041,7 +1036,7 @@ p4 <- pca_result %>%
 patchwork::wrap_plots(p1, p2, p3, p4, nrow = 2, widths = c(1, 1), heights = c(1, 1))
 ```
 
-```{r boston-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the Boston housing fitted model. The true residual plot is at position 7. It can be easily identified as the most different plot.', fig.height = 8}
+```{r boston-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the Boston housing fitted model. The true residual plot is at position 7. It can be easily identified as the most different plot.', fig.height = 8, out.width = "70%"}
 pos <- 7
 result <- tibble()
 for (i in c(1:20)[-pos]) {
@@ -1167,7 +1162,7 @@ p4 <- pca_result %>%
 patchwork::wrap_plots(p1, p2, p3, p4, nrow = 2, widths = c(1, 1), heights = c(1, 1))
 ```
 
-```{r dino-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the fitted model on the "dinosaur" dataset. The true residual plot is at position 17. It can be easily identified as the most different plot as the visual pattern is extremely artificial.', fig.height = 8}
+```{r dino-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the fitted model on the "dinosaur" dataset. The true residual plot is at position 17. It can be easily identified as the most different plot as the visual pattern is extremely artificial.', fig.height = 8, out.width = "70%"}
 pos <- 17
 result <- tibble()
 for (i in c(1:20)[-pos]) {
@@ -1189,7 +1184,7 @@ result %>%
 
 Despite the computer vision model performing well with general cases under the synthetic data generation scheme and the three examples used in this paper, this study has several limitations that could guide future work.
 
-The proposed distance measure assumes that the true model is a classical normal linear regression model, which can be restrictive. Although this paper does not address the relaxation of this assumption, there are potential methods to evaluate other types of regression models. The most comprehensive approach would be to define a distance measure for each different class of regression model and then train the computer vision model following the methodology described in this paper. To accelerate training, one could use the convolutional blocks of our trained model as a feature extractor and perform transfer learning on top of it, as these blocks effectively capture shapes in residual plots. Another approach would be to transform the residuals so they are roughly normally distributed and have constant variance. If only raw residuals are used, the distance-based statistical testing compares the difference in distance to a classical normal linear regression model for the true plot and null plots. This comparison is meaningful only if the difference can be identified by the distance measure proposed in this paper.
+The proposed distance measure assumes that the true model is a classical normal linear regression model, which can be restrictive. Although this paper does not address the relaxation of this assumption, there are potential methods to evaluate other types of regression models. The most comprehensive approach would be to define a distance measure for each different class of regression model and then train the computer vision model following the methodology described in this paper. To accelerate training, one could use the convolutional blocks of our trained model as a feature extractor and perform transfer learning on top of it, as these blocks effectively capture shapes in residual plots. Another approach would be to transform the residuals so they are roughly normally distributed and have constant variance. If only raw residuals are used, the distance-based statistical testing compares the difference in distance to a classical normal linear regression model for the true residual plot and null plots. This comparison is meaningful only if the difference can be identified by the distance measure proposed in this paper.
 
 There are other types of residual plots commonly used in diagnostics, such as residuals vs. predictor and quantile-quantile plots. In this study, we focused on the most commonly used residual plot as a starting point for exploring the new field of automated visual inference. Similarly, we did not explore other, more sophisticated computer vision model architectures and specifications for the same reason. While the performance of the computer vision model is acceptable, there is still room for improvement to achieve behavior more closely resembling that of humans interpreting residual plots. This may require external survey data or human subject experiment data to understand the fundamental differences between our implementation and human evaluation.
 
