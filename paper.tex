@@ -91,13 +91,12 @@ presents a solution by providing a computer vision model to automate the
 assessment of residual plots. It is trained to predict a distance
 measure that quantifies the disparity between the residual distribution
 of a fitted classical normal linear regression model and the reference
-distribution, based on Kullback-Leibler divergence. From extensive
-simulation studies, the computer vision model exhibits lower sensitivity
-than conventional tests but higher sensitivity than human visual tests.
-It is slightly less effective on non-linearity patterns. Several
-examples from classical papers and contemporary data illustrate the new
-procedures, highlighting its usefulness in automating the diagnostic
-process and supplementing existing methods.
+distribution, based on Kullback-Leibler divergence. Evaluation using
+data from a prior human-subject experiment shows the model exhibits
+lower sensitivity than conventional tests but higher sensitivity than
+human visual tests. Several examples from classical papers and
+contemporary data demonstrate the method's paractical utility in
+automating residual diagnostics.
 \end{abstract}
 
 \begin{keywords}
@@ -110,9 +109,9 @@ cognitive perception; simulation; practical significance
 
 Plotting residuals is commonly regarded as a standard practice in linear
 regression diagnostics \citep{belsley1980regression, cook1982residuals}.
-This visual assessment plays a crucial role in identifying whether model
-assumptions, such as linearity, homoscedasticity, and normality, are
-reasonable. It also helps in understanding the goodness of fit and
+This visual assessment plays a crucial role in identifying whether key
+model assumptions, such as linearity, homoscedasticity, and normality,
+are reasonable. It also helps in understanding the goodness of fit and
 various unexpected characteristics of the model.
 
 Generating a residual plot in most statistical software is often as
@@ -166,23 +165,20 @@ labour costs and time requirements. There is a substantial need to
 develop an approach to substitute these human judgement with an
 automated reading of data plots using machines.
 
-The utilization of computers to interpret data plots has a rich history,
-with early efforts such as ``Scagnostics'' by \citet{tukey1985computer},
-a set of numerical statistics that summarize features of scatter plots.
+Efforts to automate plot interpretation date back to early work like
+Tukey's ``Scagnostics'' \citep{tukey1985computer}, which is a set of
+numerical statistics that summarize features of scatter plots.
 \citet{wilkinson2005graph} expanded on this work, introducing
 scagnostics based on computable measures applied to planar proximity
 graphs. These measures, including, but not limited to, ``Outlying'',
 ``Skinny'', ``Stringy'', ``Straight'', ``Monotonic'', ``Skewed'',
 ``Clumpy'', and ``Striated'', aimed to characterize outliers, shape,
-density, trend, coherence and other characteristics of the data. While
-this approach has been inspiring, there is a recognition
-\citep{buja2009statistical} that it may not capture all the necessary
-visual features that differentiate true residual plots from null plots.
-A more promising alternative entails enabling machines to learn the
-function for extracting visual features from residual plots.
-Essentially, this means empowering computers to discern the crucial
-visual features for residual diagnostics and determining the method to
-extract them.
+density, trend, coherence and other characteristics of the data.
+However, as noted by \citet{buja2009statistical}, such measures may not
+capture the full range of visual patterns necessary for residual
+diagnostics. A more promising direction lies in enabling computers to
+learn the relevant visual features directly mirroring how humans
+intuitively interpret plots.
 
 Modern computer vision models are well-suited for addressing this
 challenge. They rely on deep neural networks with convolutional layers
@@ -331,15 +327,15 @@ structure (related to average, standard deviation and correlation of
 pixel values over a window, respectively). These image similarity
 metrics are tailored for image comparison in vastly different tasks to
 evaluating data plots, where only essential plot elements require
-assessment \citep{chowdhury2018measuring}. We can alternatively define a
-notion of distance by integrating key plot elements (instead of key
-perception features like luminance, contrast, and structure), such as
-those captured by scagnostics mentioned in Section
-\ref{sec-model-introduction}, but the functional form still needs to be
-carefully refined to accurately reflect the extent of the violations.
+assessment \citep{chowdhury2018measuring}. A different direction is to
+define a notion of distance by integrating key plot elements (instead of
+key perception features like luminance, contrast, and structure), such
+as those captured by scagnostics (see Section
+\ref{sec-model-introduction}), but the functional form must be carefully
+tailored to reflect model violations meaningfully.
 
 In this section, we introduce a distance measure between a true residual
-plot and a theoretically `good' residual plot. This measure quantifies
+plot and a theoretically ``good'' residual plot. This measure quantifies
 the divergence between the residual distribution of a given fitted
 regression model and that of a correctly specified model. The
 computation assumes knowledge of the data generating processes for
@@ -666,11 +662,11 @@ Appendix.
 
 The model begins with an input layer of shape
 \(n \times h \times w \times 3\), capable of handling \(n\) RGB images.
-This is followed by a grayscale conversion layer utilizing the luma
-formula under the Rec. 601 standard \citep{series2011studio}, which
-converts the color image to grayscale. Grayscale suffices for our task
-since data points are plotted in black. We experiment with three
-combinations of \(h\) and \(w\): \(32 \times 32\), \(64 \times 64\), and
+This is followed by a grayscale conversion layer using the luma formula
+under the Rec. 601 standard \citep{series2011studio}, which converts the
+color image to grayscale. Grayscale suffices for our task since data
+points are plotted in black. We experiment with three combinations of
+\(h\) and \(w\): \(32 \times 32\), \(64 \times 64\), and
 \(128 \times 128\), aiming to achieve sufficiently high image resolution
 for the problem at hand.
 
@@ -1092,10 +1088,10 @@ be misinterpreted as evidence of heteroskedasticity. Although the
 residuals are drawn from a correctly specified model, the Breusch-Pagan
 test rejects \(H_0\) (\(p = 0.046\)). This visual artifact stems from
 the skewed distribution of fitted values, as illustrated in the lineup
-in Figure \ref{fig:false-lineup}, where similar ``left-triangle''
-patterns appear across all residual plots. Since the true plot (at
-position 10) is visually indistinguishable from the null plots, a visual
-test would not reject \(H_0\).
+in Figure \ref{fig:lineup}A, where similar ``left-triangle'' patterns
+appear across all residual plots. Since the true plot (at position 10)
+is visually indistinguishable from the null plots, a visual test would
+not reject \(H_0\).
 
 The computer vision model yields a consistent conclusion. As shown in
 Figure \ref{fig:false-check}, the estimated distance \(\hat{D}\) falls
@@ -1116,8 +1112,7 @@ global pooling layer (Figure \ref{fig:false-check}D) shows that null and
 bootstrapped plots cluster together in the space defined by the first
 two principal components, and the true residual plot is covered by the
 cluster. This overlap reinforces the conclusion that the true plot is
-visually indistinct, aligning with our interpretation of the lineup in
-Figure \ref{fig:false-lineup}.
+visually indistinct, aligning with our interpretation of the lineup.
 
 \begin{figure}[!h]
 
@@ -1126,15 +1121,6 @@ Figure \ref{fig:false-lineup}.
 }
 
 \caption{A summary of the residual plot assessment evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The green area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will not be rejected since $\hat{D} < Q_{null}(0.95)$. (D) plot of first two principal components of features extracted from the global pooling layer of the computer vision model.  }\label{fig:false-check}
-\end{figure}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/false-lineup-1} 
-
-}
-
-\caption{A lineup of residual plots displaying "left-triangle" visual patterns. The true residual plot occupies position 10, yet there are no discernible visual patterns that distinguish it from the other plots.}\label{fig:false-lineup}
 \end{figure}
 
 \subsection{Boston Housing}\label{boston-housing}
@@ -1163,7 +1149,7 @@ plot, corresponding to the turning point of the ``U'', as most
 influential. In the PCA projection (Figure \ref{fig:boston-check}D),
 bootstrapped and null plots form two distinct clusters, emphasizing the
 visual separability. This aligns with the lineup in Figure
-\ref{fig:boston-lineup}, where the true plot stands out clearly. A human
+\ref{fig:lineup}B, where the true plot stands out clearly. A human
 visual test would also likely reject \(H_0\) in this case.
 
 \begin{figure}[!h]
@@ -1173,15 +1159,6 @@ visual test would also likely reject \(H_0\) in this case.
 }
 
 \caption{A summary of the residual plot assessment for the Boston housing fitted model evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) plot of first two principal components of features extracted from the global pooling layer of the computer vision model. }\label{fig:boston-check}
-\end{figure}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/boston-lineup-1} 
-
-}
-
-\caption{A lineup of residual plots for the Boston housing fitted model. The true residual plot is at position 7. It can be easily identified as the most different plot.}\label{fig:boston-lineup}
 \end{figure}
 
 \subsection{DatasauRus}\label{datasaurus}
@@ -1198,9 +1175,8 @@ The ``dino'' dataset from the \texttt{datasauRus} R package illustrates
 this situation. It contains only two variables, \(x\) and \(y\), but
 fitting a regression model produces a residual plot that clearly
 resembles a dinosaur (Figure \ref{fig:dino-check}A). This pattern is
-visually distinctive in the lineup shown in Figure
-\ref{fig:dino-lineup}, where a human visual test would undoubtedly
-reject \(H_0\).
+visually distinctive in the lineup shown in Figure \ref{fig:lineup}C,
+where a human visual test would undoubtedly reject \(H_0\).
 
 Consistent with this, the computer vision model assigns a distance
 \(\hat{D}\) above the 95\% quantile of the null distribution
@@ -1237,11 +1213,11 @@ supporting them.
 
 \begin{figure}[!h]
 
-{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/dino-lineup-1} 
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/lineup-1} 
 
 }
 
-\caption{A lineup of residual plots for the fitted model on the "dinosaur" dataset. The true residual plot is at position 17. It can be easily identified as the most different plot as the visual pattern is extremely artificial.}\label{fig:dino-lineup}
+\caption{Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
 \end{figure}
 
 \section{Limitations and Future Work}\label{limitations-and-future-work}
