@@ -608,7 +608,7 @@ mutate(experiment, type = ifelse(type == "polynomial", "Non-linearity", "Heteros
   geom_pcp_labels(aes_pcp()) +
   geom_pcp_boxes(aes_pcp(), boxwidth = 0.1) +
   facet_wrap(~type, scales = "free_y") +
-  theme_light() +
+  theme_bw() +
   scale_x_discrete(labels = c("Visual\ntest", "Computer\nvision\nmodel", "Conventional\ntest")) +
   labs(col = "D") +
   ylab("") +
@@ -695,7 +695,7 @@ ggplot() +
   geom_segment(data = ~filter(.x, !conventional_reject), aes(x = actual_ss, xend = actual_ss, y = -0.1 + 0.03 * 2, yend = -0.1 + 0.03 * 3, col = "Conventional test"), alpha = 0.4) +
   geom_segment(data = ~filter(.x, conventional_reject), aes(x = actual_ss, xend = actual_ss, y = 1.1, yend = 1.1 - 0.03, col = "Conventional test"), alpha = 0.4) +
   facet_grid(~type, scales = "free_x") +
-  theme_light() +
+  theme_bw() +
   scale_color_brewer("", palette = "Dark2") +
   theme(legend.position = "bottom") +
   xlab("D") +
@@ -934,7 +934,9 @@ result <- bind_rows(my_vi$get_fitted_and_resid() %>%
 l1 <- result %>%
   VI_MODEL$plot_lineup(remove_grid_line = TRUE,
                        remove_axis = TRUE,
-                       theme = theme_light()) +
+                       theme = theme_bw(),
+                       alpha = 0.6,
+                       stroke = 0.3) +
   ggtitle("(B) Lineup for left-triangle")
 ```
 
@@ -1055,7 +1057,9 @@ result <- bind_rows(my_vi$get_fitted_and_resid() %>%
 l2 <- result %>%
   VI_MODEL$plot_lineup(remove_grid_line = TRUE,
                        remove_axis = TRUE,
-                       theme = theme_light()) +
+                       theme = theme_bw(),
+                       alpha = 0.6,
+                       stroke = 0.3) +
   ggtitle("(B) Lineup for Boston housing")
 ```
 
@@ -1182,7 +1186,9 @@ result <- bind_rows(my_vi$get_fitted_and_resid() %>%
 l3 <- result %>%
   VI_MODEL$plot_lineup(remove_grid_line = TRUE,
                        remove_axis = TRUE,
-                       theme = theme_light()) +
+                       theme = theme_bw(),
+                       alpha = 0.6,
+                       stroke = 0.3) +
   ggtitle("(C) Lineup for datasauRus")
 ```
 
