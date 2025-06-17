@@ -123,12 +123,12 @@ the natural stochastic variation of the observational unit, rather than
 indicating a violation of model assumptions \citep{li2024plot}. Consider
 Figure \ref{fig:false-finding} as an example, the residual plot displays
 a triangular left-pointing shape. The distinct difference in the spread
-of the residuals across the fitted values may result in the analyst
-suggesting that there may be heteroskedasticity, however, it is
-important to avoid over-interpreting this visual pattern. In this case,
-the fitted regression model is correctly specified, and the triangular
-shape is actually a result of the skewed distribution of the predictors,
-rather than indicating a flaw in the model.
+of the residuals across the fitted values might lead analysts to suspect
+heteroskedasticity, however, it is important to avoid over-interpreting
+this visual pattern. In this case, the fitted regression model is
+correctly specified, and the triangular shape is actually a result of
+the skewed distribution of the predictors, rather than indicating a flaw
+in the model.
 
 The concept of visual inference, as proposed by
 \citet{buja2009statistical}, provides an inferential framework to assess
@@ -293,13 +293,13 @@ While this approach is appealing in theory, it essentially reverts to
 the traditional testing framework, where tests focus on detecting
 specific types of model violations in isolation.
 
-A third option is to produce a meaninful and interpretable numerical
+A third option is to produce a meaningful and interpretable numerical
 measure that quantifies the strength of suspicious visual patterns
 reflecting the extent of model violations, or the difficulty index for
 identifying whether a residual plot has no issues. However, such
-measures are often used informally in daily communications but rarely
-formalized. For supervised learning, they must be clearly defined and
-reliably estimable.
+measures are often used informally in daily communications but are
+rarely formalized. For supervised learning, they must be clearly defined
+and reliably estimable.
 
 In this study, we defined and used a continuous distance between a true
 residual plot and a theoretically ``good'' residual plot. This approach
@@ -319,20 +319,20 @@ numerical measure of ``difference'' or ``distance'' between plots. This
 distance can take the form of a basic statistical operation on pixels,
 such as the sum of square differences, however, a pixel-to-pixel
 comparison makes little sense in comparing residual plots where the main
-interest would be structural patterns. Alternatively, it could involve
+interest would be structural patterns. Alternatively, it can involve
 established image similarity metrics like the Structural Similarity
-Index Measure \citep{wang2004image} which compares images by integrating
-three perception features of an image: contrast, luminance, and
-structure (related to average, standard deviation and correlation of
+Index Measure \citep{wang2004image}, which compares images by
+integrating three perception features of an image: contrast, luminance,
+and structure (related to average, standard deviation and correlation of
 pixel values over a window, respectively). These image similarity
-metrics are tailored for image comparison in vastly different tasks to
-evaluating data plots, where only essential plot elements require
-assessment \citep{chowdhury2018measuring}. A different direction is to
-define a notion of distance by integrating key plot elements (instead of
-key perception features like luminance, contrast, and structure), such
-as those captured by scagnostics (see Section
-\ref{sec-model-introduction}), but the functional form must be carefully
-tailored to reflect model violations meaningfully.
+metrics are tailored for image comparison in tasks that are vastly
+different from evaluating data plots, where only essential plot elements
+require assessment \citep{chowdhury2018measuring}. A different direction
+is to define a notion of distance by integrating key plot elements
+(instead of key perception features like luminance, contrast, and
+structure), such as those captured by scagnostics (see Section
+\ref{sec-model-introduction}), but the functional form needs to be
+carefully tailored to reflect model violations meaningfully.
 
 In this section, we introduce a distance measure between a true residual
 plot and a theoretically ``good'' residual plot. This measure quantifies
@@ -348,7 +348,7 @@ using a computer vision model in Section
 
 For a classical normal linear regression model,
 \(\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{e}\),
-the residual \(\hat{\boldsymbol{e}}\) are derived as the difference of
+the residuals \(\hat{\boldsymbol{e}}\) are derived as the difference of
 the fitted values and observed values \(\boldsymbol{y}\). Suppose the
 data generating process is known and the regression model is correctly
 specified, by the Frisch-Waugh-Lowell theorem \citep{frisch1933partial},
@@ -374,25 +374,25 @@ fixed.
 Suppose the design matrix \(\boldsymbol{X}\) has linearly independent
 columns, the trace of the hat matrix
 \(\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
-will equal to the number of columns in \(\boldsymbol{X}\) denoted as
-\(k\). As a result, the rank of \(\boldsymbol{R}\) is \(n - k\), and
-\(Q\) is a degenerate multivariate distribution. To capture the
-characteristics of \(Q\), such as moments, we can simulate a large
-numbers of \(\boldsymbol{\varepsilon}\) and transform it to
-\(\boldsymbol{e}\) to get the empirical estimates. For simplicity, in
-this study, we replaced the variance-covariance matrix of residuals
+equals the number of columns in \(\boldsymbol{X}\) denoted as \(k\). As
+a result, the rank of \(\boldsymbol{R}\) is \(n - k\), and \(Q\) is a
+degenerate multivariate distribution. To capture the characteristics of
+\(Q\), such as moments, we can simulate a large number of
+\(\boldsymbol{\varepsilon}\) and transform it to \(\boldsymbol{e}\) to
+get the empirical estimates. For simplicity, in this study, we replaced
+the variance-covariance matrix of residuals
 \(\text{cov}(\boldsymbol{e}, \boldsymbol{e}) = \boldsymbol{R}\sigma^2\boldsymbol{R}^\top = \boldsymbol{R}\sigma^2\)
 with a full-rank diagonal matrix
 \(\text{diag}(\boldsymbol{R}\sigma^2)\), where \(\text{diag}(.)\) sets
 the non-diagonal entries of a matrix to zeros. The resulting
-distribution for \(Q\) is
+distribution for \(Q\) was
 \(N(\boldsymbol{0}_n, \text{diag}(\boldsymbol{R}\sigma^2))\).
 
 Distribution \(Q\) is derived from the correctly specified model.
 However, if the model is misspecified, then the actual distribution of
 residuals denoted as \(P\), will be different from \(Q\). For example,
 if the data generating process contains variables correlated with any
-column of \(\boldsymbol{X}\) but missing from \(\boldsymbol{X}\),
+column of \(\boldsymbol{X}\) but are missing from \(\boldsymbol{X}\),
 causing an omitted variable problem, \(P\) will be different from \(Q\)
 because the residual operator obtained from the fitted regression model
 will not be the same as \(\boldsymbol{R}\). Besides, if the
@@ -405,7 +405,7 @@ has a long tail.
 
 Defining a proper distance between distributions is usually easier than
 defining a proper distance between data plots. Given the true residual
-distribution \(Q\) and the reference residual distribution \(P\), we
+distribution \(P\) and the reference residual distribution \(Q\), we
 used a distance measure based on Kullback-Leibler divergence
 \citep{kullback1951information} to quantify the difference between two
 distributions as
@@ -423,20 +423,20 @@ D_{KL} = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\
 \noindent and \(p(.)\) and \(q(.)\) are the probability density
 functions for distribution \(P\) and distribution \(Q\), respectively.
 
-This distance measure was first proposed in \citet{li2024plot}. It was
-mainly designed for measuring the effect size of non-linearity and
-heteroskedasticity in a residual plot. \citet{li2024plot} have derived
+This distance measure was first proposed in \citet{li2024plot}, which
+was mainly designed for measuring the effect size of non-linearity and
+heteroskedasticity in a residual plot. \citet{li2024plot} has derived
 that, for a classical normal linear regression model that omits
 necessary higher-order predictors \(\boldsymbol{Z}\) and the
-corresponding parameter \(\boldsymbol{\beta}_z\), and incorrectly
-assumes
-\(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\)
-while in fact
+corresponding parameter \(\boldsymbol{\beta}_z\), while incorrectly
+assuming
+\(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
+but in fact
 \(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})\)
 where \(\boldsymbol{V}\) is an arbitrary symmetric positive
 semi-definite matrix, \(Q\) can be represented as
 \(N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\).
-Note that the variance-covariance matrix is replaced with the diagonal
+Note that the variance-covariance matrix was replaced with the diagonal
 matrix to ensure it is a full-rank matrix.
 
 Since both \(P\) and \(Q\) are adjusted to be multivariate normal
