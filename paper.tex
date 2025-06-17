@@ -130,6 +130,15 @@ correctly specified, and the triangular shape is actually a result of
 the skewed distribution of the predictors, rather than indicating a flaw
 in the model.
 
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=0.5\linewidth]{paper_files/figure-latex/false-finding-1} 
+
+}
+
+\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
+\end{figure}
+
 The concept of visual inference, as proposed by
 \citet{buja2009statistical}, provides an inferential framework to assess
 whether residual plots indeed contain visual patterns inconsistent with
@@ -162,7 +171,7 @@ be performed computationally in statistical software, the lineup
 protocol requires human evaluation of images. This characteristic makes
 it less suitable for large-scale applications, given the associated high
 labour costs and time requirements. There is a substantial need to
-develop an approach to substitute these human judgement with an
+develop an approach to substitute these human judgements with an
 automated reading of data plots using machines.
 
 Efforts to automate plot interpretation date back to early work like
@@ -216,15 +225,6 @@ results are presented in Section \ref{sec-model-results}. Example
 dataset applications are discussed in Section \ref{sec-examples}.
 Finally, we conclude with a discussion of our findings and propose ideas
 for future research directions.
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=0.5\linewidth]{paper_files/figure-latex/false-finding-1} 
-
-}
-
-\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
-\end{figure}
 
 \section{Model Specifications}\label{sec-model-specifications}
 
@@ -819,7 +819,7 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 
 }
 
-\caption{Hexagonal heatmap for difference in $D$ and $\hat{D}$ vs $D$ on test data for three optimized models with different input sizes. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:model-performance}
+\caption{Hexagonal heatmap for difference in $D$ and $\hat{D}$ vs $D$ on test data for three optimized models with different input sizes. The brown lines are smoothing curves produced by fitting generalized additive models. The area above the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:model-performance}
 \end{figure}
 
 \begin{figure}[!h]
@@ -828,7 +828,7 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 
 }
 
-\caption{Scatter plots for difference in $D$ and $\hat{D}$ vs $\sigma$ on test data for the $32 \times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:over-under}
+\caption{Scatter plots for difference in $D$ and $\hat{D}$ vs $\sigma$ on test data for the $32 \times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. The area above the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:over-under}
 \end{figure}
 
 \begin{table}
@@ -1297,7 +1297,7 @@ an automated screening tool or a supplement to human judgment.
 \addcontentsline{toc}{section}{Supplementary Materials}
 
 \begin{description}
-\item{Appendix:} The appendix includes more details about the synthetic data generation process, neural network layers used in the work, model training, and model violation index. (appendix.pdf, Portable Document Format file)
+\item{Appendix:} The appendix includes more details about the synthetic data generation process, neural network layers used in the work, model training, and model violation index. 
 \end{description}
 
 \section*{Acknowledgement}\label{acknowledgement}
