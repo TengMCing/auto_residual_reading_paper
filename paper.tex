@@ -550,7 +550,7 @@ that maps the image to an estimated distance
 
 The distance estimator \(\hat{D}\) allows us to assess how closely the
 residuals resemble an ideal distribution and use as an index of model
-violation severity (see Appendix for details). However, \(\hat{D}\) is
+violation severity (see Appendix D for details). However, \(\hat{D}\) is
 not expected to equal the true distance \(D\), as a single residual plot
 may not capture all characteristics of the residual distribution. For
 the same distribution \(P\), simulated plots can vary visually,
@@ -640,7 +640,7 @@ practice, \(Q_{null}(0.95)\) can be used to replace
 
 \section{Model Architecture}\label{sec-model-architecture}
 
-\begin{figure}
+\begin{figure}[!h]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/cnn-diag-1} 
 
@@ -658,7 +658,7 @@ its simplicity and effectiveness. Our decision to use VGG16 aligns with
 our goal of starting with a proven and straightforward model. Figure
 \ref{fig:cnn-diag} provides a diagram of the architecture. More details
 about the neural network layers used in this study are provided in the
-Appendix.
+Appendix B.
 
 The model begins with an input layer of shape
 \(n \times h \times w \times 3\), capable of handling \(n\) RGB images.
@@ -759,7 +759,7 @@ inputs.
 Further details, including mathematical formulations of the synthetic
 data model, parameter specifications, sampling scheme, example residual
 plots and hyperparameter tuning configuration, are provided in the
-Appendix.
+Appendix A and C.
 
 \section{Results}\label{sec-model-results}
 
@@ -1036,7 +1036,7 @@ Violations & \#Samples & \#Agreements & Agreement rate\\
 \caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!h]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/pcp-1} 
 
@@ -1120,7 +1120,7 @@ visually indistinct, aligning with our interpretation of the lineup.
 
 }
 
-\caption{A summary of the residual plot assessment evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The green area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will not be rejected since $\hat{D} < Q_{null}(0.95)$. (D) plot of first two principal components of features extracted from the global pooling layer of the computer vision model.  }\label{fig:false-check}
+\caption{A summary of the residual plot assessment evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The green area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will not be rejected since $\hat{D} < Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model.  }\label{fig:false-check}
 \end{figure}
 
 \subsection{Boston Housing}\label{boston-housing}
@@ -1158,7 +1158,7 @@ visual test would also likely reject \(H_0\) in this case.
 
 }
 
-\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) plot of first two principal components of features extracted from the global pooling layer of the computer vision model. }\label{fig:boston-check}
+\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model. }\label{fig:boston-check}
 \end{figure}
 
 \subsection{DatasauRus}\label{datasaurus}
@@ -1208,7 +1208,7 @@ supporting them.
 
 }
 
-\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) plot of first two principal components of features extracted from the global pooling layer of the computer vision model.}\label{fig:dino-check}
+\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model.}\label{fig:dino-check}
 \end{figure}
 
 \begin{figure}[!h]
@@ -1293,6 +1293,13 @@ inspection. While we recommend analysts to continue reading residual
 plots whenever feasible, our method can augment the process, either as
 an automated screening tool or a supplement to human judgment.
 
+\section*{Supplementary Materials}\label{supplementary-materials}
+\addcontentsline{toc}{section}{Supplementary Materials}
+
+\begin{description}
+\item{Appendix:} The appendix includes more details about the synthetic data generation process, neural network layers used in the work, model training, and model violation index. (appendix.pdf, Portable Document Format file)
+\end{description}
+
 \section*{Acknowledgement}\label{acknowledgement}
 \addcontentsline{toc}{section}{Acknowledgement}
 
@@ -1310,6 +1317,11 @@ The article was created with R packages \texttt{rticles}
 \citep{rmarkdown}. The project's GitHub repository
 (\url{https://github.com/TengMCing/auto_residual_reading_paper})
 contains all materials required to reproduce this article.
+
+\section*{Disclosure Statement}\label{disclosure-statement}
+\addcontentsline{toc}{section}{Disclosure Statement}
+
+No potential conflict of interest was reported by the author(s).
 
 \bibliographystyle{tfcad}
 \bibliography{bibliography.bib}
