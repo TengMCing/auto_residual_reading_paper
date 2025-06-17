@@ -285,7 +285,7 @@ bucket. This process continued until all buckets were filled.
 Similarly, we adopted the same methodology to prepare 8,000 test images
 for performance evaluation and model diagnostics.
 
-\subsection{Neural Network Layers Used in the
+\section{Neural Network Layers Used in the
 Study}\label{neural-network-layers-used-in-the-study}
 
 This study used seven types of neural network layers, all of which are
@@ -296,7 +296,7 @@ thorough explanations and mathematical insights. In this section, we
 will offer a concise overview of these layers, drawing primarily from
 the insights provided in \citet{goodfellow2016deep}.
 
-\subsubsection{Dense Layer}\label{dense-layer}
+\subsection{Dense Layer}\label{dense-layer}
 
 The Dense layer, also known as the fully-connected layer, is the
 fundamental unit in neural networks. It conducts a matrix multiplication
@@ -308,7 +308,7 @@ matrix \(\boldsymbol{W}\) to generate the output matrix
 
 where \(b\) is the intercept.
 
-\subsubsection{ReLu Layer}\label{relu-layer}
+\subsection{ReLu Layer}\label{relu-layer}
 
 The ReLU layer, short for rectified linear unit, is an element-wise
 non-linear function introduced by \citet{nair2010rectified}. It sets the
@@ -322,7 +322,7 @@ where \(\boldsymbol{O}(i,j)\) is the \(i\)th row and \(j\)th column
 entry of matrix \(\boldsymbol{O}\), and \(\boldsymbol{I}(i,j)\) is the
 \(i\)th row and \(j\)th column entry of matrix \(\boldsymbol{I}\).
 
-\subsubsection{Convolutional Layer}\label{convolutional-layer}
+\subsection{Convolutional Layer}\label{convolutional-layer}
 
 In Dense layers, matrix multiplication leads to each output unit
 interacting with every input unit, whereas convolutional layers operate
@@ -342,7 +342,7 @@ kernel will have its own weights and the output will be a
 three-dimensional tensor, where the length of the third channel is the
 number of kernels.
 
-\subsubsection{Pooling Layer}\label{pooling-layer}
+\subsection{Pooling Layer}\label{pooling-layer}
 
 A pooling layer substitutes the input at a specific location with a
 summary statistic derived from nearby input units. Typically, there are
@@ -357,7 +357,7 @@ as:
 
 \[\boldsymbol{O}(i, j) = \underset{m,n}{\max} \boldsymbol{I}(si + m,sj+n).\]
 
-\subsubsection{Global Pooling Layer}\label{global-pooling-layer}
+\subsection{Global Pooling Layer}\label{global-pooling-layer}
 
 A global pooling layer condenses an input matrix into a scalar value by
 either extracting the maximum or computing the average across all
@@ -374,8 +374,7 @@ meaningful patterns. A global max pooling layer can be formulated as
 \[O(i, j) = \underset{m,n,k}{\max} I(si + m,sj+n,k),\] where \(k\) is
 the kernel index.
 
-\subsubsection{Batch Normalization
-Layer}\label{batch-normalization-layer}
+\subsection{Batch Normalization Layer}\label{batch-normalization-layer}
 
 Batch normalization is a method of adaptive reparametrization. One of
 the issues it adjusts is the simultaneous update of parameters in
@@ -394,7 +393,7 @@ time, \(\boldsymbol{\mu}_I\) and \(\boldsymbol{\sigma}_I\) are usually
 replaced with the running mean and running average obtained during
 training.
 
-\subsubsection{Dropout Layer}\label{dropout-layer}
+\subsection{Dropout Layer}\label{dropout-layer}
 
 Dropout is a computationally inexpensive way to apply regularization on
 neural network. For each input unit, it randomly sets to be zero during
