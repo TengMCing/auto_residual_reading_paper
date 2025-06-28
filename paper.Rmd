@@ -8,10 +8,10 @@ author:
     affil: a
     email: dicook@monash.edu
   - name: Emi Tanaka
-    affil: a, b, c
+    affil: b
     email: emi.tanaka@anu.edu.au
   - name: Susan VanderPlas
-    affil: d
+    affil: c
     email: susan.vanderplas@unl.edu
   - name: Klaus Ackermann
     affil: a
@@ -22,11 +22,8 @@ affiliation:
       Department of Econometrics and Business Statistics, Monash University, Clayton, VIC, Australia
   - num: b
     address: |
-      Biological Data Science Institute, Australian National University, Acton, ACT, Australia
-  - num: c
-    address: |
       Research School of Finance, Actuarial Studies and Statistics, Australian National University, Acton, ACT, Australia
-  - num: d
+  - num: c
     address: |
       Department of Statistics, University of Nebraska, Lincoln, Nebraska, USA
 bibliography: bibliography.bib
