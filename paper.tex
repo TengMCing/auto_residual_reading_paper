@@ -95,7 +95,7 @@ distribution, based on Kullback-Leibler divergence. Evaluation using
 data from a prior human-subject experiment shows the model exhibits
 lower sensitivity than conventional tests but higher sensitivity than
 human visual tests. Several examples from classical papers and
-contemporary data demonstrate the method's paractical utility in
+contemporary data demonstrate the method's practical utility in
 automating residual diagnostics.
 \end{abstract}
 
@@ -116,19 +116,25 @@ various unexpected characteristics of the model.
 
 Generating a residual plot in most statistical software is often as
 straightforward as executing a line of code or clicking a button.
-However, accurately interpreting a residual plot can be challenging. A
-residual plot can exhibit various visual features, but it is crucial to
-recognize that some may arise from the characteristics of predictors and
-the natural stochastic variation of the observational unit, rather than
-indicating a violation of model assumptions \citep{li2024plot}. Consider
-Figure \ref{fig:false-finding} as an example, the residual plot displays
-a triangular left-pointing shape. The distinct difference in the spread
-of the residuals across the fitted values might lead analysts to suspect
-heteroskedasticity, however, it is important to avoid over-interpreting
-this visual pattern. In this case, the fitted regression model is
-correctly specified, and the triangular shape is actually a result of
-the skewed distribution of the predictors, rather than indicating a flaw
-in the model.
+However, accurately interpreting a residual plot can be challenging, as
+some features are a result of predictor characteristics and natural
+variation, while others indicate violations of model assumptions
+\citep{li2024plot}. For example, in Figure \ref{fig:false-finding}, the
+residual plot displays a triangular left-pointing shape. The distinct
+difference in the spread of the residuals across the fitted values might
+lead analysts to suspect heteroskedasticity. In this case, however, the
+fitted regression model is correctly specified, and the triangular shape
+is actually a result of the skewed distribution of the predictors,
+rather than indicating a flaw in the model.
+
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=0.5\linewidth]{paper_files/figure-latex/false-finding-1} 
+
+}
+
+\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
+\end{figure}
 
 The concept of visual inference, as proposed by
 \citet{buja2009statistical}, provides an inferential framework to assess
@@ -156,14 +162,13 @@ respectively, while \citet{krishnan2021hierarchical} explored its
 effectiveness in forensic examinations.
 
 A practical limitation of the lineup protocol lies in its reliance on
-human judgements \citep[see][ about the practical
-limitations]{li2024plot}. Unlike conventional statistical tests that can
-be performed computationally in statistical software, the lineup
-protocol requires human evaluation of images. This characteristic makes
-it less suitable for large-scale applications, given the associated high
-labour costs and time requirements. There is a substantial need to
-develop an approach to substitute these human judgement with an
-automated reading of data plots using machines.
+human judgements \citep[see][]{li2024plot}. Unlike conventional
+statistical tests that can be performed using in statistical software,
+the lineup protocol requires human evaluation of images. This
+characteristic makes it less suitable for large-scale applications,
+given the associated high labor costs and time requirements. There is a
+substantial need to develop an approach to substitute these human
+judgement with an automated reading of data plots using computer vision.
 
 Efforts to automate plot interpretation date back to early work like
 Tukey's ``Scagnostics'' \citep{tukey1985computer}, which is a set of
@@ -174,26 +179,25 @@ graphs. These measures, including, but not limited to, ``Outlying'',
 ``Skinny'', ``Stringy'', ``Straight'', ``Monotonic'', ``Skewed'',
 ``Clumpy'', and ``Striated'', aimed to characterize outliers, shape,
 density, trend, coherence and other characteristics of the data.
-However, as noted by \citet{buja2009statistical}, such measures may not
-capture the full range of visual patterns necessary for residual
-diagnostics. A more promising direction lies in enabling computers to
-learn the relevant visual features directly mirroring how humans
-intuitively interpret plots.
+However, such measures may not capture the full range of visual patterns
+necessary for residual diagnostics \citep{buja2009statistical}. A more
+promising direction lies in enabling computers to learn the relevant
+visual features directly mirroring how humans intuitively interpret
+plots.
 
-Modern computer vision models are well-suited for addressing this
-challenge. They rely on deep neural networks with convolutional layers
-\citep{fukushima1982neocognitron}. These layers use small, sliding
-windows to scan the image, performing a dot product to extract local
-features and patterns. Numerous studies have demonstrated the efficacy
-of convolutional layers in addressing various vision tasks, including
-image recognition \citep{rawat2017deep}. Despite the widespread use of
-computer vision models in fields like computer-aided diagnosis
-\citep{lee2015image}, pedestrian detection \citep{brunetti2018computer},
-and facial recognition \citep{emami2012facial}, their application in
-reading data plots remains limited. While some studies have explored the
-use of computer vision models for tasks such as reading recurrence plots
-for time series regression \citep{ojeda2020multivariate}, time series
-classification
+Modern computer vision models rely on deep neural networks with
+convolutional layers \citep{fukushima1982neocognitron}. These layers use
+small, sliding windows to scan the image, performing a dot product to
+extract local features and patterns. Numerous studies have demonstrated
+the efficacy of convolutional layers in addressing various vision tasks,
+including image recognition \citep{rawat2017deep}. Despite the
+widespread use of computer vision models in fields like computer-aided
+diagnosis \citep{lee2015image}, pedestrian detection
+\citep{brunetti2018computer}, and facial recognition
+\citep{emami2012facial}, their application in reading data plots remains
+limited. While some studies have explored the use of computer vision
+models for tasks such as reading recurrence plots for time series
+regression \citep{ojeda2020multivariate}, time series classification
 \citep{chu2019automatic, hailesilassie2019financial, hatami2018classification, zhang2020encoding},
 anomaly detection \citep{chen2020convolutional}, and pairwise causality
 analysis \citep{singh2017deep}, the application of reading residual
@@ -217,21 +221,11 @@ dataset applications are discussed in Section \ref{sec-examples}.
 Finally, we conclude with a discussion of our findings and propose ideas
 for future research directions.
 
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=0.5\linewidth]{paper_files/figure-latex/false-finding-1} 
-
-}
-
-\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
-\end{figure}
-
 \section{Model Specifications}\label{sec-model-specifications}
 
 There are various specifications of the computer vision model that can
 be used to assess residual plots. We discuss these specifications below
-focusing on two key components of the model formula: the input and the
-output format.
+focusing on the input and the output formats.
 
 \subsection{Input Formats}\label{input-formats}
 
@@ -249,19 +243,19 @@ pairs can ensure consistency, though at the cost of some information
 loss.
 
 Another strategy is to convert residual plots into images. This enables
-the use of standard convolutional architectures such as VGG16
-\citep{simonyan2014very}, which can effectively capture spatial
-patterns. Although discretization introduces some losses in detail,
-image-based inputs offer a richer representation by preserving the joint
-distribution of residuals and fitted values in a visually interpretable
-format. To ensure model generalization, it is essential to use residual
-plots in a consistent style, i.e., same aesthetics, layout, scaling and
-color schemes.
+the use of standard convolutional architectures in computer vision such
+as VGG16 \citep{simonyan2014very}. Image-based inputs offer a richer
+representation by preserving the joint distribution of residuals and
+fitted values in a visually interpretable format, helping models more
+effectively capture spatial structure and local correlations than
+vector-based formats. To ensure model generalization, it is essential to
+use residual plots in a consistent style, i.e., same aesthetics, layout,
+scaling and color schemes.
 
 Using multiple residual plots as input, such as pairs, triplets, or full
 lineups is also a possible option. For instance, triplet networks
 \citep{chopra2005learning} can assess visual similarity if we assume
-null plots are more similar from each other than from the true residual
+null plots are more similar to each other than to the true residual
 plot, which may help distinguish null plots from true residual plots.
 However, these architectures introduce complexity in training due to
 weight sharing and specialized loss functions. We experimented with this
@@ -301,7 +295,7 @@ measures are often used informally in daily communications but are
 rarely formalized. For supervised learning, they must be clearly defined
 and reliably estimable.
 
-In this study, we defined and used a continuous distance between a true
+In this study, we define and use a continuous distance between a true
 residual plot and a theoretically ``good'' residual plot. This approach
 captures the degree to which a plot deviates from model assumptions. In
 contrast, a probability output based on binary labels, where true
@@ -512,16 +506,16 @@ the sample mean. With the independence assumption, for non-normal \(P\),
 \(D_{KL}\) can be approximated by
 
 \begin{align*} \label{eq:kl-3}
-D_{KL} &\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}, \\
-\hat{D}_{KL}^{(i)} &= \frac{1}{m}\sum_{j = 1}^{m} \log\frac{\hat{p}_i(B_{ij})}{q(B_{ij})},
+D_{KL} &\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}, \quad
+\hat{D}_{KL}^{(i)} = \frac{1}{m}\sum_{j = 1}^{m} \log\frac{\hat{p}_i(B_{ij})}{q(B_{ij})},
 \end{align*}
 
 \noindent where \(\hat{D}_{KL}^{(i)}\) is the estimator of the
 Kullback-Leibler divergence for an individual residual \(e_i\),
-\(\boldsymbol{B}_{ij}\) is the \(i\)-th row and \(j\)-th column entry of
-the matrix \(\boldsymbol{B}\), \(\hat{p}_i(.)\) is the kernel density
-estimator of \(p_i(.)\), \(q(.)\) is the normal density function with
-mean zero and an assumed variance estimated as
+\(B_{ij}\) is the \(i\)-th row and \(j\)-th column entry of the matrix
+\(\boldsymbol{B}\), \(\hat{p}_i(.)\) is the kernel density estimator of
+\(p_i(.)\), \(q(.)\) is the normal density function with mean zero and
+an assumed variance estimated as
 \(\hat{\sigma}^2 = \sum_{b \in vec(\boldsymbol{B})}(b - \sum_{b \in vec(\boldsymbol{B})} b/nm)^2/(nm - 1)\),
 and \(vec(.)\) is the vectorization operator which turns a
 \(n \times m\) matrix into a \(nm \times 1\) column vector by stacking
@@ -539,11 +533,11 @@ otherwise we do not need to do a residual diagnostic in the first place.
 To approximate this distance from a residual plot, we proposed a
 computer vision estimator \(\hat{D}\) formulated as
 
-\begin{equation} \label{eq:d-approx}
+\begin{equation*} \label{eq:d-approx}
 \hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})),
-\end{equation}
+\end{equation*}
 
-\noindent where \(V_{h \times w}(.)\) renders the residuals vs fitted
+\noindent where \(V_{h \times w}(.)\) renders the residuals vs.~fitted
 values plot as an \(h \times w\) RGB image, and \(f_{CV}(.)\) is a model
 that maps the image to an estimated distance
 \(\hat{D} \in [0, +\infty)\).
@@ -640,15 +634,6 @@ practice, \(Q_{null}(0.95)\) can be used to replace
 
 \section{Model Architecture}\label{sec-model-architecture}
 
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/cnn-diag-1} 
-
-}
-
-\caption{Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.}\label{fig:cnn-diag}
-\end{figure}
-
 The architecture of the computer vision model \(f_{CV}\) is adapted from
 the well-established VGG16 architecture \citep{simonyan2014very}. While
 more recent architectures like ResNet \citep{he2016deep} and
@@ -659,6 +644,15 @@ our goal of starting with a proven and straightforward model. Figure
 \ref{fig:cnn-diag} provides a diagram of the architecture. More details
 about the neural network layers used in this study are provided in the
 Appendix B.
+
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/cnn-diag-1} 
+
+}
+
+\caption{Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.}\label{fig:cnn-diag}
+\end{figure}
 
 The model begins with an input layer of shape
 \(n \times h \times w \times 3\), capable of handling \(n\) RGB images.
@@ -713,15 +707,13 @@ of the model.
 
 The model weights \(\boldsymbol{\theta}\) were randomly initialized
 using the Glorot Uniform method \citep{glorot2010understanding} and they
-were optimized by the Adam optimizer \citep{kingma2014adam} with the
-mean square error loss function
-
-\[\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, S_i))^2,\]
-
-\noindent where \(n_{\text{train}}\) is the number of training samples,
-\(V_i\) is the \(i\)-th residual plot and \(S_i\) is the auxiliary
-information about the \(i\)-th residual plot including four scagnostics
-and the number of observations.
+were optimized by the Adam optimizer \citep{kingma2014adam} with the MSE
+loss function
+\(\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, S_i))^2\),
+where \(n_{\text{train}}\) is the number of training samples, \(V_i\) is
+the \(i\)-th residual plot and \(S_i\) is the auxiliary information
+about the \(i\)-th residual plot including four scagnostics and the
+number of observations.
 
 \section{Data Generation and Model
 Training}\label{sec-model-data-generation}
@@ -819,7 +811,7 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 
 }
 
-\caption{Hexagonal heatmap for difference in $D$ and $\hat{D}$ vs $D$ on test data for three optimized models with different input sizes. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:model-performance}
+\caption{Hexagonal heatmap for difference in $D$ and $\hat{D}$ vs $D$ on test data for three optimized models with different input sizes. The brown lines are smoothing curves produced by fitting generalized additive models. Over-prediction and under-prediction can be observed for small $D$ and large $D$ respectively.}\label{fig:model-performance}
 \end{figure}
 
 \begin{figure}[!h]
@@ -828,7 +820,7 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 
 }
 
-\caption{Scatter plots for difference in $D$ and $\hat{D}$ vs $\sigma$ on test data for the $32 \times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. The area over the zero line in light yellow indicates under-prediction, and the area under the zero line in light green indicates over-prediction.}\label{fig:over-under}
+\caption{Scatter plots for difference in $D$ and $\hat{D}$ vs $\sigma$ on test data for the $32 \times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. Under-prediction mainly occurs when the data-generating process has small $\sigma$, a second predictor, and only non-linearity as the model violation.}\label{fig:over-under}
 \end{figure}
 
 \begin{table}
@@ -884,20 +876,6 @@ predictors.
 \subsubsection{Model Performance on the Human-evaluated
 Data}\label{model-performance-on-the-human-evaluated-data}
 
-\begin{table}
-
-\caption{\label{tab:experiment-performance}The performance of the $32 \times 32$ model on the data used in the human subject experiment.}
-\centering
-\begin{tabular}[t]{lrrrr}
-\toprule
-Violation & RMSE & $R^2$ & MAE & Huber loss\\
-\midrule
-heteroskedasticity & 0.721 & 0.852 & 0.553 & 0.235\\
-non-linearity & 0.738 & 0.770 & 0.566 & 0.246\\
-\bottomrule
-\end{tabular}
-\end{table}
-
 Each lineup in \citet{li2024plot} contains one true residual plot and 19
 null plots. While the true residual plot's distance \(D\) depends on the
 data-generating process, null plots have \(D = 0\). We used our
@@ -916,16 +894,58 @@ and true values remains high. Consistent with results in Table
 \ref{tab:performance-sub}, non-linearity cases are harder to predict
 than heteroskedasticity cases.
 
-To assess how well the model's decisions align with other methods, Table
-\ref{tab:human-conv-table} compares its rejection decisions with those
-of conventional tests and human visual tests. Agreement rates are
-85.95\% for heteroskedasticity cases and 79.69\% for non-linearity
-cases, higher than those observed for human visual tests (67.96\% and
-66.84\%, respectively). This suggests that the model aligns more closely
-with the best available conventional tests. However, as Figure
-\ref{fig:conv-mosaic} shows, the model does not always reject when
-conventional tests do, indicating a lower sensitivity to model
+\begin{table}
+
+\caption{\label{tab:experiment-performance}The performance of the $32 \times 32$ model on the data used in the human subject experiment.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+Violation & RMSE & $R^2$ & MAE & Huber loss\\
+\midrule
+heteroskedasticity & 0.721 & 0.852 & 0.553 & 0.235\\
+non-linearity & 0.738 & 0.770 & 0.566 & 0.246\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:human-conv-table}Summary of the comparison of decisions made by computer vision model with decisions made by conventional tests and visual tests conducted by human.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Violations & \#Samples & \#Agreements & Agreement rate\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Compared with conventional tests}}\\
+\hspace{1em}heteroskedasticity & 540 & 464 & 0.8593\\
+\hspace{1em}non-linearity & 576 & 459 & 0.7969\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Compared with visual tests conducted by human}}\\
+\hspace{1em}heteroskedasticity & 540 & 367 & 0.6796\\
+\hspace{1em}non-linearity & 576 & 385 & 0.6684\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table \ref{tab:human-conv-table} compares the model's rejection
+decisions with those of conventional tests and human visual tests.
+Agreement rates are 85.95\% for heteroskedasticity cases and 79.69\% for
+non-linearity cases, higher than those observed for human visual tests
+(67.96\% and 66.84\%, respectively). This suggests that the model aligns
+more closely with the best available conventional tests. However, as
+Figure \ref{fig:conv-mosaic} shows, the model does not always reject
+when conventional tests do, indicating a lower sensitivity to model
 violations.
+
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/conv-mosaic-1} 
+
+}
+
+\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
+\end{figure}
 
 To further illustrate these patterns, Figure \ref{fig:pcp} presents
 parallel coordinate plots comparing decisions from human visual tests,
@@ -937,6 +957,15 @@ conventional tests do not, suggesting that while it is more sensitive
 than humans, its rejection behavior is more aligned with human judgment
 than with conventional tests.
 
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/pcp-1} 
+
+}
+
+\caption{Parallel coordinate plots of decisions made by computer vision model, conventional tests and visual tests made by human. All three agree in around 50\% of cases. The model rejects less often than conventional tests when humans do not, and rarely rejects when both others do not, indicating closer alignment with human judgment.}\label{fig:pcp}
+\end{figure}
+
 Figure \ref{fig:power} plots rejection decisions against the true
 distance \(D\). Compared to conventional tests, the computer vision
 model rejects fewer cases when \(D < 4\), but a similar number of cases
@@ -946,6 +975,15 @@ to more substantial violations. Visual tests are the least sensitive
 overall, showing few rejections for \(D < 2\), and requiring a higher
 threshold (\(D > 5\)) for near-universal rejection, compared to
 \(D > 4\) for both the model and conventional tests.
+
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/power-1} 
+
+}
+
+\caption{Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\text{log}(0.05/0.95)$. The model is less sensitive than conventional tests for small $D$ but similarly sensitive for large $D$. Visual tests are least sensitive overall. The model’s curve lies between those of conventional and visual tests.}\label{fig:power}
+\end{figure}
 
 Finally, the power curves in Figure \ref{fig:power} are fitted using
 logistic regression without intercepts and with an offset of
@@ -991,6 +1029,15 @@ distance. This leads to the adjusted \(\delta\)-difference:
 distance for the \(j\)-th null plot, and \(m\) is the number of plots in
 a lineup.
 
+\begin{figure}[!h]
+
+{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/delta-1} 
+
+}
+
+\caption{A weighted detection rate vs adjusted $\delta$-difference plot. The brown line is smoothing curve produced by fitting generalized additive models. Detection generally increases with positive $\delta_{\text{adj}}$, but variability and exceptions highlight the distance measure's imperfect alignment with human perception.}\label{fig:delta}
+\end{figure}
+
 Figure \ref{fig:delta} displays the scatter plot of the weighted
 detection rate against \(\delta_{\text{adj}}\). It shows that weighted
 detection generally increases with \(\delta_{\text{adj}}\), especially
@@ -1006,62 +1053,6 @@ more visually distinctive to humans than the true residual plot. In some
 instances, the weighted detection rate is close to one despite a
 negative \(\delta_{\text{adj}}\). This discrepancy implies that the
 distance measure may not perfectly reflect actual human behavior.
-
-\begin{table}
-
-\caption{\label{tab:human-conv-table}Summary of the comparison of decisions made by computer vision model with decisions made by conventional tests and visual tests conducted by human.}
-\centering
-\begin{tabular}[t]{lrrr}
-\toprule
-Violations & \#Samples & \#Agreements & Agreement rate\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Compared with conventional tests}}\\
-\hspace{1em}heteroskedasticity & 540 & 464 & 0.8593\\
-\hspace{1em}non-linearity & 576 & 459 & 0.7969\\
-\addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Compared with visual tests conducted by human}}\\
-\hspace{1em}heteroskedasticity & 540 & 367 & 0.6796\\
-\hspace{1em}non-linearity & 576 & 385 & 0.6684\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/conv-mosaic-1} 
-
-}
-
-\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
-\end{figure}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/pcp-1} 
-
-}
-
-\caption{Parallel coordinate plots of decisions made by computer vision model, conventional tests and visual tests made by human.}\label{fig:pcp}
-\end{figure}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/power-1} 
-
-}
-
-\caption{Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\text{log}(0.05/0.95)$.}\label{fig:power}
-\end{figure}
-
-\begin{figure}[!h]
-
-{\centering \includegraphics[width=0.8\linewidth]{paper_files/figure-latex/delta-1} 
-
-}
-
-\caption{A weighted detection rate vs adjusted $\delta$-difference plot. The brown line is smoothing curve produced by fitting generalized additive models.}\label{fig:delta}
-\end{figure}
 
 \section{Examples}\label{sec-examples}
 
@@ -1120,7 +1111,7 @@ visually indistinct, aligning with our interpretation of the lineup.
 
 }
 
-\caption{A summary of the residual plot assessment evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The green area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will not be rejected since $\hat{D} < Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model.  }\label{fig:false-check}
+\caption{A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.}\label{fig:false-check}
 \end{figure}
 
 \subsection{Boston Housing}\label{boston-housing}
@@ -1158,7 +1149,7 @@ visual test would also likely reject \(H_0\) in this case.
 
 }
 
-\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluted on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model. }\label{fig:boston-check}
+\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.}\label{fig:boston-check}
 \end{figure}
 
 \subsection{DatasauRus}\label{datasaurus}
@@ -1208,7 +1199,7 @@ supporting them.
 
 }
 
-\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map produced by computing the gradient of the output with respect to the greyscale input.  (C) The density plot of estimated distance for null plots and bootstrapped plots. The blue area indicates the distribution of estimated distances for bootstrapped plots, while the yellow area represents the distribution of estimated distances for null plots. The fitted model will be rejected since $\hat{D} \geq Q_{null}(0.95)$. (D) The scatter plot of first two principal components of features extracted from the global pooling layer of the computer vision model.}\label{fig:dino-check}
+\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model's decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.}\label{fig:dino-check}
 \end{figure}
 
 \begin{figure}[!h]
@@ -1217,7 +1208,7 @@ supporting them.
 
 }
 
-\caption{Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
+\caption{Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; "U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
 \end{figure}
 
 \section{Limitations and Future Work}\label{limitations-and-future-work}
@@ -1309,8 +1300,8 @@ These \texttt{R} packages were used for the work: \texttt{tidyverse}
 \citep{kableextra}, \texttt{patchwork} \citep{patchwork},
 \texttt{rcartocolor} \citep{rcartocolor}, \texttt{glue} \citep{glue},
 \texttt{ggpcp} \citep{ggpcp}, \texttt{here} \citep{here},
-\texttt{magick} \citep{magick}, \texttt{yardstick} \citep{yardstick} and
-\texttt{reticulate} \citep{reticulate}.
+\texttt{magick} \citep{magick}, and \texttt{reticulate}
+\citep{reticulate}.
 
 The article was created with R packages \texttt{rticles}
 \citep{rticles}, \texttt{knitr} \citep{knitr} and \texttt{rmarkdown}
