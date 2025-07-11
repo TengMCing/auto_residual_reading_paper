@@ -30,7 +30,7 @@ bibliography: bibliography.bib
 abstract: |
   Plotting the residuals is a recommended procedure to diagnose deviations from linear model assumptions, such as non-linearity, heteroscedasticity, and non-normality. The presence of structure in residual plots can be tested using the lineup protocol to do visual inference. There are a variety of conventional residual tests, but the lineup protocol, used as a statistical test, performs better for diagnostic purposes because it is less sensitive and applies more broadly to different types of departures. However, the lineup protocol relies on human judgment which limits its scalability. This work presents a solution by providing a computer vision model to automate the assessment of residual plots. It is trained to predict a distance measure that quantifies the disparity between the residual distribution of a fitted classical normal linear regression model and the reference distribution, based on Kullback-Leibler divergence. Evaluation using data from a prior human-subject experiment shows the model exhibits lower sensitivity than conventional tests but higher sensitivity than human visual tests. Several examples from classical papers and contemporary data demonstrate the method's practical utility in automating residual diagnostics.
 keywords: |
-  statistical graphics; data visualization; visual inference; computer vision; machine learning; hypothesis testing; reression analysis; cognitive perception; simulation; practical significance
+  statistical graphics; data visualization; visual inference; computer vision; machine learning; hypothesis testing; regression analysis; cognitive perception; simulation; practical significance
 header-includes: |
   \usepackage{lscape}
   \usepackage{hyperref}
