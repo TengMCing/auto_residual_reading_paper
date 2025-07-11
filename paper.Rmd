@@ -82,7 +82,7 @@ ori_dat %>%
   ylab("Residuals")
 ```
 
-The concept of visual inference, as proposed by @buja2009statistical, provides an inferential framework to assess whether residual plots indeed contain visual patterns inconsistent with the model assumptions. The fundamental idea involves testing whether the true residual plot visually differs significantly from null plots, where null plots are plotted with residuals generated from the residual rotation distribution [@langsrud2005rotation], which is a distribution consistent with the null hypothesis $H_0$ that the linear regression model is correctly specified. Typically, the visual test is accomplished through the lineup protocol, where the true residual plot is embedded within a lineup alongside several null plots. If the true residual plot can be distinguished from the lineup, it provides evidence for rejecting $H_0$.
+The concept of visual inference, as proposed by @buja2009statistical, provides an inferential framework to assess whether residual plots indeed contain visual patterns inconsistent with the model assumptions. The fundamental idea involves testing whether the true residual plot visually differs significantly from the null plots, where null plots are plotted with residuals generated from the residual rotation distribution [@langsrud2005rotation], which is a distribution consistent with the null hypothesis $H_0$ that the linear regression model is correctly specified. Typically, the visual test is accomplished through the lineup protocol, where the true residual plot is embedded within a lineup alongside several null plots. If the true residual plot can be distinguished from the lineup, it provides evidence for rejecting $H_0$.
 
 The practice of delivering a residual plot as a lineup is generally regarded as a valuable approach. Beyond its application in residual diagnostics, the lineup protocol has been integrated into the analysis of diverse subjects. For instance, Loy and Hofmann [-@loy2013diagnostic; -@loy2014hlmdiag; -@loy2015you] illustrated its applicability in diagnosing hierarchical linear models. Additionally, @widen2016graphical and @fieberg2024using demonstrated its utility in geographical and ecology research respectively, while @krishnan2021hierarchical explored its effectiveness in forensic examinations.
 
@@ -106,15 +106,11 @@ There are various specifications of the computer vision model that can be used t
 
 ## Input Formats
 
-Deep learning models are sensitive to input design, and several alternatives are available for encoding residual plots.
-
-A simple approach involves feeding vectors of residuals and fitted values into the model. While this format contains all relevant information, the input length varies with sample size, which conflicts with the fixed-shape requirements of modern vision models such as those implemented in TensorFlow [@abadi2016tensorflow]. Padding can be used to enforce uniform length but risks truncation if inputs exceed the fixed size. Alternatively, fixed-size sampling of residual–fitted value pairs can ensure consistency, though at the cost of some information loss.
+Deep learning models are sensitive to input design, and several alternatives are available for encoding residual plots. A simple approach involves feeding vectors of residuals and fitted values into the model. While this format contains all relevant information, the input length varies with sample size, which conflicts with the fixed-shape requirements of modern vision models such as those implemented in TensorFlow [@abadi2016tensorflow]. Padding can be used to enforce uniform length but risks truncation if inputs exceed the fixed size. Alternatively, fixed-size sampling of residual–fitted value pairs can ensure consistency, though at the cost of some information loss.
 
 Another strategy is to convert residual plots into images. This enables the use of standard convolutional architectures in computer vision such as VGG16 [@simonyan2014very]. Image-based inputs offer a richer representation by preserving the joint distribution of residuals and fitted values in a visually interpretable format, helping models more effectively capture spatial structure and local correlations than vector-based formats. To ensure model generalization, it is essential to use residual plots in a consistent style, i.e., same aesthetics, layout, scaling and color schemes.
 
-Using multiple residual plots as input, such as pairs, triplets, or full lineups is also a possible option. For instance, triplet networks [@chopra2005learning] can assess visual similarity if we assume null plots are more similar to each other than to the true residual plot, which may help distinguish null plots from true residual plots. However, these architectures introduce complexity in training due to weight sharing and specialized loss functions. We experimented with this setting in a pilot study, and found multiple residual plots led to high input resolution, high computational cost and suboptimal model performance.
-
-Balancing accuracy, interpretability, and implementation cost, we adopt a single residual plot in image format as the model input.
+Using multiple residual plots as input, such as pairs, triplets, or full lineups is also a possible option. For instance, triplet networks [@chopra2005learning] can assess visual similarity if we assume null plots are more similar to each other than to the true residual plot, which may help distinguish null plots from true residual plots. However, these architectures introduce complexity in training due to weight sharing and specialized loss functions. We experimented with this setting in a pilot study, and found multiple residual plots led to high input resolution, high computational cost and suboptimal model performance. Balancing accuracy, interpretability, and implementation cost, we adopt a single residual plot in image format as the model input.
 
 ## Output Formats
 
@@ -266,7 +262,7 @@ Further details, including mathematical formulations of the  synthetic data mode
 
 Table \ref{tab:performance} summarizes the test performance of optimized models using three input sizes. The $32 \times 32$ model consistently outperformed others, with a mean absolute error of approximately $0.43$, a negligible deviation given the typical $D$ range of $0$ to $7$. High $R^2$ values also indicated strong linear correlation between predictions and targets. Based on these results, we used the best-performing $32 \times 32$ model for subsequent analyses.
 
-Figure \ref{fig:model-performance} shows a hexagonal heatmap of $D - \hat{D}$ versus $D$. Smoothing curves (fitted by generalized additive models [@hastie2017generalized]) reveal that all models performed well for $1.5 < D < 6$, where no structural issues were observed. Over-prediction occurred when $D < 1.5$, and under-prediction primarily when $\hat{D} > 6$.
+Figure \ref{fig:model-performance} shows a hexagonal heatmap of $D - \hat{D}$ versus $D$. Smoothing curves [fitted by generalized additive models, @hastie2017generalized] reveal that all models performed well for $1.5 < D < 6$, where no structural issues were observed. Over-prediction occurred when $D < 1.5$, and under-prediction primarily when $\hat{D} > 6$.
 
 For null plots ($D = 0$), over-prediction was expected (see Section \ref{sec-model-lineup-evaluation}), but not under-prediction. Therefore, we analysed the relationship between residuals and all the factors involved in the data generating process. We found that most deviations stemmed from non-linearity and the presence of a second predictor in the synthetic data model, where small $\varepsilon$ variances caused under-predictions and large $\varepsilon$ variances caused over-prediction, as illustrated in Figure \ref{fig:over-under}. 
 
@@ -680,7 +676,7 @@ Finally, the power curves in Figure \ref{fig:power} are fitted using logistic re
 
 ### Adjusted $\delta$-difference
 
-In the experiment conducted by @li2024plot, participants could select multiple plots per lineup. To reflect detection confidence, a weighted detection rate was computed for each lineup: selecting zero plots yielded a weight of 0.05; otherwise, if the true residual plot was selected, its weight was $1 / \text{(number of selections)}$. 
+In the experiment conducted by @li2024plot, participants could select multiple plots per lineup. To reflect detection confidence, a weighted detection rate was computed for each lineup: selecting zero plots yielded a weight of 0.05; otherwise, if the true residual plot was selected, its weight was the inverse of the number of selections. 
 
 To evaluate the proposed distance measure, we could examine the relationship between the weighted detection rate and the $\delta$-difference statistic from @chowdhury2018measuring:
 
