@@ -63,14 +63,12 @@
 Models}
 
 
-\author{\name{Weihao Li$^{a, b}$, Dianne Cook$^{a}$, Emi Tanaka$^{a, b,
-c}$, Susan VanderPlas$^{d}$, Klaus Ackermann$^{a}$}
+\author{\name{Weihao Li$^{a, b}$, Dianne Cook$^{a}$, Emi
+Tanaka$^{b}$, Susan VanderPlas$^{c}$, Klaus Ackermann$^{a}$}
 \affil{$^{a}$Department of Econometrics and Business Statistics, Monash
-University, Clayton, VIC, Australia; $^{b}$Biological Data Science
-Institute, Australian National University, Acton, ACT,
-Australia; $^{c}$Research School of Finance, Actuarial Studies and
-Statistics, Australian National University, Acton, ACT,
-Australia; $^{d}$Department of Statistics, University of Nebraska,
+University, Clayton, VIC, Australia; $^{b}$Research School of Finance,
+Actuarial Studies and Statistics, Australian National University, Acton,
+ACT, Australia; $^{c}$Department of Statistics, University of Nebraska,
 Lincoln, Nebraska, USA}
 }
 
@@ -101,7 +99,7 @@ automating residual diagnostics.
 
 \begin{keywords}
 statistical graphics; data visualization; visual inference; computer
-vision; machine learning; hypothesis testing; reression analysis;
+vision; machine learning; hypothesis testing; regression analysis;
 cognitive perception; simulation; practical significance
 \end{keywords}
 
@@ -140,8 +138,8 @@ The concept of visual inference, as proposed by
 \citet{buja2009statistical}, provides an inferential framework to assess
 whether residual plots indeed contain visual patterns inconsistent with
 the model assumptions. The fundamental idea involves testing whether the
-true residual plot visually differs significantly from null plots, where
-null plots are plotted with residuals generated from the residual
+true residual plot visually differs significantly from the null plots,
+where null plots are plotted with residuals generated from the residual
 rotation distribution \citep{langsrud2005rotation}, which is a
 distribution consistent with the null hypothesis \(H_0\) that the linear
 regression model is correctly specified. Typically, the visual test is
@@ -230,12 +228,11 @@ focusing on the input and the output formats.
 \subsection{Input Formats}\label{input-formats}
 
 Deep learning models are sensitive to input design, and several
-alternatives are available for encoding residual plots.
-
-A simple approach involves feeding vectors of residuals and fitted
-values into the model. While this format contains all relevant
-information, the input length varies with sample size, which conflicts
-with the fixed-shape requirements of modern vision models such as those
+alternatives are available for encoding residual plots. A simple
+approach involves feeding vectors of residuals and fitted values into
+the model. While this format contains all relevant information, the
+input length varies with sample size, which conflicts with the
+fixed-shape requirements of modern vision models such as those
 implemented in TensorFlow \citep{abadi2016tensorflow}. Padding can be
 used to enforce uniform length but risks truncation if inputs exceed the
 fixed size. Alternatively, fixed-size sampling of residual--fitted value
@@ -261,10 +258,9 @@ However, these architectures introduce complexity in training due to
 weight sharing and specialized loss functions. We experimented with this
 setting in a pilot study, and found multiple residual plots led to high
 input resolution, high computational cost and suboptimal model
-performance.
-
-Balancing accuracy, interpretability, and implementation cost, we adopt
-a single residual plot in image format as the model input.
+performance. Balancing accuracy, interpretability, and implementation
+cost, we adopt a single residual plot in image format as the model
+input.
 
 \subsection{Output Formats}\label{output-formats}
 
@@ -766,10 +762,10 @@ between predictions and targets. Based on these results, we used the
 best-performing \(32 \times 32\) model for subsequent analyses.
 
 Figure \ref{fig:model-performance} shows a hexagonal heatmap of
-\(D - \hat{D}\) versus \(D\). Smoothing curves (fitted by generalized
-additive models \citep{hastie2017generalized}) reveal that all models
-performed well for \(1.5 < D < 6\), where no structural issues were
-observed. Over-prediction occurred when \(D < 1.5\), and
+\(D - \hat{D}\) versus \(D\). Smoothing curves \citep[fitted by
+generalized additive models,][]{hastie2017generalized} reveal that all
+models performed well for \(1.5 < D < 6\), where no structural issues
+were observed. Over-prediction occurred when \(D < 1.5\), and
 under-prediction primarily when \(\hat{D} > 6\).
 
 For null plots (\(D = 0\)), over-prediction was expected (see Section
@@ -999,7 +995,7 @@ In the experiment conducted by \citet{li2024plot}, participants could
 select multiple plots per lineup. To reflect detection confidence, a
 weighted detection rate was computed for each lineup: selecting zero
 plots yielded a weight of 0.05; otherwise, if the true residual plot was
-selected, its weight was \(1 / \text{(number of selections)}\).
+selected, its weight was the inverse of the number of selections.
 
 To evaluate the proposed distance measure, we could examine the
 relationship between the weighted detection rate and the
