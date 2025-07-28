@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: tfcad.bst
+Database file #1: bibliography.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty organization and address in rticles
+Warning--empty organization and address in datasaurus
+Warning--there's a number but no series in davison1997bootstrap
+Warning--empty organization and address in Albrecht2023interp
+Warning--empty journal in hailesilassie2019financial
+Warning--empty organization and address in glue
+Warning--empty organization and address in ggpcp
+Warning--empty organization and address in ggmosaic
+Warning--empty organization and address in mason2022cassowaryr
+Warning--empty organization and address in here
+Warning--empty organization and address in rcartocolor
+Warning--empty organization and address in magick
+Warning--empty organization and address in patchwork
+Warning--can't use both volume and number fields in tukey1985computer
+Warning--empty organization and address in reticulate
+Warning--empty organization and address in kableextra
+You've used 68 entries,
+            3285 wiz_defined-function locations,
+            1058 strings with 18197 characters,
+and the built_in function-call counts, 41760 in all, are:
+= -- 3509
+> -- 1986
+< -- 3
++ -- 913
+- -- 582
+* -- 3015
+:= -- 6293
+add.period$ -- 291
+call.type$ -- 68
+change.case$ -- 552
+chr.to.int$ -- 69
+cite$ -- 84
+duplicate$ -- 3159
+empty$ -- 3032
+format.name$ -- 690
+if$ -- 8444
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 636
+newline$ -- 211
+num.names$ -- 205
+pop$ -- 1573
+preamble$ -- 1
+purify$ -- 517
+quote$ -- 0
+skip$ -- 1290
+stack$ -- 0
+substring$ -- 1707
+swap$ -- 1480
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 394
+warning$ -- 16
+while$ -- 286
+width$ -- 0
+write$ -- 749
+(There were 16 warnings)

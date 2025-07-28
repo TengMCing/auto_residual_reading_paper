@@ -1,0 +1,37 @@
+\begin{thebibliography}{10}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\normalfont{#1}}
+\providecommand{\urlprefix}{}
+
+\bibitem[Abadi et~al.(2016)]{abadi2016tensorflow}
+Abadi, Mart{\'\i}n, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen, Craig Citro, Greg~S Corrado, et~al. 2016. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems.'' \emph{arXiv preprint arXiv:1603.04467} .
+
+\bibitem[Chollet et~al.(2015)]{chollet2015keras}
+Chollet, Fran\c{c}ois, et~al. 2015. ``Keras.'' \url{https://keras.io}.
+
+\bibitem[Chollet(2021)]{chollet2021deep}
+Chollet, Francois. 2021. \emph{Deep learning with Python}. Simon and Schuster.
+
+\bibitem[Goodfellow, Bengio, and Courville(2016)]{goodfellow2016deep}
+Goodfellow, Ian, Yoshua Bengio, and Aaron Courville. 2016. \emph{Deep learning}. MIT press.
+
+\bibitem[Goscinski et~al.(2014)]{goscinski2014multi}
+Goscinski, Wojtek~J, Paul McIntosh, Ulrich Felzmann, Anton Maksimenko, Christopher~J Hall, Timur Gureyev, Darren Thompson, et~al. 2014. ``The multi-modal Australian ScienceS Imaging and Visualization Environment (MASSIVE) high performance computing infrastructure: applications in neuroscience and neuroinformatics research.'' \emph{Frontiers in Neuroinformatics} 8: 30.
+
+\bibitem[Hermite(1864)]{hermite1864nouveau}
+Hermite, M. 1864. \emph{Sur un nouveau d{\'e}veloppement en s{\'e}rie des fonctions}. Imprimerie de Gauthier-Villars.
+
+\bibitem[Li et~al.(2024)]{li2024plot}
+Li, Weihao, Dianne Cook, Emi Tanaka, and Susan VanderPlas. 2024. ``A plot is worth a thousand tests: Assessing residual diagnostics with the lineup protocol.'' \emph{Journal of Computational and Graphical Statistics} 1--19.
+
+\bibitem[Nair and Hinton(2010)]{nair2010rectified}
+Nair, Vinod, and Geoffrey~E Hinton. 2010. ``Rectified linear units improve restricted boltzmann machines.'' In \emph{Proceedings of the 27th international conference on machine learning (ICML-10)}, 807--814.
+
+\bibitem[O'Malley et~al.(2019)]{omalley2019kerastuner}
+O'Malley, Tom, Elie Bursztein, James Long, Fran\c{c}ois Chollet, Haifeng Jin, Luca Invernizzi, et~al. 2019. ``Keras {Tuner}.'' \url{https://github.com/keras-team/keras-tuner}.
+
+\bibitem[Srivastava et~al.(2014)]{srivastava2014dropout}
+Srivastava, Nitish, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan Salakhutdinov. 2014. ``Dropout: a simple way to prevent neural networks from overfitting.'' \emph{The journal of machine learning research} 15 (1): 1929--1958.
+
+\end{thebibliography}
