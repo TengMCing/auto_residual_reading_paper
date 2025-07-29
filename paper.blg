@@ -14,51 +14,49 @@ Warning--empty organization and address in ggpcp
 Warning--empty organization and address in ggmosaic
 Warning--empty organization and address in mason2022cassowaryr
 Warning--empty organization and address in here
-Warning--empty organization and address in rcartocolor
-Warning--empty organization and address in magick
 Warning--empty organization and address in patchwork
 Warning--can't use both volume and number fields in tukey1985computer
 Warning--empty organization and address in reticulate
 Warning--empty organization and address in kableextra
-You've used 68 entries,
+You've used 66 entries,
             3285 wiz_defined-function locations,
-            1058 strings with 18197 characters,
-and the built_in function-call counts, 41760 in all, are:
-= -- 3509
-> -- 1986
+            1048 strings with 17961 characters,
+and the built_in function-call counts, 40962 in all, are:
+= -- 3439
+> -- 1966
 < -- 3
-+ -- 913
-- -- 582
-* -- 3015
-:= -- 6293
-add.period$ -- 291
-call.type$ -- 68
-change.case$ -- 552
-chr.to.int$ -- 69
-cite$ -- 84
-duplicate$ -- 3159
-empty$ -- 3032
-format.name$ -- 690
-if$ -- 8444
++ -- 905
+- -- 576
+* -- 2959
+:= -- 6155
+add.period$ -- 283
+call.type$ -- 66
+change.case$ -- 540
+chr.to.int$ -- 67
+cite$ -- 80
+duplicate$ -- 3093
+empty$ -- 2966
+format.name$ -- 684
+if$ -- 8288
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 636
-newline$ -- 211
-num.names$ -- 205
-pop$ -- 1573
+missing$ -- 624
+newline$ -- 205
+num.names$ -- 199
+pop$ -- 1549
 preamble$ -- 1
-purify$ -- 517
+purify$ -- 507
 quote$ -- 0
-skip$ -- 1290
+skip$ -- 1262
 stack$ -- 0
-substring$ -- 1707
-swap$ -- 1480
+substring$ -- 1681
+swap$ -- 1456
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 394
-warning$ -- 16
-while$ -- 286
+type$ -- 382
+warning$ -- 14
+while$ -- 280
 width$ -- 0
-write$ -- 749
-(There were 16 warnings)
+write$ -- 727
+(There were 14 warnings)
