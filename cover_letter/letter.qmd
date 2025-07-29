@@ -32,6 +32,8 @@ The paper also shows that the model, like human observers, relies on visual patt
 
 We have no conflict of interest to disclose.
 
+We understand that the Journal of Computational and Graphical Statistics now uses a single-anonymous peer review system by default, with an option for authors to opt into double-anonymous review. We intend to proceed with the single-anonymous review, and thus our manuscript includes full author information. Since the submission system requires uploading two PDF files, one with author details and one anonymized, please note that the anonymized version is identical to the version containing author information.
+
 Please address all corresponding concerning this manuscript to me at patrick.li@anu.edu.au.
 
 Thank you for the consideration of this manuscript. We believe that it is a good fit for the Journal of Computational and Graphical Statistics.
