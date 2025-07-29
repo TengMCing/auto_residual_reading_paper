@@ -232,7 +232,7 @@ Alternatively, since each $M_{boot}^{(i)}$ has its own residual distribution, a 
 The architecture of the computer vision model $f_{CV}$ is adapted from the well-established VGG16 architecture [@simonyan2014very]. While more recent architectures like ResNet [@he2016deep] and DenseNet[@huang2017densely], have achieved even greater performance, VGG16 remains a solid choice for many applications due to its simplicity and effectiveness. Our decision to use VGG16 aligns with our goal of starting with a proven and straightforward model. Figure \ref{fig:cnn-diag} provides a diagram of the architecture. More details about the neural network layers used in this study are provided in the Appendix B.
 
 ```{r cnn-diag, fig.pos = "!h", fig.cap = "Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.", out.width = "100%"}
-magick::image_read_pdf("figures/cnn.pdf")
+knitr::include_graphics("figures/cnn.pdf")
 ```
 
 The model begins with an input layer of shape $n \times h \times w \times 3$, capable of handling $n$ RGB images. This is followed by a grayscale conversion layer using the luma formula under the Rec. 601 standard [@series2011studio], which converts the color image to grayscale. Grayscale suffices for our task since data points are plotted in black. We experiment with three combinations of $h$ and $w$: $32 \times 32$, $64 \times 64$, and $128 \times 128$, aiming to achieve sufficiently high image resolution for the problem at hand.
@@ -296,7 +296,7 @@ train_summary <- train_pred %>%
 ```{r}
 test_summary %>%
   select(res, RMSE, R2, MAE, HUBER) %>%
-  mutate(res = glue::glue("${res} \\times {res}$")) %>%
+  mutate(res = glue("${res} \\times {res}$")) %>%
   mutate(across(RMSE:MAE, ~format(.x, digits = 3))) %>%
   mutate(across(HUBER, ~format(.x, digits = 2))) %>%
   kableExtra::kable(format = "latex",
@@ -761,7 +761,7 @@ my_vi$check_result <- readRDS(here::here("cached_data/fig1_check.rds"))
 
 ```{r}
 define_gradient <- function() {
-  reticulate::py_run_string(glue::glue(
+  reticulate::py_run_string(glue(
 "
 import tensorflow as tf
 import PIL
@@ -889,11 +889,11 @@ if (!file.exists(here::here("cached_data/fig1_attention_map.rds"))) {
 
 
 ```{r false-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.', fig.height = 8, out.width = "80%"}
-p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue::glue("(A) Residual plot")) 
+p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here::here("cached_data/fig1_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
-  annotate("text", x = 2.8, y = 1.25, label = glue::glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
-  ggtitle("(C) Density plot of estimated D", subtitle = glue::glue("Conventional p-value = {format(HETER_MODEL$test(dat)$p_value, digits = 3)}")) +
+  annotate("text", x = 2.8, y = 1.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
+  ggtitle("(C) Density plot of estimated D", subtitle = glue("Conventional p-value = {format(HETER_MODEL$test(dat)$p_value, digits = 3)}")) +
   theme(legend.position = "bottom") +
   labs(linetype = "") +
   xlab(expression(hat(D))) +
@@ -912,8 +912,8 @@ p4 <- pca_result %>%
   geom_text(data = ~filter(.x, set == "observed"), aes(PC1, PC2, label = "Observed"), nudge_x = 10) +
   theme_light() +
   scale_color_brewer(palette = "Dark2") +
-  xlab(glue::glue("PC1 ({scales::percent(pc1_per)})")) +
-  ylab(glue::glue("PC2 ({scales::percent(pc2_per)})")) +
+  xlab(glue("PC1 ({scales::percent(pc1_per)})")) +
+  ylab(glue("PC2 ({scales::percent(pc2_per)})")) +
   labs(col = "") +
   theme(legend.position = "bottom") +
   ggtitle("(D) PCA for extracted features") +
@@ -1012,11 +1012,11 @@ if (!file.exists(here::here("cached_data/boston_attention_map.rds"))) {
 
 
 ```{r boston-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.', fig.height = 8, out.width = "80%"}
-p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue::glue("(A) Residual plot")) 
+p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here::here("cached_data/boston_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
-    annotate("text", x = 6, y = 2.25, label = glue::glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
-  ggtitle("(C) Density plot of estimated D", subtitle = glue::glue("Conventional p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}")) +
+    annotate("text", x = 6, y = 2.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
+  ggtitle("(C) Density plot of estimated D", subtitle = glue("Conventional p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}")) +
   theme(legend.position = "bottom") +
   labs(linetype = "") +
   xlab(expression(hat(D))) +
@@ -1035,8 +1035,8 @@ p4 <- pca_result %>%
   geom_text(data = ~filter(.x, set == "observed"), aes(PC1, PC2, label = "Observed"), nudge_x = 7) +
   theme_light() +
   scale_color_brewer(palette = "Dark2") +
-  xlab(glue::glue("PC1 ({scales::percent(pc1_per)})")) +
-  ylab(glue::glue("PC2 ({scales::percent(pc2_per)})")) +
+  xlab(glue("PC1 ({scales::percent(pc1_per)})")) +
+  ylab(glue("PC2 ({scales::percent(pc2_per)})")) +
   labs(col = "") +
   theme(legend.position = "bottom") +
   ggtitle("(D) PCA for extracted features") +
@@ -1141,11 +1141,11 @@ if (!file.exists(here::here("cached_data/dino_attention_map.rds"))) {
 
 ```{r dino-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model\'s decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.', fig.height = 8, out.width = "80%"}
 
-p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue::glue("(A) Residual plot")) 
+p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here::here("cached_data/dino_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
-    annotate("text", x = 6, y = 1.25, label = glue::glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
-  ggtitle("(C) Density plot of estimated D", subtitle = glue::glue("RESET test p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}\n Breusch-Pagan test p-value = {format(lmtest::bptest(mod)$p.value, digits = 3)} \n Shapiro-Wilk test p-value = {format(shapiro.test(mod$residuals)$p.value, digits = 3)}")) +
+    annotate("text", x = 6, y = 1.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
+  ggtitle("(C) Density plot of estimated D", subtitle = glue("RESET test p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}\n Breusch-Pagan test p-value = {format(lmtest::bptest(mod)$p.value, digits = 3)} \n Shapiro-Wilk test p-value = {format(shapiro.test(mod$residuals)$p.value, digits = 3)}")) +
   theme(legend.position = "bottom") +
   labs(linetype = "") +
   xlab(expression(hat(D))) +
@@ -1164,8 +1164,8 @@ p4 <- pca_result %>%
   geom_text(data = ~filter(.x, set == "observed"), aes(PC1, PC2, label = "Observed"), nudge_x = -10) +
   theme_light() +
   scale_color_brewer(palette = "Dark2") +
-  xlab(glue::glue("PC1 ({scales::percent(pc1_per)})")) +
-  ylab(glue::glue("PC2 ({scales::percent(pc2_per)})")) +
+  xlab(glue("PC1 ({scales::percent(pc1_per)})")) +
+  ylab(glue("PC2 ({scales::percent(pc2_per)})")) +
   labs(col = "", shape = "") +
   theme(legend.position = "bottom", legend.box="vertical") +
   ggtitle("(D) PCA for extracted features") +
@@ -1229,14 +1229,18 @@ Overall, our approach offers a practical tool to support regression diagnostics 
 \item{Appendix:} The appendix includes more details about the synthetic data generation process, neural network layers used in the work, model training, and model violation index. (appendix.pdf, Portable Document Format file)
 \end{description}
 
-
-
 # Acknowledgement {-}
 
-These `R` packages were used for the work: `tidyverse` [@tidyverse], `lmtest` [@lmtest], `mpoly` [@mpoly], `ggmosaic` [@ggmosaic], `kableExtra` [@kableextra], `patchwork` [@patchwork], `rcartocolor` [@rcartocolor], `glue` [@glue], `ggpcp` [@ggpcp], `here` [@here], `magick` [@magick], and `reticulate` [@reticulate]. 
+These `R` packages were used for the work: `tidyverse` [@tidyverse], `lmtest` [@lmtest], `mpoly` [@mpoly], `ggmosaic` [@ggmosaic], `kableExtra` [@kableextra], `patchwork` [@patchwork], `glue` [@glue], `ggpcp` [@ggpcp], `here` [@here], and `reticulate` [@reticulate]. 
 
 The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's GitHub repository (https://github.com/TengMCing/auto_residual_reading_paper) contains all materials required to reproduce this article.
+
+# Data Availability Statement {-}
+
+The data that support the findings of this study are openly available in the project's GitHub repository (https://github.com/TengMCing/auto_residual_reading_paper).
 
 # Disclosure Statement {-}
 
 No potential conflict of interest was reported by the author(s).
+
+
