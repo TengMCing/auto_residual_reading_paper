@@ -1235,6 +1235,8 @@ These `R` packages were used for the work: `tidyverse` [@tidyverse], `lmtest` [@
 
 The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's GitHub repository (https://github.com/TengMCing/auto_residual_reading_paper) contains all materials required to reproduce this article.
 
+We acknowledge the use of ChatGPT (OpenAI, GPT-4, accessed July 2025) to improve the clarity and fluency of the manuscript text. All content was reviewed and verified by the authors to ensure accuracy and integrity.
+
 # Data Availability Statement {-}
 
 The data that support the findings of this study are openly available in the project's GitHub repository (https://github.com/TengMCing/auto_residual_reading_paper).
