@@ -15,7 +15,7 @@ address:
   - Journal of Computational and Graphical Statistics
 title: Letter from ANU
 opening: "Dear Prof. Chen and Prof. Sangalli,"
-closing: "Sincerely,"
+closing: ""
 keep-tex: true
 ---
 
@@ -35,3 +35,34 @@ We have no conflict of interest to disclose.
 Please address all corresponding concerning this manuscript to me at patrick.li@anu.edu.au.
 
 Thank you for the consideration of this manuscript. We believe that it is a good fit for the Journal of Computational and Graphical Statistics.
+
+Sincerely,
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+Dr. Weihao Li\newline
+Postdoctoral Research Fellow, Research School of Finance, Actuarial Studies and Statistics\newline
+Australian National University
+
+Co-author
+
+Prof. Dianne Cook\newline
+Professor, Department of Econometrics and Business Statistics\newline
+Monash University
+
+Dr. Emi Tanaka\newline
+Senior Lecturer, Research School of Finance, Actuarial Studies and Statistics\newline
+Australian National University
+
+Dr. Susan VanderPlas\newline
+Associate Professor, Department of Statistics\newline
+University of Nebraska
+
+Dr. Klaus Ackermann\newline
+Associate Professor, Department of Econometrics and Business Statistics\newline
+Monash University
