@@ -153,7 +153,7 @@ D = \log\left(1 + D_{KL}\right),
 where $D_{KL}$ is defined as
 
 \begin{equation} \label{eq:kl-1}
-D_{KL} = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
+D_{KL}(p || q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
 \end{equation}
 
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for distribution $P$ and distribution $Q$, respectively.
@@ -174,7 +174,7 @@ D_{KL} = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\boldsymbol{R
 
 For non-normal error $\boldsymbol{\varepsilon}$, the true residual distribution $P$ is unlikely to be a multivariate normal distribution. Thus, Equation \ref{eq:kl-2} given in @li2024plot will not be applicable to models violating the normality assumption. 
 
-To evaluate the Kullback-Leibler divergence of non-normal $P$ from $Q$, the fallback is to solve Equation \ref{eq:kl-1} numerically. However, since $\boldsymbol{e}$ is a linear transformation of non-normal random variables, it is very common that the general form of $P$ is unknown, meaning that we can not easily compute $p(\boldsymbol{e})$ using a well-known probability density function. Additionally, even if $p(\boldsymbol{e})$ can be calculated for any $\boldsymbol{e} \in \mathbb{R}^n$, it will be very difficult to do numerical integration over the $n$-dimensional space, because $n$ could be potentially very large.   
+To evaluate the Kullback-Leibler divergence of non-normal $P$ from $Q$, the fallback is to evaluate Equation \ref{eq:kl-1} numerically. However, since $\boldsymbol{e}$ is a linear transformation of non-normal random variables, it is very common that the general form of $P$ is unknown, meaning that we can not easily compute $p(\boldsymbol{e})$ using a well-known probability density function. Additionally, even if $p(\boldsymbol{e})$ can be calculated for any $\boldsymbol{e} \in \mathbb{R}^n$, it will be very difficult to do numerical integration over the $n$-dimensional space, because $n$ could be potentially very large.   
 
 In order to approximate $D_{KL}$ in a practically computable manner, the elements of $\boldsymbol{e}$ are assumed to be independent of each other. This assumption solves both of the issues mentioned above. First, we no longer need to integrate over $n$ random variables. The result of Equation \ref{eq:kl-1} is now the sum of the Kullback-Leibler divergence evaluated for each individual residual due to the assumption of independence between observations. Second, it is not required to know the joint probability density $p(\boldsymbol{e})$ any more. Instead, the evaluation of Kullback-Leibler divergence for an individual residual relies on the knowledge of the marginal density $p_i(e_i)$, where $e_i$ is the $i$-th residual for $i = 1, ..., n$. This is much easier to approximate through simulation. It is also worth mentioning that this independence assumption generally will not hold if $\text{cov}(e_i, e_j) \neq 0$ for any $1 \leq i < j \leq n$, but its existence is essential for reducing the computational cost.
 
