@@ -8,7 +8,6 @@ environments: [reviewer]
 commands: [deemph, review]
 format: 
   pdf:
-    keep-tex: true
     include-in-header:
       text: | 
        \usepackage[dvipsnames]{xcolor}
@@ -28,7 +27,7 @@ format:
 
 ---
 
-I thank the editor and the reviewer for their constructive comments that have improved this paper. I have addressed all comments, colored in [purple]{.review}. In addition, I also include an annotated version of the paper (`diff.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
+We thank the editor and the reviewer for their constructive comments that have improved this paper. We have addressed all comments, colored in [purple]{.review}. In addition, we also include an annotated version of the paper (`diff.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
 
 
 
