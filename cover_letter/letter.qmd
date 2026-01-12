@@ -1,0 +1,70 @@
+---
+format: quarto-anu-letter-pdf
+author:
+  - name: "\u200B" # I need to sign this
+    position: Postdoctoral Research Fellow 
+    affiliation:
+      - name: Australian National University
+        department: Research School of Finance, Actuarial Studies and Statistics
+        address: "26C Kingsley Street"  
+        city: Canberra
+        country: Australia
+        postal-code: 2600
+address:
+  - Editors,
+  - Journal of Computational and Graphical Statistics
+title: Letter from ANU
+opening: "Dear Prof. Chen and Prof. Sangalli,"
+closing: ""
+keep-tex: true
+---
+
+
+Please consider our manuscript "Automated Assessment of Residual Plots with Computer Vision Models" for publication in the Journal of Computational and Graphical Statistics. 
+
+We confirm that this work is original and has not been published elsewhere, nor is it currently under consideration for publication elsewhere.
+
+This paper describes a new computer vision model that can automatically read residual plots, it's architecture and performance relative to human evaluation and classical hypothesis testing. Our previous work, "A Plot is Worth a Thousand Tests: Assessing Residual Diagnostics with the Lineup Protocol" (JCGS, 2024), described interesting findings about human evaluations of residual plots relative to classical hypothesis testing, discovered when building training samples for the computer vision model described in our new paper. The computer vision model described in this new submission was our primary research goal. 
+
+We specifically trained a custom model to predict a specified distance measure that quantifies the discrepancy between residuals and theoretically "good" distributions. Building on these predictions, we construct a statistical testing framework aligned with the original lineup protocol, ensuring a valid visual test. Despite substantial experimentation, we could not manage to get a computer vision model to perform quite as well as the human evaluations. It is slightly more sensitive, flagging more residual plots as bad. However, as a computer model, it can process substantially more residual plots than is possible through human evaluation. Relative to statistical tests (Breusch-Pagan, Ramsey RESET, Shapiro-Wilk) it performs substantially better, is less sensitive to small departures, and jointly assesses a variety of departures (heteroscedasticity, non-linearity, non-normality).
+
+The paper also shows that the model, like human observers, relies on visual patterns and shapes, making it a practical tool for reducing manual effort in residual plot diagnostics. This approach would be of particular interest to readers concerned with model diagnostics and the automation of visual data analysis. It represents a new direction for statistical graphics research that engages with new computational tools. There is a shiny app and R package available to support access and use of the computer vision model, and this is documented in a special issue of the Australian and New Zealand Journal of Statistics that celebrates 25 years of R, to appear later this year. 
+
+We have no conflict of interest to disclose.
+
+We understand that the Journal of Computational and Graphical Statistics now uses a single-anonymous peer review system by default, with an option for authors to opt into double-anonymous review. We intend to proceed with the single-anonymous review, and thus our manuscript includes full author information. Since the submission system requires uploading two PDF files, one with author details and one anonymized, please note that the anonymized version is identical to the version containing author information.
+
+Please address all corresponding concerning this manuscript to me at patrick.li@anu.edu.au.
+
+Thank you for the consideration of this manuscript. We believe that it is a good fit for the Journal of Computational and Graphical Statistics.
+
+Sincerely,
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+Dr. Weihao Li\newline
+Postdoctoral Research Fellow, Research School of Finance, Actuarial Studies and Statistics\newline
+Australian National University
+
+Co-author
+
+Prof. Dianne Cook\newline
+Professor, Department of Econometrics and Business Statistics\newline
+Monash University
+
+Dr. Emi Tanaka\newline
+Senior Lecturer, Research School of Finance, Actuarial Studies and Statistics\newline
+Australian National University
+
+Dr. Susan VanderPlas\newline
+Associate Professor, Department of Statistics\newline
+University of Nebraska
+
+Dr. Klaus Ackermann\newline
+Associate Professor, Department of Econometrics and Business Statistics\newline
+Monash University
