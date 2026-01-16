@@ -56,7 +56,7 @@ setups explicitly defined from the very beginning of the article.
 
 :::
 
-The lineup protocol was first introduced in Buja XXXX and used across a number of literatures to assess statistical graphics. We explain in XXXX.
+The lineup protocol was first introduced in Buja XXXX and used across a number of literature to assess statistical graphics. We explain in XXXX.
 
 ::: reviewer
 
@@ -64,7 +64,7 @@ The lineup protocol was first introduced in Buja XXXX and used across a number o
 
 :::
 
-We are unsure what this refers to as the reference is shown in our submission.
+We are unsure what this refers to as these three references are already cited in our submission.
 
 ::: reviewer
 
@@ -86,7 +86,7 @@ We have added modified $D_{KL}$ to $D_{KL}(p || q)$, thank you.
 
 :::
 
-We have modified "solve" to "evaulate", thank you.
+We have modified "solve" to "evaluate", thank you.
 
 
 
@@ -138,4 +138,4 @@ data of ˆD and residual plots.
 :::
 
 
-We are again unsure what this refers to as the equation numbering is shown in our submission and the reviewer makes reference to equation numbers above.
+We are unsure what this refers to as the equation numbering is shown in our submission and the reviewer makes reference to equation numbers above.
