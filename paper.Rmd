@@ -123,7 +123,6 @@ Modern computer vision models rely on deep neural networks with convolutional la
 In this paper, we develop computer vision models and integrate them into the residual plots diagnostics workflow, addressing the need for an automated visual inference. XXX 1. Define the outcome variable (label) clearly (classification/regression), 2. Explain how training data is created (dataset generation of residual plots + labels + what type of residual plot), 3. Specify the learning formulation and model (which CV + input resolution), 4. Define performance evaluation clearly (Metrics + Baselines) somthing like "We formulate residual-plot diagnosis as a supervised classification task. The input is a residual diagnostic plot; the output is the violation type (K classes). Training data are generated using simulated DGPs with known violations. Performance is evaluated using held-out test plots and compared to classical diagnostic tests and expert judgments."
 
 
-
 The paper is structured as follows. Section \ref{sec-model-specifications} discusses various specifications of the computer vision models. Section \ref{sec-model-distance-between-residual-plots} defines the distance measure used to detect model violations, while Section \ref{sec-model-distance-estimation} explains how the computer vision models estimate this distance measure. Section \ref{sec-model-statistical-testing} covers the statistical tests based on the estimated distance. Sections \ref{sec-model-architecture} and \ref{sec-model-data-generation} describe the model architecture and the corresponding data generation and training process, respectively. The results are presented in Section \ref{sec-model-results}. Example dataset applications are discussed in Section \ref{sec-examples}. Finally, we conclude with a discussion of our findings and propose ideas for future research directions.
 
 
@@ -170,7 +169,7 @@ For a classical normal linear regression model, $\boldsymbol{y} = \boldsymbol{X}
 
 One of the assumptions of the classical normal linear regression model is that the error $\boldsymbol{e}$ follows a multivariate normal distribution with zero mean and constant variance, i.e., $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$. It follows that the distribution of residuals $\hat{\boldsymbol{e}}$ can be characterized by a certain probability distribution, denoted as $Q$, which is transformed from the multivariate normal distribution. This reference distribution $Q$ summarizes what "good" residuals should follow given the design matrix $\boldsymbol{X}$ is known and fixed.
 
-Suppose the design matrix $\boldsymbol{X}$ has linearly independent columns, the trace of the hat matrix $\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$ equals the number of columns in $\boldsymbol{X}$ denoted as $k$. As a result, the rank of $\boldsymbol{R}$ is $n - k$, and $Q$ is a degenerate multivariate distribution. To capture the characteristics of $Q$, such as moments, we can simulate a large number of $\boldsymbol{\varepsilon}$ and transform it to $\boldsymbol{e}$ to get the empirical estimates. For the purpose of this study, we replaced the variance-covariance matrix of residuals $\text{cov}(\boldsymbol{e}, \boldsymbol{e}) = \boldsymbol{R}\sigma^2\boldsymbol{R}^\top = \boldsymbol{R}\sigma^2$ with a full-rank diagonal matrix $\text{diag}(\boldsymbol{R}\sigma^2)$, where $\text{diag}(.)$ sets the non-diagonal entries of a matrix to zeros. The resulting distribution for $Q$ was $N(\boldsymbol{0}_n, \text{diag}(\boldsymbol{R}\sigma^2))$. This replacement ensures a non-degenerate distribution, which is required for computing the KL divergence in Section \ref{sec-distance-of-p-from-q}. More complex approaches, such as using eigen-decomposition to work directly in the lower-rank subspace, are possible, but for simplicity and computational efficiency when preparing the training dataset for the computer vision model, we use the full-rank diagonal approximation.
+Suppose the design matrix $\boldsymbol{X}$ has linearly independent columns, the trace of the hat matrix $\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$ equals the number of columns in $\boldsymbol{X}$ denoted as $k$. As a result, the rank of $\boldsymbol{R}$ is $n - k$, and $Q$ is a degenerate multivariate distribution. To capture the characteristics of $Q$, such as moments, we can simulate a large number of $\boldsymbol{\varepsilon}$ and transform it to $\boldsymbol{e}$ to get the empirical estimates. For the purpose of this study, we replaced the variance-covariance matrix of residuals $\text{cov}(\boldsymbol{e}, \boldsymbol{e}) = \boldsymbol{R}\sigma^2\boldsymbol{R}^\top = \boldsymbol{R}\sigma^2$ with a full-rank diagonal matrix $\text{diag}(\boldsymbol{R}\sigma^2)$, where $\text{diag}(.)$ sets the non-diagonal entries of a matrix to zeros. The resulting distribution for $Q$ was $N(\boldsymbol{0}_n, \text{diag}(\boldsymbol{R}\sigma^2))$. This replacement ensures a non-degenerate distribution, which is required for computing the distance defined in Section \ref{sec-distance-of-p-from-q}. Although more sophisticated approaches, such as working directly in the lower-rank subspace via eigen-decomposition, are possible, we adopt a full-rank approximation for simplicity and computational efficiency when constructing the training dataset for the computer vision model.
 
 Distribution $Q$ is derived from the correctly specified model. However, if the model is misspecified, then the actual distribution of residuals denoted as $P$, will be different from $Q$. For example, if the data generating process contains variables correlated with any column of $\boldsymbol{X}$ but are missing from $\boldsymbol{X}$, causing an omitted variable problem, $P$ will be different from $Q$ because the residual operator obtained from the fitted regression model will not be the same as $\boldsymbol{R}$. Besides, if the $\boldsymbol{\varepsilon}$ follows a non-normal distribution such as a multivariate lognormal distribution, $P$ will usually be skewed and has a long tail. 
 
@@ -179,13 +178,13 @@ Distribution $Q$ is derived from the correctly specified model. However, if the 
 Defining a proper distance between distributions is usually easier than defining a proper distance between data plots. Given the true residual distribution $P$ and the reference residual distribution $Q$, we used a distance measure based on Kullback-Leibler divergence [@kullback1951information] to quantify the difference between two distributions as
 
 \begin{equation} \label{eq:kl-0}
-D = \log\left(1 + D_{KL}\right),
+D = \log\left(1 + D_{KL}(P \| Q)\right),
 \end{equation}
 
 where $D_{KL}$ is defined as
 
 \begin{equation} \label{eq:kl-1}
-D_{KL}(p || q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
+D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
 \end{equation}
 
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for distribution $P$ and distribution $Q$, respectively.
@@ -196,7 +195,7 @@ Since both $P$ and $Q$ are adjusted to be multivariate normal distributions, Equ
 
 
 \begin{equation} \label{eq:kl-2}
-D_{KL} = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\boldsymbol{W}^{-1}\text{diag}(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^\top\boldsymbol{W}^{-1}\boldsymbol{\mu}_z\right),
+D_{KL}(P \| Q) = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\boldsymbol{W}^{-1}\text{diag}(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^\top\boldsymbol{W}^{-1}\boldsymbol{\mu}_z\right),
 \end{equation}
 
 \noindent where $\boldsymbol{\mu}_z = \boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z$, and $\boldsymbol{W} = \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R})$. The assumed error variance $\sigma^2$ is set to be $\text{tr}(\boldsymbol{V})/n$, which is the expectation of the estimated variance.
