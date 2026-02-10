@@ -48,7 +48,7 @@ The idea of the paper seems interesting: using computer vision to help identify 
 
 :::
 
-XXX A new paragraph is written that gives an overview of the setup and goals
+XXX A new paragraph is written in the introduction section that gives an overview of the setup and goals.
 
 ### Specific Comments
 
@@ -58,7 +58,7 @@ XXX A new paragraph is written that gives an overview of the setup and goals
 
 :::
 
-The lineup protocol is explained on page 2, with the relevant citations. We've revised the wording slightly so that the definition is more clearly seen.
+The lineup protocol is described on pages 2 and 3, with relevant citations. We have slightly revised the wording for clarity and added an example lineup figure to make the description easier to understand.
 
 ::: reviewer
 
@@ -74,13 +74,15 @@ We are ignoring this comments, as the three references are already cited in our 
 
 :::
 
+We have added a new sentence to the corresponding paragraph, explaining that the covariance matrix is replaced with a full-rank diagonal matrix to ensure a non-degenerate distribution for KL divergence computation, and that more complex approaches, such as eigen-decomposition, are possible but the diagonal approximation is used for simplicity and computational efficiency.
+
 ::: reviewer
 
 4. eq (2), typically KL is specified by KL(p— q) due to asymmetry
 
 :::
 
-We have added modified $D_{KL}$ to $D_{KL}(p || q)$, thank you.
+We have added modified $D_{KL}$ to $D_{KL}(P \| Q)$, thank you.
 
 ::: reviewer
 
@@ -95,6 +97,8 @@ Done. We have changed "solve" to "evaluate".
 6. p19 l30: What is “the data generating process”? We don’t know the true distribution of y.
 
 :::
+
+
 
 ::: reviewer
 
