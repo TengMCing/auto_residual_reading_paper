@@ -55,6 +55,19 @@ knitr::opts_chunk$set(
 ```{r}
 # Visual inference models and p-value calculation
 # remotes::install_github("TengMCing/visage")
+
+if (!requireNamespace("tidyverse", quietly = TRUE))
+  install.packages("tidyverse")
+
+if (!requireNamespace("glue", quietly = TRUE))
+  install.packages("glue")
+
+if (!requireNamespace("remotes", quietly = TRUE))
+  install.packages("remotes")
+
+if (!requireNamespace("visage", quietly = TRUE)) 
+  remotes::install_github("TengMCing/visage")
+
 options(tinytex.clean = FALSE)
 library(tidyverse)
 library(visage)
