@@ -111,11 +111,22 @@ For the human subject experiment, we use the same data-generating process, but o
 
 :::
 
+We agree that our approach follows standard simulation-based methodology for approximating sampling distributions of a test statistic. To clarify this and address the reviewer's comment, we have revised the paragraph to explicitly acknowledge this connection (Paragraph 3, Section 5.1).
+
 ::: reviewer
 
 8. p13, Sec 5.2: How do you do bootstrapping? We need to know the distribution of ˆD under the null. However, the given observed data y may not come from the null.
 
 :::
+
+We use standard non-parametric bootstrapping, i.e., resampling the observed $\{(y_i, X_i)\}_{i=1}^n$ with replacement to form bootstrap samples, as stated in Section 5.2. For each bootstrap sample, the regression model is refitted and the corresponding residual plot is constructed, from which $\hat{D}$ is computed.
+
+The null distribution of $\hat{D}$ is obtained separately from the bootstrap procedure. Specifically, assuming the fitted regression model is correct, we generate null residuals using residual rotation. These rotated residuals are used to construct null plots, which are then evaluated by the computer vision model to produce $\hat{D}_{null}$, forming an empirical approximation to the null distribution. In principle, this process could be repeated for each bootstrap sample to obtain a sample-specific $\hat{D}_{null}$. However, as discussed in Section 5.2, doing so would be computationally expensive.
+
+We acknowledge that the observed $y$ may not arise from the null model. In that case, the regression model is misspecified. If this misspecification is reflected in the residual plot, we expect the observed $\hat{D}$ (from the true residual plot) to be larger than many values from the null distribution, depending on the strength of the underlying signal. This is the central idea of the paper, and the corresponding testing procedure is described in Section 5.1.
+
+Importantly, the bootstrap does not assume that the observed $y$ comes from the null model. Its purpose is to quantify the sampling variability of $\hat{D}$ under the empirical data-generating mechanism and to assess how frequently bootstrap replicates would lead to rejection. The null distribution used for inference is generated via residual rotation, not via bootstrapping.
+
 
 ::: reviewer
 
