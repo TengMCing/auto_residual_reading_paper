@@ -53,9 +53,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-# Visual inference models and p-value calculation
-# remotes::install_github("TengMCing/visage")
-
 if (!requireNamespace("tidyverse", quietly = TRUE))
   install.packages("tidyverse")
 
@@ -65,8 +62,21 @@ if (!requireNamespace("glue", quietly = TRUE))
 if (!requireNamespace("remotes", quietly = TRUE))
   install.packages("remotes")
 
+# Visual inference models and p-value calculation
 if (!requireNamespace("visage", quietly = TRUE)) 
   remotes::install_github("TengMCing/visage")
+
+if (!requireNamespace("reticulate", quietly = TRUE))
+  install.packages("reticulate")
+
+# Please use `reticulate::use_python()`, `reticulate::use_virtualenv()` or `reticulate::use_conda()` to specify your Python environment.
+
+# if (!reticulate::py_module_available("tensorflow"))
+#   stop("Please specify your Python environment and ensure `tensorflow` is installed!")
+# 
+# if (!reticulate::py_module_available("PIL"))
+#   stop("Please specify your Python environment and ensure `PIL` is installed!")
+
 
 options(tinytex.clean = FALSE)
 library(tidyverse)
@@ -120,7 +130,7 @@ Efforts to automate plot interpretation date back to early work like Tukey’s "
 
 Modern computer vision models rely on deep neural networks with convolutional layers [@fukushima1982neocognitron]. These layers use small, sliding windows to scan the image, performing a dot product to extract local features and patterns. Numerous studies have demonstrated the efficacy of convolutional layers in addressing various vision tasks, including image recognition [@rawat2017deep]. Despite the widespread use of computer vision models in fields like computer-aided diagnosis [@lee2015image], pedestrian detection [@brunetti2018computer], and facial recognition [@emami2012facial], their application in reading data plots remains limited. While some studies have explored the use of computer vision models for tasks such as reading recurrence plots for time series regression [@ojeda2020multivariate], time series classification [@chu2019automatic; @hailesilassie2019financial; @hatami2018classification; @zhang2020encoding], anomaly detection [@chen2020convolutional], and pairwise causality analysis [@singh2017deep], the application of reading residual plots with computer vision models is a new field of study.
 
-In this paper, we develop computer vision models and integrate them into the residual plots diagnostics workflow, addressing the need for an automated visual inference. XXX 1. Define the outcome variable (label) clearly (classification/regression), 2. Explain how training data is created (dataset generation of residual plots + labels + what type of residual plot), 3. Specify the learning formulation and model (which CV + input resolution), 4. Define performance evaluation clearly (Metrics + Baselines) somthing like "We formulate residual-plot diagnosis as a supervised classification task. The input is a residual diagnostic plot; the output is the violation type (K classes). Training data are generated using simulated DGPs with known violations. Performance is evaluated using held-out test plots and compared to classical diagnostic tests and expert judgments."
+In this paper, we develop computer vision models and integrate them into the residual plot diagnostics workflow, addressing the need for automated visual inference. The model is a regression-based computer vision system that takes a residual plot as input and outputs a non-negative estimated distance $\hat{D}$. Training and test data are generated from a synthetic data model, simulating residual plots under various violation scenarios, with targets defined as customized distances $D$ computed from the underlying data generating process, quantifying the extent of model violations. The model performance is evaluated on held-out test plots and compared with classical residual diagnostic tests as well as results from a human-subject experiment.
 
 
 The paper is structured as follows. Section \ref{sec-model-specifications} discusses various specifications of the computer vision models. Section \ref{sec-model-distance-between-residual-plots} defines the distance measure used to detect model violations, while Section \ref{sec-model-distance-estimation} explains how the computer vision models estimate this distance measure. Section \ref{sec-model-statistical-testing} covers the statistical tests based on the estimated distance. Sections \ref{sec-model-architecture} and \ref{sec-model-data-generation} describe the model architecture and the corresponding data generation and training process, respectively. The results are presented in Section \ref{sec-model-results}. Example dataset applications are discussed in Section \ref{sec-examples}. Finally, we conclude with a discussion of our findings and propose ideas for future research directions.

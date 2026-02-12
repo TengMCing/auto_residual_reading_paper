@@ -37,6 +37,10 @@ One referee, an Associate Editor (AE), and I have reviewed your paper. Although 
 
 :::
 
+We thank the editor for their thoughtful assessment and for recognizing the potential of our work. We appreciate the constructive feedback provided by both the Associate Editor and the referee. In response, we have carefully revised the manuscript to address all major concerns, including clarifying the definition of the outcome variable for the computer vision models, explicitly describing the generation of training and test datasets, and detailing how model performance is assessed.
+
+We have also improved the rigor and clarity of the descriptions throughout the paper, added additional tables and figures where needed, and revised sections to ensure that both the methodology and results are clearly presented. We hope that the revisions adequately address the issues raised and improve the overall readability and impact of the manuscript.
+
 ## Reviewer 
 
 ### General Comments
@@ -48,7 +52,9 @@ The idea of the paper seems interesting: using computer vision to help identify 
 
 :::
 
-XXX A new paragraph is written in the introduction section that gives an overview of the setup and goals.
+We thank the reviewer for the positive feedback and the constructive suggestions. We agree that a clear definition of the outcome variable, the training data generation process, and the performance assessment of the computer vision models is essential for clarity.
+
+In response, we have revised the introduction to explicitly define these components from the outset. Specifically, we now clearly state that the computer vision model is a regression system that takes a residual plot as input and predicts a non-negative estimated distance. We also clarify that training and test datasets are generated from a synthetic data model simulating residual plots under various violation scenarios, with the target distances computed from the underlying data generating process, which quantifies the extent of model violations. Finally, we describe that model performance is evaluated on held-out test data and compared against classical residual diagnostic tests as well as results from a human-subject experiment.
 
 ### Specific Comments
 
