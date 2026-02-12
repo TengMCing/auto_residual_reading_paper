@@ -337,7 +337,7 @@ data_overall %>%
   kableExtra::kable(format = "latex",
                     booktabs = TRUE,
                     label = "data-overall",
-                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations.",
+                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.",
                     escape = FALSE,
                     linesep = "", 
                     align = "lrr",
