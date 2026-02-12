@@ -189,7 +189,7 @@ D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol
 
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for distribution $P$ and distribution $Q$, respectively.
 
-This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $Q$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. 
+This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. 
 
 Since both $P$ and $Q$ are adjusted to be multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
 
@@ -280,25 +280,7 @@ The model weights $\boldsymbol{\theta}$ were randomly initialized using the Glor
 
 To enable supervised training of the computer vision models for detecting violations in linear regression, we require paired residual plots and their corresponding $D$ values to train a regression model. We therefore generated a synthetic dataset consisting of 80,000 training and 8,000 test residual plots. This simulation-based approach provides full control over the data-generating process, enabling precise computation of $D$, cost-effective scaling of the dataset, and the ability to model a wide range of visual patterns associated with model violations.
 
-The simulated data incorporated three common types of residual departures: non-linearity, heteroskedasticity, and non-normality. These were introduced by fitting a standard simple linear regression model to data generated from a more flexible model based on Hermite polynomials [@hermite1864nouveau], multiple predictors, and varying distributions in both predictors and error terms. A comprehensive grid of parameter combinations was explored to generate a wide range of residual patterns. Importantly, the simulation included scenarios with multiple violations occurring simultaneously. To ensure uniform coverage across the difficulty scale of the target variable $D$, a bucket sampling scheme was used to create a balanced dataset. Samples were iteratively simulated and accepted into one of 50 buckets, each representing a distinct range of $D$.
-
-Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation RMSE across 100 trials. The tuning process included early stopping and considered dropout rate, batch normalization, input resolution, and auxiliary inputs.
-
-Further details, including mathematical formulations of the  synthetic data model, parameter specifications, sampling scheme, example residual plots and hyperparameter tuning configuration, are provided in the Appendix A and C.
-
-
-# Results {#sec-model-results}
-
-## Model Performance
-
-Table \ref{tab:performance} summarizes the test performance of optimized models using three input sizes. The $32 \times 32$ model consistently outperformed others, with a mean absolute error of approximately $0.43$, a negligible deviation given the typical $D$ range of $0$ to $7$. High $R^2$ values also indicated strong linear correlation between predictions and targets. Based on these results, we used the best-performing $32 \times 32$ model for subsequent analyses.
-
-Figure \ref{fig:model-performance} shows a hexagonal heatmap of $D - \hat{D}$ versus $D$. Smoothing curves [fitted by generalized additive models, @hastie2017generalized] reveal that all models performed well for $1.5 < D < 6$, where no structural issues were observed. Over-prediction occurred when $D < 1.5$, and under-prediction primarily when $\hat{D} > 6$.
-
-For null plots ($D = 0$), over-prediction was expected (see Section \ref{sec-model-lineup-evaluation}), but not under-prediction. Therefore, we analysed the relationship between residuals and all the factors involved in the data generating process. We found that most deviations stemmed from non-linearity and the presence of a second predictor in the synthetic data model, where small $\varepsilon$ variances caused under-predictions and large $\varepsilon$ variances caused over-prediction, as illustrated in Figure \ref{fig:over-under}. 
-
-To investigate further, we stratified the test set by violation type and re-evaluated performance (Table \ref{tab:performance-sub}). It was found that null plots had the poorest metrics, while non-normality cases were easiest to predict, with RMSE around $0.3$. Non-linearity ($\text{RMSE} \approx  0.8$) was harder to assess than heteroskedasticity ($\text{RMSE} \approx  0.6$) or non-normality ($\text{RMSE} \approx  0.3$). Plots with multiple violations showed intermediate performance.
-
+The simulated data incorporated three common types of residual departures: non-linearity, heteroskedasticity, and non-normality. These were introduced by fitting a standard simple linear regression model to data generated from a more flexible model based on Hermite polynomials [@hermite1864nouveau], multiple predictors, and varying distributions in both predictors and error terms. A comprehensive grid of parameter combinations was explored to generate a wide range of residual patterns. Importantly, the simulation included scenarios with multiple violations occurring simultaneously. To ensure uniform coverage across the difficulty scale of the target variable $D$, a bucket sampling scheme was used to create a balanced dataset. Samples were iteratively simulated and accepted into one of 50 buckets, each representing a distinct range of $D$. Table \ref{tbl:data-overall} summarises the number of training and test samples under the different violation scenarios.
 
 ```{r}
 test_pred <- readr::read_csv(here::here("data/test_pred.csv"))
@@ -322,7 +304,67 @@ train_summary <- train_pred %>%
             MAE = yardstick::mae_vec(effect_size, vss),
             HUBER = yardstick::huber_loss_vec(effect_size, vss)) %>%
   mutate(type = "train")
+
+model_pred <- train_pred %>% 
+  left_join(meta) %>%
+  mutate(type = "train") %>%
+  bind_rows(test_pred %>% 
+              left_join(meta) %>%
+              mutate(type = "test"))
+
+data_overall <- model_pred %>%
+  filter(res == 32L) %>%
+  group_by(include_non_normal, include_heter, include_z) %>%
+  summarise(train_n = sum(type == "train"),
+            train_RMSE = yardstick::rmse_vec(effect_size[type == "train"], vss[type == "train"]),
+            test_n = sum(type == "test"),
+            test_RMSE = yardstick::rmse_vec(effect_size[type == "test"], vss[type == "test"])) %>%
+  mutate(violations = ifelse(include_z, "non-linearity", "null")) %>%
+  mutate(violations = ifelse(include_heter, glue("{violations} + heteroskedasticity"), violations)) %>%
+  mutate(violations = ifelse(include_non_normal, glue("{violations} + non-normality"), violations)) %>%
+  mutate(violations = gsub("null \\+ ", "", violations)) %>%
+  ungroup() %>%
+  select(violations, train_n, train_RMSE, test_n, test_RMSE) %>%
+  mutate(train_n = format(train_n)) %>%
+  mutate(test_n = format(test_n)) %>%
+  mutate(across(c(train_RMSE, test_RMSE), ~format(.x, digits = 3))) %>%
+  mutate(violations = ifelse(violations == "null", "no violations", violations))
 ```
+
+```{r}
+data_overall %>%
+  select(-train_RMSE, -test_RMSE) %>%
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
+                    label = "data-overall",
+                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations.",
+                    escape = FALSE,
+                    linesep = "", 
+                    align = "lrr",
+                    col.names = c("Violations", "\\#train samples", "\\#test samples"))
+```
+
+
+
+Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation RMSE across 100 trials. The tuning process included early stopping and considered dropout rate, batch normalization, input resolution, and auxiliary inputs.
+
+Further details, including mathematical formulations of the  synthetic data model, parameter specifications, sampling scheme, example residual plots and hyperparameter tuning configuration, are provided in the Appendix A and C.
+
+
+# Results {#sec-model-results}
+
+## Model Performance
+
+Table \ref{tab:performance} summarizes the test performance of optimized models using three input sizes. The $32 \times 32$ model consistently outperformed others, with a mean absolute error of approximately $0.43$, a negligible deviation given the typical $D$ range of $0$ to $7$. High $R^2$ values also indicated strong linear correlation between predictions and targets. Based on these results, we used the best-performing $32 \times 32$ model for subsequent analyses.
+
+Figure \ref{fig:model-performance} shows a hexagonal heatmap of $D - \hat{D}$ versus $D$. Smoothing curves [fitted by generalized additive models, @hastie2017generalized] reveal that all models performed well for $1.5 < D < 6$, where no structural issues were observed. Over-prediction occurred when $D < 1.5$, and under-prediction primarily when $\hat{D} > 6$.
+
+For null plots ($D = 0$), over-prediction was expected (see Section \ref{sec-model-lineup-evaluation}), but not under-prediction. Therefore, we analysed the relationship between residuals and all the factors involved in the data generating process. We found that most deviations stemmed from non-linearity and the presence of a second predictor in the synthetic data model, where small $\varepsilon$ variances caused under-predictions and large $\varepsilon$ variances caused over-prediction, as illustrated in Figure \ref{fig:over-under}. 
+
+To investigate further, we stratified the train and test set by violation type and re-evaluated performance (Table \ref{tab:performance-sub}). It was found that null plots had the poorest metrics, while non-normality cases were easiest to predict, with RMSE around $0.3$. Non-linearity ($\text{RMSE} \approx  0.8$) was harder to assess than heteroskedasticity ($\text{RMSE} \approx  0.6$) or non-normality ($\text{RMSE} \approx  0.3$). Plots with multiple violations showed intermediate performance.
+
+
+
 
 ```{r}
 test_summary %>%
@@ -340,13 +382,6 @@ test_summary %>%
 ```
 
 ```{r model-performance, fig.pos = "!h", fig.cap = "Hexagonal heatmap for difference in $D$ and $\\hat{D}$ vs $D$ on test data for three optimized models with different input sizes. The brown lines are smoothing curves produced by fitting generalized additive models. Over-prediction and under-prediction can be observed for small $D$ and large $D$ respectively.", dev = 'png', dpi = 300, fig.height = 3}
-model_pred <- train_pred %>% 
-  left_join(meta) %>%
-  mutate(type = "train") %>%
-  bind_rows(test_pred %>% 
-              left_join(meta) %>%
-              mutate(type = "test"))
-
 model_pred %>%
   filter(type == "test") %>%
   ggplot() +
@@ -417,32 +452,16 @@ model_pred %>%
 
 
 ```{r}
-model_pred %>%
-  filter(res == 32L) %>%
-  group_by(include_non_normal, include_heter, include_z) %>%
-  summarise(train_n = sum(type == "train"),
-            train_RMSE = yardstick::rmse_vec(effect_size[type == "train"], vss[type == "train"]),
-            test_n = sum(type == "test"),
-            test_RMSE = yardstick::rmse_vec(effect_size[type == "test"], vss[type == "test"])) %>%
-  mutate(violations = ifelse(include_z, "non-linearity", "null")) %>%
-  mutate(violations = ifelse(include_heter, glue("{violations} + heteroskedasticity"), violations)) %>%
-  mutate(violations = ifelse(include_non_normal, glue("{violations} + non-normality"), violations)) %>%
-  mutate(violations = gsub("null \\+ ", "", violations)) %>%
-  ungroup() %>%
-  select(violations, train_n, train_RMSE, test_n, test_RMSE) %>%
-  mutate(train_n = format(train_n)) %>%
-  mutate(test_n = format(test_n)) %>%
-  mutate(across(c(train_RMSE, test_RMSE), ~format(.x, digits = 3))) %>%
-  mutate(violations = ifelse(violations == "null", "no violations", violations)) %>%
-  select(-train_n, -train_RMSE) %>%
+data_overall %>%
+  select(-train_n, -test_n) %>%
   kableExtra::kable(format = "latex",
                     booktabs = TRUE,
                     label = "performance-sub",
-                    caption = "The test performance of the $32 \\times 32$ model presented with different model violations.",
+                    caption = "The train and test performance of the $32 \\times 32$ model presented with different model violations.",
                     escape = FALSE,
                     linesep = "", 
                     align = "lrr",
-                    col.names = c("Violations", "\\#samples", "RMSE"))
+                    col.names = c("Violations", "Train RMSE", "Test RMSE"))
 ```
 
 
