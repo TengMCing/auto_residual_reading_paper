@@ -135,7 +135,7 @@ Importantly, the bootstrap does not assume that the observed $y$ comes from the 
 
 :::
 
-XXX We have expanded the caption to make this clearer.
+We have expanded the table caption to clarify what is being measured. The reported metrics evaluate the agreement between the estimated distance $\hat{D}$ (model output) and the target distance $D$ generated from the synthetic data model. In particular, $R^2$ refers to the squared correlation between $\hat{D}$ and $D$.
 
 ::: reviewer
 
