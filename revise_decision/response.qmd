@@ -78,11 +78,11 @@ We have added a new sentence to the corresponding paragraph, explaining that the
 
 ::: reviewer
 
-4. eq (2), typically KL is specified by KL(p— q) due to asymmetry
+4. eq (2), typically KL is specified by KL(p—q) due to asymmetry
 
 :::
 
-We have added modified $D_{KL}$ to $D_{KL}(P \| Q)$, thank you.
+We have modified $D_{KL}$ to $D_{KL}(P \| Q)$, thank you.
 
 ::: reviewer
 
@@ -90,7 +90,7 @@ We have added modified $D_{KL}$ to $D_{KL}(P \| Q)$, thank you.
 
 :::
 
-Done. We have changed "solve" to "evaluate".
+We have changed "solve" to "evaluate", thank you.
 
 ::: reviewer
 
@@ -107,7 +107,7 @@ For the human subject experiment, we use the same data-generating process, but o
 ::: reviewer
 
 
-7. p12, sec 5.1: this sounds like a standard simulation of the sampling distribution of ˆD in traditional statistics.
+7. p12, sec 5.1: this sounds like a standard simulation of the sampling distribution of $\hat{D}$ in traditional statistics.
 
 :::
 
@@ -131,7 +131,7 @@ Importantly, the bootstrap does not assume that the observed $y$ comes from the 
 ::: reviewer
 
 
-9. Tbl1: it is unclear what this table is measuring. What is the R2 measuring? What’s the response and what is the predictors?
+9. Tbl1: it is unclear what this table is measuring. What is the $R^2$ measuring? What’s the response and what is the predictors?
 
 :::
 
@@ -140,10 +140,25 @@ XXX We have expanded the caption to make this clearer.
 ::: reviewer
 
 
-10. Section 7 and 8: In computing ˆD, you need a P and Q for each targeted model violation. Is your computer vision learning algorithm targeted a particular model departure, eg, non-linearity or heteroskedasticity? What is your P and Q in generating the training data of ˆD and residual plots for computer vision learning? However, your results also show your performance for di!erent kinds of model violations. This is confusing. You need to specify clearly what is the “true” ˆD and what the “predicted ˆD” using computer vision in generating training
-data of ˆD and residual plots.
+10. Section 7 and 8: In computing $\hat{D}$, you need a P and Q for each targeted model violation. Is your computer vision learning algorithm targeted a particular model departure, eg, non-linearity or heteroskedasticity? What is your P and Q in generating the training data of $\hat{D}$ and residual plots for computer vision learning? However, your results also show your performance for different kinds of model violations. This is confusing. You need to specify clearly what is the “true” $\hat{D}$ and what the “predicted $\hat{D}$” using computer vision in generating training data of $\hat{D}$ and residual plots.
 
 :::
+
+As stated in Section 7, “Importantly, the simulation included scenarios with multiple violations occurring simultaneously,” the synthetic data generating process allows for both single and combined model violations. These violations include non-linearity, heteroskedasticity, and non-normality. The computer vision model is therefore not designed to target a specific violation in isolation, but rather to learn from the full spectrum of possible departures represented in the simulated data. To clarify this point, we have revised the text in Section 7 and added a table summarising the number of training and test samples across the different violation scenarios.
+
+In computing $\hat{D}$, the reference distribution $Q$ is always the residual distribution obtained by fitting a simple linear regression model under the standard assumptions, namely  
+
+$$Q = N(\boldsymbol{0}_n, \mathrm{diag}(\boldsymbol{R}\sigma^2)).$$
+
+The distribution $P$, by contrast, is determined by the synthetic data generating process for each scenario. It may reflect a single violation or a combination of violations, depending on the parameter configuration. The full specification of these synthetic models is provided in Appendix A.
+
+Because the training data are generated under a range of violation settings, the resulting model performance can naturally be evaluated separately for different types of departures.
+
+To further clarify the distinction between the “true” $\hat{D}$ and the predicted $\hat{D}$, we have added the following sentence to Section 7:
+
+> “The computer vision model was trained on paired data consisting of an RGB residual plot image as input and the corresponding target value $D$, with the objective of learning to estimate $\hat{D}$.”
+
+Here, $D$ denotes the distance computed from the known $P$ and $Q$ under the synthetic data generating process, while the computer vision model produces an estimate $\hat{D}$ from the residual plot image.
 
 ::: reviewer
 
