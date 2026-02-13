@@ -160,7 +160,7 @@ The distribution $P$, by contrast, is determined by the synthetic data generatin
 
 Because the training data are generated under a range of violation settings, the resulting model performance can naturally be evaluated separately for different types of departures.
 
-To further clarify the distinction between the “true” $\hat{D}$ and the predicted $\hat{D}$, we have added the following sentence to Section 7:
+To further clarify the distinction between the $D$ and the $\hat{D}$, we have added the following sentence to Section 7: 
 
 > “The computer vision model was trained on paired data consisting of an RGB residual plot image as input and the corresponding target value $D$, with the objective of learning to estimate $\hat{D}$.”
 
