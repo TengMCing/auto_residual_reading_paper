@@ -72,7 +72,7 @@ The lineup protocol is described on pages 2 and 3, with relevant citations. We h
 
 :::
 
-We are ignoring this comments, as the three references are already cited in our submission.
+We are ignoring this comment, as the three references are already cited in our submission.
 
 ::: reviewer
 
