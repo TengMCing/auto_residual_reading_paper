@@ -344,6 +344,8 @@ data_overall <- model_pred %>%
 ```{r}
 data_overall %>%
   select(-train_RMSE, -test_RMSE) %>%
+  mutate(train_n = scales::comma(train_n), 
+         test_n = scales::comma(test_n)) %>%
   kableExtra::kable(format = "latex",
                     booktabs = TRUE,
                     label = "data-overall",
