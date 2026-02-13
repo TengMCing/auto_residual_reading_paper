@@ -72,7 +72,7 @@ The lineup protocol is described on pages 2 and 3, with relevant citations. We h
 
 :::
 
-We are ignoring this comment, as the three references are already cited in our submission.
+These three references are already cited in the manuscript, and we have double-checked to ensure that they are correctly included and cited in the relevant sections.
 
 ::: reviewer
 
@@ -174,4 +174,4 @@ Here, $D$ denotes the distance computed from the known $P$ and $Q$ under the syn
 :::
 
 
-We are ignoring this comment because the appropriate equation numbering has been done. The equation numbering follows the author guidelines: where an equation is referred to in the text it is numbered, and not otherwise. The reviewer makes reference to some equation numbers.  
+We have carefully reviewed all equations in the manuscript and confirm that the equation numbering follows the author guidelines: every equation that is explicitly referenced in the text is numbered, and equations that are not referenced are intentionally left unnumbered. During this check, we also verified that all in-text references correctly point to the corresponding numbered equations, so no further changes to the manuscript were required in response to this point.  
