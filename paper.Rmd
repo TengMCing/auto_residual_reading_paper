@@ -335,25 +335,24 @@ data_overall <- model_pred %>%
   mutate(violations = gsub("null \\+ ", "", violations)) %>%
   ungroup() %>%
   select(violations, train_n, train_RMSE, test_n, test_RMSE) %>%
-  mutate(train_n = format(train_n)) %>%
-  mutate(test_n = format(test_n)) %>%
+  mutate(train_n = scales::comma(train_n), 
+         test_n = scales::comma(test_n)) %>%
   mutate(across(c(train_RMSE, test_RMSE), ~format(.x, digits = 3))) %>%
   mutate(violations = ifelse(violations == "null", "no violations", violations))
 ```
 
 ```{r}
 data_overall %>%
-  select(-train_RMSE, -test_RMSE) %>%
-  mutate(train_n = scales::comma(train_n), 
-         test_n = scales::comma(test_n)) %>%
   kableExtra::kable(format = "latex",
                     booktabs = TRUE,
                     label = "data-overall",
-                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.",
+                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. RMSE values for the training and test sets are shown for each scenario. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.",
                     escape = FALSE,
                     linesep = "", 
                     align = "lrr",
-                    col.names = c("Violations", "\\#train samples", "\\#test samples"))
+                    col.names = c("Violations", "\\#samples", "RMSE", "\\#samples", "RMSE")) %>%
+  kableExtra::add_header_above(c(" ", "Train" = 2, "Test" = 2)) %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
 
@@ -373,7 +372,7 @@ Figure \ref{fig:model-performance} shows a hexagonal heatmap of $D - \hat{D}$ ve
 
 For null plots ($D = 0$), over-prediction was expected (see Section \ref{sec-model-lineup-evaluation}), but not under-prediction. Therefore, we analysed the relationship between residuals and all the factors involved in the data generating process. We found that most deviations stemmed from non-linearity and the presence of a second predictor in the synthetic data model, where small $\varepsilon$ variances caused under-predictions and large $\varepsilon$ variances caused over-prediction, as illustrated in Figure \ref{fig:over-under}. 
 
-To investigate further, we stratified the train and test set by violation type and re-evaluated performance (Table \ref{tab:performance-sub}). It was found that null plots had the poorest metrics, while non-normality cases were easiest to predict, with RMSE around $0.3$. Non-linearity ($\text{RMSE} \approx  0.8$) was harder to assess than heteroskedasticity ($\text{RMSE} \approx  0.6$) or non-normality ($\text{RMSE} \approx  0.3$). Plots with multiple violations showed intermediate performance.
+To investigate further, we stratified the train and test set by violation type and re-evaluated performance (Table \ref{tab:data-overall}). It was found that null plots had the poorest metrics, while non-normality cases were easiest to predict, with RMSE around $0.3$. Non-linearity ($\text{RMSE} \approx  0.8$) was harder to assess than heteroskedasticity ($\text{RMSE} \approx  0.6$) or non-normality ($\text{RMSE} \approx  0.3$). Plots with multiple violations showed intermediate performance.
 
 
 
@@ -462,21 +461,6 @@ model_pred %>%
 ```
 
 
-
-```{r}
-data_overall %>%
-  select(-train_n, -test_n) %>%
-  kableExtra::kable(format = "latex",
-                    booktabs = TRUE,
-                    label = "performance-sub",
-                    caption = "The train and test performance of the $32 \\times 32$ model presented with different model violations.",
-                    escape = FALSE,
-                    linesep = "", 
-                    align = "lrr",
-                    col.names = c("Violations", "Train RMSE", "Test RMSE"))
-```
-
-
 <!-- - check if j has an impact on residuals more carefully -->
 <!-- - the RMSE has very little to do with j if x2 is not included. And its impact is not as large as sigma. -->
 
@@ -518,7 +502,7 @@ experiment <- experiment %>%
 
 Each lineup in @li2024plot contains one true residual plot and 19 null plots. While the true residual plot’s distance $D$ depends on the data-generating process, null plots have $D = 0$. We used our optimized computer vision model to estimate $D$ for all plots. To ensure fair comparison, we reject $H_0$ if the true residual plot has the highest estimated distance. Conventional tests, including the Ramsey RESET [@ramsey1969tests] for non-linearity and the Breusch-Pagan test [@breusch1979simple] for heteroskedasticity, were also applied to the same data.
 
-Table \ref{tab:experiment-performance} reports performance metrics for $\hat{D}$ on true residual plots. While the performance is slightly worse than on the test data provided in Table \ref{tab:performance}, the mean absolute error remains low and the correlation between predictions and true values remains high. Consistent with results in Table \ref{tab:performance-sub}, non-linearity cases are harder to predict than heteroskedasticity cases.
+Table \ref{tab:experiment-performance} reports performance metrics for $\hat{D}$ on true residual plots. While the performance is slightly worse than on the test data provided in Table \ref{tab:performance}, the mean absolute error remains low and the correlation between predictions and true values remains high. Consistent with results in Table \ref{tab:data-overall}, non-linearity cases are harder to predict than heteroskedasticity cases.
 
 ```{r}
 experiment %>%
