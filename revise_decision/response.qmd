@@ -64,7 +64,8 @@ In response, we have revised the introduction to explicitly define these compone
 
 :::
 
-The lineup protocol is described on pages 2 and 3, with relevant citations. We have slightly revised the wording for clarity and added an example lineup figure to make the description easier to understand.
+The lineup protocol was described in third paragraph of the Introduction, but more information can be obtainined in the cited reference in the paragraph. Since lineup protocol is not the main focus of this paper, we have added a brief description in the Introduction and provided a reference to the original paper for readers who are interested in learning more about it. To aid readers who are new to the concept, we have also included an example lineup figure (Figure 2) in the revised manuscript to visually illustrate the protocol and make the description easier to understand.
+
 
 ::: reviewer
 
@@ -72,7 +73,7 @@ The lineup protocol is described on pages 2 and 3, with relevant citations. We h
 
 :::
 
-These three references are already cited in the manuscript, and we have double-checked to ensure that they are correctly included and cited in the relevant sections.
+These three references are already cited in the manuscript. We are not sure if there was a misunderstanding, but we have confirmed that these references are present in the manuscript as required.
 
 ::: reviewer
 
@@ -80,7 +81,7 @@ These three references are already cited in the manuscript, and we have double-c
 
 :::
 
-We have added a new sentence to the corresponding paragraph, explaining that the covariance matrix is replaced with a full-rank diagonal matrix to ensure a non-degenerate distribution for KL divergence computation, and that more complex approaches, such as eigen-decomposition, are possible but the diagonal approximation is used for simplicity and computational efficiency.
+We have added a new sentence to the corresponding paragraph, explaining that the covariance matrix is replaced with a full-rank diagonal matrix to ensure a non-degenerate distribution for KL divergence computation.
 
 ::: reviewer
 
@@ -104,11 +105,10 @@ We have changed "solve" to "evaluate", thank you.
 
 :::
 
-The data generating process used for the human subject experiment is a special case of the process used to generate the training data for the computer vision model in this study. This process is described in Section 7, with additional details provided in the appendix. We have also revised the text in Section 7 to clarify how the synthetic dataset is generated and why it is required.
+The data generating process used for the human subject experiment is a special case of the process used to generate the training data for the computer vision model in this study. This process is described in Section 7, with additional details provided in the appendix. We have also revised the text in Section 7 to clarify how the synthetic dataset is generated and why it is required. In addition, we have included Table 1 to summarise the training and test datasets.
 
-In brief, for data observed in practice, the true distribution of $y$ is unknown, and therefore the distance proposed in this study cannot be computed. In contrast, for synthetic data, we have precise control over the data generating process, so the true distribution of $y$ is known. This allows us to generate pairs of residual plots together with their corresponding distances, which are used to train the computer vision model.
+In brief, for data observed in practice, the true distribution of $y$ is unknown, and therefore the distance proposed in this study cannot be computed. In contrast, for synthetic data, we have precise control over the data generating process, so the true distribution of $y$ is known. This allows us to generate pairs of residual plots together with their corresponding distances, which are used to train the computer vision model. This is becoming common practice, as discussed in @fanSelectiveOverviewDeep2021 (TODO or other approproiate reference here)
 
-For the human subject experiment, we use the same data generating process, but only present lineups of residual plots to participants in order to evaluate visual tests.
 
 ::: reviewer
 
@@ -121,7 +121,7 @@ We agree that our approach follows standard simulation-based methodology for app
 
 ::: reviewer
 
-8. p13, Sec 5.2: How do you do bootstrapping? We need to know the distribution of ˆD under the null. However, the given observed data y may not come from the null.
+8. p13, Sec 5.2: How do you do bootstrapping? We need to know the distribution of $\hat{D}$ under the null. However, the given observed data y may not come from the null.
 
 :::
 
