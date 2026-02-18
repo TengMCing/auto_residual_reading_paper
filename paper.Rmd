@@ -107,10 +107,10 @@ ori_dat %>%
 
 The concept of visual inference, as proposed by @buja2009statistical, provides an inferential framework to assess whether residual plots indeed contain visual patterns inconsistent with the model assumptions. The fundamental idea involves testing whether the true residual plot visually differs significantly from the null plots, where null plots are plotted with residuals generated from the residual rotation distribution [@langsrud2005rotation], which is a distribution consistent with the null hypothesis $H_0$ that the linear regression model is correctly specified. Typically, the visual test is accomplished through the lineup protocol (Figure \ref{fig:ex-lineup}), where the true residual plot is embedded within a field of null plots. If the true residual plot can be distinguished from the lineup, it provides evidence for rejecting $H_0$.
 
-```{r ex-lineup, fig.pos = "!h", fig.cap="An example lineup embedding the true residual plot among 19 null plots, with the null plots generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.05. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 10, exhibiting non-linearity)."}
+```{r ex-lineup, fig.height = 6/4, fig.pos = "!h", fig.cap="An example lineup embedding the true residual plot among four null plots. In practice, lineups typically include 19 null plots, but a reduced set is shown here for presentation purposes. The null plots are generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.2. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 2, exhibiting non-linearity)."}
 set.seed(455)
 mod <- poly_model()
-ori_dat <- mod$gen_lineup(300)
+ori_dat <- mod$gen_lineup(300, k = 5)
 
 ori_dat %>%
   VI_MODEL$plot(theme = theme_light(), 
@@ -118,7 +118,7 @@ ori_dat %>%
                 remove_axis = TRUE) +
   xlab("Fitted values") +
   ylab("Residuals") +
-  facet_wrap(~k)
+  facet_wrap(~k, ncol = 5)
 ```
 
 
