@@ -854,37 +854,6 @@ def get_smooth_gradient(keras_mod, plot_path, target_size, input_auxiliary = Non
         return (im_grad, auxiliary_grad[0].numpy())
     else:
         return im_grad
-        
-
-def get_raw_gradient(keras_mod, plot_path, target_size, input_auxiliary = None):
-    im = PIL.Image.open(plot_path)
-    im = im.resize(target_size)
-    input_im = tf.keras.utils.img_to_array(im)
-    input_im = np.reshape(input_im, tuple([1]) + tuple(target_size) + tuple([3]))
-    if input_auxiliary is not None:
-        input_auxiliary = np.reshape(np.array(input_auxiliary), (1, 5))
-    
-    input_im = tf.Variable(input_im)
-    if input_auxiliary is not None:
-        input_auxiliary = tf.Variable(input_auxiliary)
-    
-    with tf.GradientTape() as tape:
-        if input_auxiliary is not None:
-            pred = keras_mod([input_im, input_auxiliary])
-        else:
-            pred = keras_mod(input_im)
-    im_grad = tape.gradient(pred, input_im)
-    
-    if input_auxiliary is not None:
-        with tf.GradientTape() as tape:
-            pred = keras_mod([input_im, input_auxiliary])
-        auxiliary_grad = tape.gradient(pred, input_auxiliary)
-    
-    im_grad = tf.image.rgb_to_grayscale(im_grad)
-    if input_auxiliary is not None:
-        return (im_grad[0].numpy(), auxiliary_grad[0].numpy())
-    else:
-        return im_grad[0].numpy()
 "
 ))
 }
