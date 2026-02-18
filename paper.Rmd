@@ -241,9 +241,11 @@ To estimate this distance from a residual plot, we proposed a computer vision es
 \hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})),
 \end{equation*}
 
-\noindent where $V_{h \times w}(.)$ renders the residuals vs. fitted values plot as an $h \times w$ RGB image, and $f_{CV}(.)$ is a model that maps the image to an estimated distance $\hat{D} \in [0, +\infty)$. TODO if this citation is appropraite to demonstrate that synthetic data generation to train neural network is common \citep{fanSelectiveOverviewDeep2021}. 
+\noindent where $V_{h \times w}(.)$ renders the residuals vs. fitted values plot as an $h \times w$ RGB image, and $f_{CV}(.)$ is a model that maps the image to an estimated distance $\hat{D} \in [0, +\infty)$. 
 
+Details of the computer vision model architecture are provided in Section \ref{sec-model-architecture}, while the training procedure, including the generation of synthetic training data, is described in Section \ref{sec-model-data-generation}.
 
+<!-- TODO if this citation is appropraite to demonstrate that synthetic data generation to train neural network is common \citep{fanSelectiveOverviewDeep2021}.  -->
 
 The distance estimator $\hat{D}$ allows us to assess how closely the residuals resemble an ideal distribution and use as an index of model violation severity (see Appendix D for details). However, $\hat{D}$ is not expected to equal the true distance $D$, as a single residual plot may not capture all characteristics of the residual distribution. For the same distribution $P$, simulated plots can vary visually, especially with small $n$, leading to estimation error that depends on how representative the input plot is.
 
