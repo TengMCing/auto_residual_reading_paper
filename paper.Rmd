@@ -69,14 +69,39 @@ if (!requireNamespace("visage", quietly = TRUE))
 if (!requireNamespace("reticulate", quietly = TRUE))
   install.packages("reticulate")
 
+
+# To install Python and the required libraries, you may use the following script
+if (TRUE) {
+  # Install `miniconda`
+  # Skip if `conda` exists in the system
+  if (is.null(reticulate:::find_conda()[[1]])) {
+    reticulate::install_miniconda()
+  }
+  
+  # You could use `options(reticulate.conda_binary = "/path/to/conda")` to
+  # force `reticulate` to use a particular `conda` binary
+  
+  # Create an environment
+  if (reticulate::condaenv_exists("auto_residual_reading_paper")) {
+    reticulate::conda_remove("auto_residual_reading_paper")
+  }
+  
+  reticulate::conda_create("auto_residual_reading_paper",
+                           python_version = "3.11.9")
+  
+  reticulate::conda_install("auto_residual_reading_paper",
+                            pip = TRUE,
+                            packages = c("tensorflow"))
+  
+  reticulate::use_condaenv("auto_residual_reading_paper")
+}
+
 # Please use `reticulate::use_python()`, `reticulate::use_virtualenv()` or `reticulate::use_conda()` to specify your Python environment.
+if (!reticulate::py_module_available("tensorflow"))
+  stop("Please specify your Python environment and ensure `tensorflow` is installed!")
 
-# if (!reticulate::py_module_available("tensorflow"))
-#   stop("Please specify your Python environment and ensure `tensorflow` is installed!")
-# 
-# if (!reticulate::py_module_available("PIL"))
-#   stop("Please specify your Python environment and ensure `PIL` is installed!")
-
+if (!reticulate::py_module_available("PIL"))
+  stop("Please specify your Python environment and ensure `PIL` is installed!")
 
 options(tinytex.clean = FALSE)
 library(tidyverse)
@@ -872,7 +897,7 @@ if (!file.exists(here::here("cached_data/fig1_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
@@ -995,7 +1020,7 @@ if (!file.exists(here::here("cached_data/boston_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
@@ -1124,7 +1149,7 @@ if (!file.exists(here::here("cached_data/dino_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
