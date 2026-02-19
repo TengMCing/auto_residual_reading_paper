@@ -1,7 +1,7 @@
 % interactcadsample.tex
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL paper-submission1.tex   Mon Jan 12 20:09:37 2026
-%DIF ADD paper.tex               Fri Feb 13 14:29:01 2026
+%DIF ADD paper.tex               Thu Feb 19 15:09:44 2026
 % v1.04 - May 2023
 
 \documentclass[]{interact}
@@ -121,7 +121,7 @@ Lincoln, Nebraska, USA}
 \begin{abstract}
 Plotting the residuals is a recommended procedure to diagnose deviations
 from linear model assumptions, such as non-linearity,
-heteroscedasticity, and non-normality. The presence of structure in
+\DIFdelbegin \DIFdel{heteroscedasticity}\DIFdelend \DIFaddbegin \DIFadd{heteroskedasticity}\DIFaddend , and non-normality. The presence of structure in
 residual plots can be tested using the lineup protocol to do visual
 inference. There are a variety of conventional residual tests, but the
 lineup protocol, used as a statistical test, performs better for
@@ -197,7 +197,7 @@ provides evidence for rejecting \(H_0\).
 
 }
 
-\caption{\DIFaddFL{An example lineup embedding the true residual plot among 19 null plots, with the null plots generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.05. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 10, exhibiting non-linearity).}}\label{fig:ex-lineup}
+\caption{\DIFaddFL{An example lineup embedding the true residual plot among four null plots. In practice, lineups typically include 19 null plots, but a reduced set is shown here for presentation purposes. The null plots are generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.2. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 2, exhibiting non-linearity).}}\label{fig:ex-lineup}
 \end{figure}
 
 \DIFaddend The practice of delivering a residual plot as a lineup is generally
@@ -212,7 +212,7 @@ respectively, while \citet{krishnan2021hierarchical} explored its
 effectiveness in forensic examinations.
 
 A practical limitation of the lineup protocol lies in its reliance on
-human judgements \citep[see][]{li2024plot}. Unlike conventional
+human \DIFdelbegin \DIFdel{judgements }\DIFdelend \DIFaddbegin \DIFadd{judgments }\DIFaddend \citep[see][]{li2024plot}. Unlike conventional
 statistical tests that can be performed using in statistical software,
 the lineup protocol requires human evaluation of images. This
 characteristic makes it less suitable for large-scale applications,
@@ -443,11 +443,7 @@ distribution for \(Q\) was
 \(N(\boldsymbol{0}_n, \text{diag}(\boldsymbol{R}\sigma^2))\). \DIFaddbegin \DIFadd{This
 replacement ensures a non-degenerate distribution, which is required for
 computing the distance defined in Section
-\ref{sec-distance-of-p-from-q}. Although more sophisticated approaches,
-such as working directly in the lower-rank subspace via
-eigen-decomposition, are possible, we adopt a full-rank approximation
-for simplicity and computational efficiency when constructing the
-training dataset for the computer vision model.
+\ref{sec-distance-of-p-from-q}.
 }\DIFaddend 
 
 Distribution \(Q\) is derived from the correctly specified model.
@@ -610,9 +606,13 @@ vision estimator \(\hat{D}\) formulated as
 \end{equation*}
 
 \noindent where \(V_{h \times w}(.)\) renders the residuals vs.~fitted
-values plot as an \(h \times w\) RGB image, and \(f_{CV}(.)\) is a model
-that maps the image to an estimated distance
-\(\hat{D} \in [0, +\infty)\).
+values plot as an \(h \times w\) RGB image, and \(f_{CV}(.)\) \DIFdelbegin \DIFdel{is a model
+that }\DIFdelend maps the
+image to an estimated distance \(\hat{D} \in [0, +\infty)\). \DIFaddbegin \DIFadd{Details of
+the model architecture are provided in Section
+\ref{sec-model-architecture}, and the training procedure is described in
+Section \ref{sec-model-data-generation}.
+}\DIFaddend 
 
 The distance estimator \(\hat{D}\) allows us to assess how closely the
 residuals resemble an ideal distribution and use as an index of model
@@ -800,15 +800,25 @@ number of observations.
 \section{Data Generation and Model
 Training}\label{sec-model-data-generation}
 
-To enable supervised training of \DIFaddbegin \DIFadd{the }\DIFaddend computer vision models for
-detecting violations in linear regression, we \DIFaddbegin \DIFadd{require paired residual
-plots and their corresponding \(D\) values to train a regression model.
-We therefore }\DIFaddend generated a synthetic dataset \DIFaddbegin \DIFadd{consisting }\DIFaddend of 80,000 training
-and 8,000 test residual plots. This simulation-based approach \DIFdelbegin \DIFdel{provided }\DIFdelend \DIFaddbegin \DIFadd{provides
-}\DIFaddend full control over the data-generating process, \DIFdelbegin \DIFdel{allowing }\DIFdelend \DIFaddbegin \DIFadd{enabling }\DIFaddend precise
-computation of \(D\), cost-effective \DIFdelbegin \DIFdel{data scaling }\DIFdelend \DIFaddbegin \DIFadd{scaling of the dataset}\DIFaddend , and the
-ability to model \DIFdelbegin \DIFdel{diverse visual patterns of }\DIFdelend \DIFaddbegin \DIFadd{a wide range of visual patterns associated with }\DIFaddend model
-violations.
+To \DIFdelbegin \DIFdel{enable supervised training of computer vision models for detecting
+violations in linear regression, we }\DIFdelend \DIFaddbegin \DIFadd{train the computer vision model for computing \(\hat{D}\) (as
+described in Section \ref{sec-model-distance-estimation}), we used
+paired residual plots and their corresponding \(D\) values. In deep
+learning, it is common to train computer vision models with synthetic
+data, especially when labelled data are scarce, costly, or difficult to
+annotate reliably \mbox{%DIFAUXCMD
+\citep{nikolenko2021synthetic}}\hskip0pt%DIFAUXCMD
+. This approach is
+particularly suitable when the underlying data-generating process is
+well understood and large numbers of controlled examples can be
+produced, allowing the model to learn visual patterns associated with
+specific violations without the cost and ambiguity of manual labelling.
+Accordingly, we }\DIFaddend generated a synthetic dataset \DIFaddbegin \DIFadd{consisting }\DIFaddend of 80,000
+training and 8,000 test residual plots\DIFdelbegin \DIFdel{. This simulation-based
+approach provided }\DIFdelend \DIFaddbegin \DIFadd{, providing }\DIFaddend full control over the
+data-generating process, \DIFdelbegin \DIFdel{allowing }\DIFdelend precise computation of \(D\), cost-effective
+\DIFdelbegin \DIFdel{data }\DIFdelend scaling, and \DIFdelbegin \DIFdel{the ability to model diverse visual patterns of }\DIFdelend \DIFaddbegin \DIFadd{coverage of a wide range of visual patterns associated with
+}\DIFaddend model violations.
 
 The simulated data incorporated three common types of residual
 departures: non-linearity, heteroskedasticity, and non-normality. These
@@ -823,28 +833,31 @@ across the difficulty scale of the target variable \(D\), a bucket
 sampling scheme was used to create a balanced dataset. Samples were
 iteratively simulated and accepted into one of 50 buckets, each
 representing a distinct range of \(D\). \DIFaddbegin \DIFadd{Table \ref{tab:data-overall}
-summarises the number of training and test samples under the different
+summarizes the number of training and test samples under the different
 violation scenarios.
 }\DIFaddend 
 
 \DIFaddbegin \begin{table}
-
-\caption{\label{tab:data-overall}\DIFaddFL{Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.}}
 \centering
-\begin{tabular}[t]{lrr}
+\caption{\label{tab:data-overall}\DIFaddFL{Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Root mean square error (RMSE) values for the training and test sets are shown for each scenario. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.}}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{tabular}[t]{lrrlr}
 \toprule
-\DIFaddFL{Violations }& \DIFaddFL{\#train samples }& \DIFaddFL{\#test samples}\\
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Train} & \multicolumn{2}{c}{Test} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+Violations & \#samples & RMSE & \#samples & RMSE\\
 \midrule
-\DIFaddFL{no violations }& \DIFaddFL{1546 }& \DIFaddFL{155}\\
-\DIFaddFL{non-linearity }& \DIFaddFL{22184 }& \DIFaddFL{2218}\\
-\DIFaddFL{heteroskedasticity }& \DIFaddFL{10826 }& \DIFaddFL{1067}\\
-\DIFaddFL{non-linearity + heteroskedasticity }& \DIFaddFL{10221 }& \DIFaddFL{985}\\
-\DIFaddFL{non-normality }& \DIFaddFL{10797 }& \DIFaddFL{1111}\\
-\DIFaddFL{non-linearity + non-normality }& \DIFaddFL{8835 }& \DIFaddFL{928}\\
-\DIFaddFL{heteroskedasticity + non-normality }& \DIFaddFL{7870 }& \DIFaddFL{819}\\
-\DIFaddFL{non-linearity + heteroskedasticity + non-normality }& \DIFaddFL{7721 }& \DIFaddFL{717}\\
+no violations & 1,546 & 1.149 & 155 & 1.267\\
+non-linearity & 22,184 & 0.625 & 2,218 & 0.787\\
+heteroskedasticity & 10,826 & 0.528 & 1,067 & 0.602\\
+non-linearity + heteroskedasticity & 10,221 & 0.593 & 985 & 0.751\\
+non-normality & 10,797 & 0.279 & 1,111 & 0.320\\
+non-linearity + non-normality & 8,835 & 0.472 & 928 & 0.600\\
+heteroskedasticity + non-normality & 7,870 & 0.354 & 819 & 0.489\\
+non-linearity + heteroskedasticity + non-normality & 7,721 & 0.432 & 717 & 0.620\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \DIFadd{The computer vision model was trained on paired data consisting of an
@@ -854,10 +867,10 @@ training was conducted on the MASSIVE M3 high-performance computing
 platform \citep{goscinski2014multi} using TensorFlow
 \citep{abadi2016tensorflow} and Keras \citep{chollet2015keras}.
 Hyperparameters were optimized via Bayesian tuning with KerasTuner
-\citep{omalley2019kerastuner}, minimizing validation RMSE across 100
-trials. The tuning process included early stopping and considered
-dropout rate, batch normalization, input resolution, and auxiliary
-inputs.
+\citep{omalley2019kerastuner}, minimizing validation \DIFdelbegin \DIFdel{RMSE }\DIFdelend \DIFaddbegin \DIFadd{root mean square
+error (RMSE) }\DIFaddend across 100 trials. The tuning process included early
+stopping and considered dropout rate, batch normalization, input
+resolution, and auxiliary inputs.
 
 Further details, including mathematical formulations of the synthetic
 data model, parameter specifications, sampling scheme, example residual
@@ -894,7 +907,7 @@ over-prediction, as illustrated in Figure \ref{fig:over-under}.
 
 To investigate further, we stratified the \DIFaddbegin \DIFadd{train and }\DIFaddend test set by
 violation type and re-evaluated performance (Table
-\ref{tab:performance-sub}). It was found that null plots had the poorest
+\DIFdelbegin \DIFdel{\ref{tab:performance-sub}}\DIFdelend \DIFaddbegin \DIFadd{\ref{tab:data-overall}}\DIFaddend ). It was found that null plots had the poorest
 metrics, while non-normality cases were easiest to predict, with RMSE
 around \(0.3\). Non-linearity (\(\text{RMSE} \approx  0.8\)) was harder
 to assess than heteroskedasticity (\(\text{RMSE} \approx  0.6\)) or
@@ -934,27 +947,62 @@ $128 \times 128$ & 0.692 & 0.892 & 0.460 & 0.20\\
 \caption{Scatter plots for difference in $D$ and $\hat{D}$ vs $\sigma$ on test data for the $32 \times 32$ optimized model. The data is grouped by whether the regression has only non-linearity violation, and whether it includes a second predictor in the regression formula. The brown lines are smoothing curves produced by fitting generalized additive models. Under-prediction mainly occurs when the data-generating process has small $\sigma$, a second predictor, and only non-linearity as the model violation.}\label{fig:over-under}
 \end{figure}
 
-\begin{table}
+\DIFdelbegin %DIFDELCMD < \begin{table}
+%DIFDELCMD < 
 
-\caption{\label{tab:performance-sub}The \DIFaddbeginFL \DIFaddFL{train and }\DIFaddendFL test performance of the $32 \times 32$ model presented with different model violations.}
-\centering
-\begin{tabular}[t]{lrr}
-\toprule
-Violations & \DIFdelbeginFL \DIFdelFL{\#samples }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Train RMSE }\DIFaddendFL & \DIFaddbeginFL \DIFaddFL{Test }\DIFaddendFL RMSE\\
-\midrule
-no violations & \DIFdelbeginFL \DIFdelFL{155 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{1.149 }\DIFaddendFL & 1.267\\
-non-linearity & \DIFdelbeginFL \DIFdelFL{2218 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.625 }\DIFaddendFL & 0.787\\
-heteroskedasticity & \DIFdelbeginFL \DIFdelFL{1067 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.528 }\DIFaddendFL & 0.602\\
-non-linearity + heteroskedasticity & \DIFdelbeginFL \DIFdelFL{985 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.593 }\DIFaddendFL & 0.751\\
-non-normality & \DIFdelbeginFL \DIFdelFL{1111 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.279 }\DIFaddendFL & 0.320\\
-non-linearity + non-normality & \DIFdelbeginFL \DIFdelFL{928 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.472 }\DIFaddendFL & 0.600\\
-heteroskedasticity + non-normality & \DIFdelbeginFL \DIFdelFL{819 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.354 }\DIFaddendFL & 0.489\\
-non-linearity + heteroskedasticity + non-normality & \DIFdelbeginFL \DIFdelFL{717 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.432 }\DIFaddendFL & 0.620\\
-\bottomrule
-\end{tabular}
-\end{table}
+%DIFDELCMD < %%%
+%DIFDELCMD < \caption{%
+{%DIFAUXCMD
+%DIFDELCMD < \label{tab:performance-sub}%%%
+\DIFdelFL{The test performance of the $32 \times 32$ model presented with different model violations.}}
+%DIFAUXCMD
+%DIFDELCMD < \centering
+%DIFDELCMD < \begin{tabular}[t]{lrr}
+%DIFDELCMD < \toprule
+%DIFDELCMD < %%%
+\DIFdelFL{Violations }%DIFDELCMD < & %%%
+\DIFdelFL{\#samples }%DIFDELCMD < & %%%
+\DIFdelFL{RMSE}%DIFDELCMD < \\
+%DIFDELCMD < \midrule
+%DIFDELCMD < %%%
+\DIFdelFL{no violations }%DIFDELCMD < & %%%
+\DIFdelFL{155 }%DIFDELCMD < & %%%
+\DIFdelFL{1.267}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{non-linearity }%DIFDELCMD < & %%%
+\DIFdelFL{2218 }%DIFDELCMD < & %%%
+\DIFdelFL{0.787}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{heteroskedasticity }%DIFDELCMD < & %%%
+\DIFdelFL{1067 }%DIFDELCMD < & %%%
+\DIFdelFL{0.602}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{non-linearity + heteroskedasticity }%DIFDELCMD < & %%%
+\DIFdelFL{985 }%DIFDELCMD < & %%%
+\DIFdelFL{0.751}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{non-normality }%DIFDELCMD < & %%%
+\DIFdelFL{1111 }%DIFDELCMD < & %%%
+\DIFdelFL{0.320}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{non-linearity + non-normality }%DIFDELCMD < & %%%
+\DIFdelFL{928 }%DIFDELCMD < & %%%
+\DIFdelFL{0.600}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{heteroskedasticity + non-normality }%DIFDELCMD < & %%%
+\DIFdelFL{819 }%DIFDELCMD < & %%%
+\DIFdelFL{0.489}%DIFDELCMD < \\
+%DIFDELCMD < %%%
+\DIFdelFL{non-linearity + heteroskedasticity + non-normality }%DIFDELCMD < & %%%
+\DIFdelFL{717 }%DIFDELCMD < & %%%
+\DIFdelFL{0.620}%DIFDELCMD < \\
+%DIFDELCMD < \bottomrule
+%DIFDELCMD < \end{tabular}
+%DIFDELCMD < \end{table}
+%DIFDELCMD < 
 
-\subsection{Comparison with Human Visual Inference and Conventional
+%DIFDELCMD < %%%
+\DIFdelend \subsection{Comparison with Human Visual Inference and Conventional
 Tests}\label{comparison-with-human-visual-inference-and-conventional-tests}
 
 \subsubsection{Overview of the Human Subject
@@ -1002,8 +1050,8 @@ Table \ref{tab:experiment-performance} reports performance metrics for
 worse than on the test data provided in Table \ref{tab:performance}, the
 mean absolute error remains low and the correlation between predictions
 and true values remains high. Consistent with results in Table
-\ref{tab:performance-sub}, non-linearity cases are harder to predict
-than heteroskedasticity cases.
+\DIFdelbegin \DIFdel{\ref{tab:performance-sub}}\DIFdelend \DIFaddbegin \DIFadd{\ref{tab:data-overall}}\DIFaddend , non-linearity cases are harder to predict than
+heteroskedasticity cases.
 
 \begin{table}
 
@@ -1206,7 +1254,7 @@ may be misled by visual artifacts.
 
 To further interpret the model's output, the attention map in Figure
 \ref{fig:false-check}B, computed as the gradient of the output with
-respect to the greyscale input, shows that the top-right and
+respect to the \DIFdelbegin \DIFdel{greyscale }\DIFdelend \DIFaddbegin \DIFadd{grayscale }\DIFaddend input, shows that the top-right and
 bottom-right corners of the residual plot have the most influence,
 corresponding to the triangle's vertices. In addition, a principal
 component analysis (PCA) of the 256 features extracted by the model's
