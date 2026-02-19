@@ -105,7 +105,7 @@ We have changed "solve" to "evaluate", thank you.
 
 :::
 
-The data generating process used for the human subject experiment is a special case of the process used to generate the training data for the computer vision model in this study. This process is described in Section 7, with additional details provided in the appendix. We have also revised the text in Section 7 to clarify how the synthetic dataset is generated and why it is required. In addition, we have included Table 1 to summarise the training and test datasets.
+The data generating process used for the human subject experiment is a special case of the process used to generate the training data for the computer vision model in this study. This process is described in Section 7, with additional details provided in the appendix A. We have also revised the text in Section 7 to clarify how the synthetic dataset is generated and why it is required. In addition, we have included Table 1 to summarise the training and test datasets.
 
 In brief, for data observed in practice, the true distribution of $y$ is unknown, and therefore the distance proposed in this study cannot be computed. In contrast, for synthetic data, we have precise control over the data generating process, so the true distribution of $y$ is known. This allows us to generate pairs of residual plots together with their corresponding distances, which are used to train the computer vision model. This is becoming common practice, as discussed in @fanSelectiveOverviewDeep2021 (TODO or other approproiate reference here)
 
