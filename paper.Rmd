@@ -406,7 +406,7 @@ data_overall %>%
 
 
 
-The computer vision model was trained on paired data consisting of an RGB residual plot image as input and the corresponding target value $D$, with the objective of learning to estimate $\hat{D}$. Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation root mean square error (RMSE) across 100 trials. The tuning process included early stopping and considered dropout rate, batch normalization, input resolution, and auxiliary inputs.
+The computer vision model was trained on paired data consisting of an RGB residual plot image as input and the corresponding target value $D$, with the objective of learning to predict $\hat{D}$. Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation root mean square error (RMSE) across 100 trials. The tuning process included early stopping and considered dropout rate, batch normalization, input resolution, and auxiliary inputs.
 
 Further details, including mathematical formulations of the synthetic data model, parameter specifications, sampling scheme, example residual plots and hyperparameter tuning configuration, are provided in the Appendix A and C.
 
