@@ -1,4 +1,4 @@
-## ----setup, include=FALSE-----------------------------------------------------------------
+## ----setup, include=FALSE-------------------
 knitr::opts_chunk$set(
   message = FALSE, 
   warning = FALSE, 
@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   fig.align = "center")
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 if (!requireNamespace("tidyverse", quietly = TRUE))
   install.packages("tidyverse")
 
@@ -26,7 +26,58 @@ if (!requireNamespace("visage", quietly = TRUE))
 if (!requireNamespace("reticulate", quietly = TRUE))
   install.packages("reticulate")
 
+if (!requireNamespace("ggmosaic", quietly = TRUE))
+  install.packages("ggmosaic")
+
+if (!requireNamespace("here", quietly = TRUE))
+  install.packages("here")
+
+if (!requireNamespace("knitr", quietly = TRUE))
+  install.packages("knitr")
+
+if (!requireNamespace("yardstick", quietly = TRUE))
+  install.packages("yardstick")
+
+if (!requireNamespace("kableExtra", quietly = TRUE))
+  install.packages("kableExtra")
+
+if (!requireNamespace("autovi", quietly = TRUE))
+  install.packages("autovi")
+
+if (!requireNamespace("patchwork", quietly = TRUE))
+  install.packages("patchwork")
+
+if (!requireNamespace("datasauRus", quietly = TRUE))
+  install.packages("datasauRus")
+
+# To install Python and the required libraries, you may use the following code chunk.
+if (FALSE) {
+  # Install `miniconda`
+  # Skip if `conda` exists in the system
+  if (is.null(reticulate:::find_conda()[[1]])) {
+    reticulate::install_miniconda()
+  }
+  
+  # You could use `options(reticulate.conda_binary = "/path/to/conda")` to
+  # force `reticulate` to use a particular `conda` binary
+  
+  # Create an environment
+  if (reticulate::condaenv_exists("auto_residual_reading_paper")) {
+    reticulate::conda_remove("auto_residual_reading_paper")
+  }
+  
+  reticulate::conda_create("auto_residual_reading_paper",
+                           python_version = "3.11.9")
+  
+  reticulate::conda_install("auto_residual_reading_paper",
+                            pip = TRUE,
+                            packages = c("tensorflow"))
+}
+
 # Please use `reticulate::use_python()`, `reticulate::use_virtualenv()` or `reticulate::use_conda()` to specify your Python environment.
+if (FALSE) {
+  reticulate::use_condaenv("auto_residual_reading_paper")
+}
 
 if (!reticulate::py_module_available("tensorflow"))
   stop("Please specify your Python environment and ensure `tensorflow` is installed!")
@@ -34,11 +85,11 @@ if (!reticulate::py_module_available("tensorflow"))
 if (!reticulate::py_module_available("PIL"))
   stop("Please specify your Python environment and ensure `PIL` is installed!")
 
-
 options(tinytex.clean = FALSE)
 library(tidyverse)
 library(visage)
 library(glue)
+library(here)
 
 # To control the simulation in this file
 set.seed(10086)
@@ -56,10 +107,10 @@ ori_dat %>%
   ylab("Residuals")
 
 
-## ----ex-lineup, fig.pos = "!h", fig.cap="An example lineup embedding the true residual plot among 19 null plots, with the null plots generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.05. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 10, exhibiting non-linearity)."----
+## ----ex-lineup, fig.height = 6/4, fig.pos = "!h", fig.cap="An example lineup embedding the true residual plot among four null plots. In practice, lineups typically include 19 null plots, but a reduced set is shown here for presentation purposes. The null plots are generated via residual rotation to ensure consistency with $H_0$. Observers who have not previously seen the lineup are asked to identify the plot that appears most different. Under $H_0$ that the regression model is correctly specified, the true residual plot should be indistinguishable from the null plots, yielding a selection probability of 0.2. A small $p$-value arises when a substantial proportion of observers select the true residual plot (shown at position 2, exhibiting non-linearity)."----
 set.seed(455)
 mod <- poly_model()
-ori_dat <- mod$gen_lineup(300)
+ori_dat <- mod$gen_lineup(300, k = 5)
 
 ori_dat %>%
   VI_MODEL$plot(theme = theme_light(), 
@@ -67,17 +118,17 @@ ori_dat %>%
                 remove_axis = TRUE) +
   xlab("Fitted values") +
   ylab("Residuals") +
-  facet_wrap(~k)
+  facet_wrap(~k, ncol = 5)
 
 
 ## ----cnn-diag, fig.pos = "!h", fig.cap = "Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.", out.width = "100%"----
 knitr::include_graphics("figures/cnn.pdf")
 
 
-## -----------------------------------------------------------------------------------------
-test_pred <- readr::read_csv(here::here("data/test_pred.csv"))
-train_pred <- readr::read_csv(here::here("data/train_pred.csv"))
-meta <- readr::read_csv(here::here("data/meta.csv"))
+## -------------------------------------------
+test_pred <- read_csv(here("data/test_pred.csv"))
+train_pred <- read_csv(here("data/train_pred.csv"))
+meta <- read_csv(here("data/meta.csv"))
 
 test_summary <- test_pred %>% 
   left_join(meta) %>%
@@ -117,26 +168,27 @@ data_overall <- model_pred %>%
   mutate(violations = gsub("null \\+ ", "", violations)) %>%
   ungroup() %>%
   select(violations, train_n, train_RMSE, test_n, test_RMSE) %>%
-  mutate(train_n = format(train_n)) %>%
-  mutate(test_n = format(test_n)) %>%
+  mutate(train_n = scales::comma(train_n), 
+         test_n = scales::comma(test_n)) %>%
   mutate(across(c(train_RMSE, test_RMSE), ~format(.x, digits = 3))) %>%
   mutate(violations = ifelse(violations == "null", "no violations", violations))
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 data_overall %>%
-  select(-train_RMSE, -test_RMSE) %>%
   kableExtra::kable(format = "latex",
                     booktabs = TRUE,
                     label = "data-overall",
-                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.",
+                    caption = "Number of training and test samples for each model violation scenario, including cases with multiple simultaneous violations. Each sample consists of a residual plot as input and the corresponding distance $D$ as the target. Root mean square error (RMSE) values for the training and test sets are shown for each scenario. Details of the synthetic data generating process used to construct these samples are provided in Appendix A.",
                     escape = FALSE,
                     linesep = "", 
                     align = "lrr",
-                    col.names = c("Violations", "\\#train samples", "\\#test samples"))
+                    col.names = c("Violations", "\\#samples", "RMSE", "\\#samples", "RMSE")) %>%
+  kableExtra::add_header_above(c(" ", "Train" = 2, "Test" = 2)) %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 test_summary %>%
   select(res, RMSE, R2, MAE, HUBER) %>%
   mutate(res = glue("${res} \\times {res}$")) %>%
@@ -218,21 +270,8 @@ model_pred %>%
   xlab(expression(sigma))
 
 
-## -----------------------------------------------------------------------------------------
-data_overall %>%
-  select(-train_n, -test_n) %>%
-  kableExtra::kable(format = "latex",
-                    booktabs = TRUE,
-                    label = "performance-sub",
-                    caption = "The train and test performance of the $32 \\times 32$ model presented with different model violations.",
-                    escape = FALSE,
-                    linesep = "", 
-                    align = "lrr",
-                    col.names = c("Violations", "Train RMSE", "Test RMSE"))
-
-
-## ----rd-human-----------------------------------------------------------------------------
-vss_32 <- readRDS(here::here("data/vss_32.rds"))
+## ----rd-human-------------------------------
+vss_32 <- readRDS(here("data/vss_32.rds"))
 
 experiment <- vi_survey %>%
   group_by(unique_lineup_id) %>%
@@ -250,10 +289,10 @@ experiment <- vss_32 %>%
   mutate(model_boot_reject = vss_boot_p_value <= 0.05)
 
 experiment <- experiment %>%
-  left_join(readRDS(here::here("data/actual_ss.rds")))
+  left_join(readRDS(here("data/actual_ss.rds")))
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 experiment %>%
   filter(!attention_check) %>%
   filter(!null_lineup) %>%
@@ -273,8 +312,8 @@ experiment %>%
                     col.names = c("Violation", "RMSE", "$R^2$", "MAE", "Huber loss"))
 
 
-## ----hist-null-human----------------------------------------------------------------------
-lineup_vss <- readRDS(here::here("data/lineup_vss.rds"))
+## ----hist-null-human------------------------
+lineup_vss <- readRDS(here("data/lineup_vss.rds"))
 lineup_vss <- lineup_vss %>%
   group_by(unique_lineup_id) %>%
   mutate(delta_diff = vss[!null] - max(vss[null])) %>%
@@ -288,11 +327,11 @@ experiment <- experiment %>%
   select(unique_lineup_id, rank, model_reject_20))
 
 
-## ----cache = TRUE-------------------------------------------------------------------------
+## ----cache = TRUE---------------------------
 vi_lineup <- get_vi_lineup()
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 bind_rows(
   experiment %>%
     filter(!attention_check) %>%
@@ -331,12 +370,11 @@ experiment %>%
   mutate(conventional_reject = ifelse(conventional_reject, "Reject", "No")) %>%
   mutate(across(c(model_reject_20, conventional_reject), ~factor(.x, levels = c("Reject", "No")))) %>%
   ggplot() +
-  geom_mosaic(aes(x = ggmosaic::product(model_reject_20, conventional_reject), 
+  geom_mosaic(aes(x = product(model_reject_20, conventional_reject), 
                   fill = model_reject_20)) +
   facet_grid(~type) +
   ylab("Computer vision model rejects") +
   xlab("Conventional tests reject ") +
-  # labs(fill = "Visual tests reject") +
   scale_fill_manual(values = c("#40B0A6", "#E1BE6A")) + 
   theme_bw() +
   theme(legend.position = "none") +
@@ -470,7 +508,7 @@ experiment %>%
   theme_light()
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 set.seed(452)
 ori_x <- rand_lognormal()
 dat <- heter_model(b = 0, x = closed_form(~-ori_x))$gen(300)
@@ -479,20 +517,20 @@ mod <- lm(y ~ x, data = dat)
 my_vi <- autovi::auto_vi(fitted_model = mod)
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/fig1_check.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/fig1_check.rds"))) {
   keras_model <- autovi::get_keras_model("vss_phn_32")
   my_vi$check(null_draws = 200L, boot_draws = 200L, keras_model = keras_model, extract_feature_from_layer = "global_max_pooling2d")
-  saveRDS(my_vi$check_result, here::here("cached_data/fig1_check.rds"))
+  saveRDS(my_vi$check_result, here("cached_data/fig1_check.rds"))
 }
 
 
 
-## -----------------------------------------------------------------------------------------
-my_vi$check_result <- readRDS(here::here("cached_data/fig1_check.rds"))
+## -------------------------------------------
+my_vi$check_result <- readRDS(here("cached_data/fig1_check.rds"))
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 define_gradient <- function() {
   reticulate::py_run_string(glue(
 "
@@ -541,45 +579,14 @@ def get_smooth_gradient(keras_mod, plot_path, target_size, input_auxiliary = Non
         return (im_grad, auxiliary_grad[0].numpy())
     else:
         return im_grad
-        
-
-def get_raw_gradient(keras_mod, plot_path, target_size, input_auxiliary = None):
-    im = PIL.Image.open(plot_path)
-    im = im.resize(target_size)
-    input_im = tf.keras.utils.img_to_array(im)
-    input_im = np.reshape(input_im, tuple([1]) + tuple(target_size) + tuple([3]))
-    if input_auxiliary is not None:
-        input_auxiliary = np.reshape(np.array(input_auxiliary), (1, 5))
-    
-    input_im = tf.Variable(input_im)
-    if input_auxiliary is not None:
-        input_auxiliary = tf.Variable(input_auxiliary)
-    
-    with tf.GradientTape() as tape:
-        if input_auxiliary is not None:
-            pred = keras_mod([input_im, input_auxiliary])
-        else:
-            pred = keras_mod(input_im)
-    im_grad = tape.gradient(pred, input_im)
-    
-    if input_auxiliary is not None:
-        with tf.GradientTape() as tape:
-            pred = keras_mod([input_im, input_auxiliary])
-        auxiliary_grad = tape.gradient(pred, input_auxiliary)
-    
-    im_grad = tf.image.rgb_to_grayscale(im_grad)
-    if input_auxiliary is not None:
-        return (im_grad[0].numpy(), auxiliary_grad[0].numpy())
-    else:
-        return im_grad[0].numpy()
 "
 ))
 }
 
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/fig1_attention_map.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/fig1_attention_map.rds"))) {
   reticulate::py_set_seed(10086, disable_hash_randomization = TRUE)
   define_gradient()
   keras_mod <- autovi::get_keras_model("vss_phn_32")
@@ -590,37 +597,37 @@ if (!file.exists(here::here("cached_data/fig1_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
-  x_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
-  y_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
+  x_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
+  y_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
   
   smooth_att_map <- smooth_g[[1]] |> 
     as.data.frame() |>
-    dplyr::mutate(row = rev(1:32)) |>
-    tidyr::pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
-    dplyr::mutate(column = as.integer(gsub("V", "", column))) |>
-    dplyr::mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
-    dplyr::mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
+    mutate(row = rev(1:32)) |>
+    pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
+    mutate(column = as.integer(gsub("V", "", column))) |>
+    mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
+    mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
   
   scale_zero_one <- function(x) (x - min(x))/(max(x) - min(x))
   
   p <- ggplot() +
-    ggplot2::geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), ggplot2::aes(column, row, fill = gradient), alpha = 0.7) +
+    geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), aes(column, row, fill = gradient), alpha = 0.7) +
     scale_fill_gradient(low = "black", high = "white") +
-    ggplot2::theme_void() +
+    theme_void() +
     theme(legend.position = "none")
   
-  saveRDS(p, here::here("cached_data/fig1_attention_map.rds"))
+  saveRDS(p, here("cached_data/fig1_attention_map.rds"))
   
 }
 
 
 ## ----false-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.', fig.height = 8, out.width = "80%"----
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
-p2 <- readRDS(here::here("cached_data/fig1_attention_map.rds")) + ggtitle("(B) Attention map")
+p2 <- readRDS(here("cached_data/fig1_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
   annotate("text", x = 2.8, y = 1.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
   ggtitle("(C) Density plot of estimated D", subtitle = glue("Conventional p-value = {format(HETER_MODEL$test(dat)$p_value, digits = 3)}")) +
@@ -672,28 +679,28 @@ l1 <- result %>%
   ggtitle("(A) Lineup for left-triangle")
 
 
-## -----------------------------------------------------------------------------------------
-housing <- read_csv(here::here("data/housing.csv"))
+## -------------------------------------------
+housing <- read_csv(here("data/housing.csv"))
 mod <- lm(MEDV ~ ., data = housing)
 
 my_vi <- autovi::auto_vi(fitted_model = mod)
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/boston_check.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/boston_check.rds"))) {
   keras_model <- autovi::get_keras_model("vss_phn_32")
   my_vi$check(null_draws = 200L, boot_draws = 200L, keras_model = keras_model, extract_feature_from_layer = "global_max_pooling2d")
-  saveRDS(my_vi$check_result, here::here("cached_data/boston_check.rds"))
+  saveRDS(my_vi$check_result, here("cached_data/boston_check.rds"))
 }
 
 
 
-## -----------------------------------------------------------------------------------------
-my_vi$check_result <- readRDS(here::here("cached_data/boston_check.rds"))
+## -------------------------------------------
+my_vi$check_result <- readRDS(here("cached_data/boston_check.rds"))
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/boston_attention_map.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/boston_attention_map.rds"))) {
   reticulate::py_set_seed(10086, disable_hash_randomization = TRUE)
   define_gradient()
   keras_mod <- autovi::get_keras_model("vss_phn_32")
@@ -704,37 +711,37 @@ if (!file.exists(here::here("cached_data/boston_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
-  x_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
-  y_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
+  x_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
+  y_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
   
   smooth_att_map <- smooth_g[[1]] |> 
     as.data.frame() |>
-    dplyr::mutate(row = rev(1:32)) |>
-    tidyr::pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
-    dplyr::mutate(column = as.integer(gsub("V", "", column))) |>
-    dplyr::mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
-    dplyr::mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
+    mutate(row = rev(1:32)) |>
+    pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
+    mutate(column = as.integer(gsub("V", "", column))) |>
+    mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
+    mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
   
   scale_zero_one <- function(x) (x - min(x))/(max(x) - min(x))
   
   p <- ggplot() +
-    ggplot2::geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), ggplot2::aes(column, row, fill = gradient), alpha = 0.7) +
+    geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), aes(column, row, fill = gradient), alpha = 0.7) +
     scale_fill_gradient(low = "black", high = "white") +
-    ggplot2::theme_void() +
+    theme_void() +
     theme(legend.position = "none")
   
-  saveRDS(p, here::here("cached_data/boston_attention_map.rds"))
+  saveRDS(p, here("cached_data/boston_attention_map.rds"))
   
 }
 
 
 ## ----boston-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.', fig.height = 8, out.width = "80%"----
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
-p2 <- readRDS(here::here("cached_data/boston_attention_map.rds")) + ggtitle("(B) Attention map")
+p2 <- readRDS(here("cached_data/boston_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
     annotate("text", x = 6, y = 2.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
   ggtitle("(C) Density plot of estimated D", subtitle = glue("Conventional p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}")) +
@@ -786,27 +793,27 @@ l2 <- result %>%
   ggtitle("(B) Lineup for Boston housing")
 
 
-## -----------------------------------------------------------------------------------------
+## -------------------------------------------
 dino <- datasauRus::datasaurus_dozen %>% filter(dataset == "dino")
 mod <- lm(y ~ ., data = select(dino, -dataset))
 
 my_vi <- autovi::auto_vi(fitted_model = mod)
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/dino_check.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/dino_check.rds"))) {
   keras_model <- autovi::get_keras_model("vss_phn_32")
   my_vi$check(null_draws = 200L, boot_draws = 200L, keras_model = keras_model, extract_feature_from_layer = "global_max_pooling2d")
-  saveRDS(my_vi$check_result, here::here("cached_data/dino_check.rds"))
+  saveRDS(my_vi$check_result, here("cached_data/dino_check.rds"))
 }
 
 
-## -----------------------------------------------------------------------------------------
-my_vi$check_result <- readRDS(here::here("cached_data/dino_check.rds"))
+## -------------------------------------------
+my_vi$check_result <- readRDS(here("cached_data/dino_check.rds"))
 
 
-## -----------------------------------------------------------------------------------------
-if (!file.exists(here::here("cached_data/dino_attention_map.rds"))) {
+## -------------------------------------------
+if (!file.exists(here("cached_data/dino_attention_map.rds"))) {
   reticulate::py_set_seed(10086, disable_hash_randomization = TRUE)
   define_gradient()
   keras_mod <- autovi::get_keras_model("vss_phn_32")
@@ -817,30 +824,30 @@ if (!file.exists(here::here("cached_data/dino_attention_map.rds"))) {
   reticulate::py$get_smooth_gradient(keras_mod = keras_mod, 
                                      plot_path = plot_path, 
                                      target_size = c(32L, 32L), 
-                                     input_auxiliary = input_auxiliary,
+                                     input_auxiliary = unlist(input_auxiliary),
                                      noise_level = 0.5,
                                      n = 1000L) -> smooth_g
   
-  x_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
-  y_range <- ggplot2::ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
+  x_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$x.range
+  y_range <- ggplot_build(my_vi$plot_resid())$layout$panel_params[[1]]$y.range
   
   smooth_att_map <- smooth_g[[1]] |> 
     as.data.frame() |>
-    dplyr::mutate(row = rev(1:32)) |>
-    tidyr::pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
-    dplyr::mutate(column = as.integer(gsub("V", "", column))) |>
-    dplyr::mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
-    dplyr::mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
+    mutate(row = rev(1:32)) |>
+    pivot_longer(V1:V32, names_to = "column", values_to = "gradient") |>
+    mutate(column = as.integer(gsub("V", "", column))) |>
+    mutate(column = x_range[1] + column * (x_range[2] - x_range[1])/(32 - 1)) |>
+    mutate(row = y_range[1] + row * (y_range[2] - y_range[1])/(32 - 1))
   
   scale_zero_one <- function(x) (x - min(x))/(max(x) - min(x))
   
   p <- ggplot() +
-    ggplot2::geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), ggplot2::aes(column, row, fill = gradient), alpha = 0.7) +
+    geom_raster(data = mutate(smooth_att_map, gradient = scale_zero_one(gradient)), aes(column, row, fill = gradient), alpha = 0.7) +
     scale_fill_gradient(low = "black", high = "white") +
-    ggplot2::theme_void() +
+    theme_void() +
     theme(legend.position = "none")
   
-  saveRDS(p, here::here("cached_data/dino_attention_map.rds"))
+  saveRDS(p, here("cached_data/dino_attention_map.rds"))
   
 }
 
@@ -848,7 +855,7 @@ if (!file.exists(here::here("cached_data/dino_attention_map.rds"))) {
 ## ----dino-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model\'s decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.', fig.height = 8, out.width = "80%"----
 
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
-p2 <- readRDS(here::here("cached_data/dino_attention_map.rds")) + ggtitle("(B) Attention map")
+p2 <- readRDS(here("cached_data/dino_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
     annotate("text", x = 6, y = 1.25, label = glue("p-value = {format(my_vi$p_value(), digits = 3)}")) +
   ggtitle("(C) Density plot of estimated D", subtitle = glue("RESET test p-value = {format(lmtest::resettest(mod)$p.value, digits = 3)}\n Breusch-Pagan test p-value = {format(lmtest::bptest(mod)$p.value, digits = 3)} \n Shapiro-Wilk test p-value = {format(shapiro.test(mod$residuals)$p.value, digits = 3)}")) +

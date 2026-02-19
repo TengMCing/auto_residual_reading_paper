@@ -1,4 +1,4 @@
-\begin{thebibliography}{66}
+\begin{thebibliography}{67}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\normalfont{#1}}
@@ -138,6 +138,9 @@ Mason, Harriet, Stuart Lee, Ursula Laa, and Dianne Cook. 2022. \emph{cassowaryr:
 
 \bibitem[Müller(2020)]{here}
 Müller, Kirill. 2020. \emph{here: A simpler way to find your files}. R package version 1.0.1,  \urlprefix\url{https://CRAN.R-project.org/package=here}.
+
+\bibitem[Nikolenko et~al.(2021)]{nikolenko2021synthetic}
+Nikolenko, Sergey~I, et~al. 2021. \emph{Synthetic data for deep learning}. Vol. 174. Springer.
 
 \bibitem[Ojeda, Solano, and Peramo(2020)]{ojeda2020multivariate}
 Ojeda, Sun Arthur~A, Geoffrey~A Solano, and Elmer~C Peramo. 2020. ``Multivariate time series imaging for short-term precipitation forecasting using convolutional neural networks.'' In \emph{2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)}, 33--38. IEEE.
