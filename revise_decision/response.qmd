@@ -64,7 +64,7 @@ In response, we have revised the introduction to explicitly define these compone
 
 :::
 
-The lineup protocol was described in third paragraph of the Introduction, but more information can be obtainined in the cited reference in the paragraph. Since lineup protocol is not the main focus of this paper, we have added a brief description in the Introduction and provided a reference to the original paper for readers who are interested in learning more about it. To aid readers who are new to the concept, we have also included an example lineup figure (Figure 2) in the revised manuscript to visually illustrate the protocol and make the description easier to understand.
+The lineup protocol was described in third paragraph of the Introduction, but more information can be obtained in the cited reference in the paragraph. The lineup protocol is not the main focus of this paper, but it is important context. So we have added a brief description in the Introduction, including an example lineup  (Figure 2) and provided a reference to the original paper for readers who need more background. 
 
 
 ::: reviewer
@@ -73,7 +73,7 @@ The lineup protocol was described in third paragraph of the Introduction, but mo
 
 :::
 
-These three references are already cited in the manuscript. We are not sure if there was a misunderstanding, but we have confirmed that these references are present in the manuscript as required.
+These three references are already cited in the manuscript. We are not sure if there was a misunderstanding, but we have confirmed that these references are present in the manuscript.
 
 ::: reviewer
 
