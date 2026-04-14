@@ -36,20 +36,8 @@ We thank the reviewer for their time and constructive comments to improve this p
 
 ::: reviewer
 
-The idea of the paper is interesting and potentially useful. However, I think that the paper needs to
-be significantly revised to be solid. The paper contains two major ideas for residual diagnosis. One
-is the use of KL distance based measure $D$ for discriminate good models and wrong models. The
-other idea is to use computer vision models to estimate $D$ with $\hat{D}$. The methodology part of the
-paper needs to be separated clearly for these two tasks. The paper directly reports the performance
-of $\hat{D}$ but did not verify the goodness of $D$ itself. _Although we see reasonable performance of $\hat{D}$, the
-goodness of $D$ is still doubtful to me._ The measure $D$ is a logarithm of a sum of KL distances of $n$
-observations. Therefore, the raw value of $D$ is affected by the sample size $n$, the degree and types
-of model violation, and many other factors such as the number of predictors. Hence, the raw value
-of $D$ may not be informative to detect model violation unless their distributions are calibrated by
-some methods. This may be why the authors use bootstrap to generate null and boot distributions
-of $D$ to come up with a valid p-value. Unfortunately the description of the bootstrap procedure
-is unclear. It is suggested that the authors report the performance of the test p-value based on
-original $D$ along with computer-vision-based $\hat{D}$, and describe the bootstrap procedure more clearly.
+The idea of the paper is interesting and potentially useful. However, I think that the paper needs to be significantly revised to be solid. The paper contains two major ideas for residual diagnosis. One is the use of KL distance based measure $D$ for discriminate good models and wrong models. The
+other idea is to use computer vision models to estimate $D$ with $\hat{D}$. The methodology part of the paper needs to be separated clearly for these two tasks. The paper directly reports the performance of $\hat{D}$ but did not verify the goodness of $D$ itself. _Although we see reasonable performance of $\hat{D}$, the goodness of $D$ is still doubtful to me._ The measure $D$ is a logarithm of a sum of KL distances of $n$ observations. Therefore, the raw value of $D$ is affected by the sample size $n$, the degree and types of model violation, and many other factors such as the number of predictors. Hence, the raw value of $D$ may not be informative to detect model violation unless their distributions are calibrated by some methods. This may be why the authors use bootstrap to generate null and boot distributions of $D$ to come up with a valid p-value. Unfortunately the description of the bootstrap procedure is unclear. It is suggested that the authors report the performance of the test p-value based on original $D$ along with computer-vision-based $\hat{D}$, and describe the bootstrap procedure more clearly.
 
 :::
 
@@ -75,18 +63,17 @@ We believe this is referring to the sentence "It follows that the distribution o
 
 pg 10, eq 3 and eq 2:
 
-Can the authors explain why the specific form $\log(1 + D_{KL})$ is used? I don’t see that eq 3
-explains this form. Why +1 and why log?
+Can the authors explain why the specific form $\log(1 + D_{KL})$ is used? I don’t see that eq 3 explains this form. Why +1 and why log?
 
 :::
 
-The form $\log(1 + D_{KL})$ is used to ensure that the measure $D$ spans real line and one is added as a pseudo-count to avoid taking log of zero when $D_{KL}$ is zero. [TODO]? We have added this explanation in the revised paper.
+The form $\log(1 + D_{KL})$ is used to ensure that large values of $D_{KL}$ are compressed and to avoid taking the logarithm of zero when $D_{KL}$ is zero. 
 
 ::: reviewer
 
 About the $D$:
 
-The features of $D$ are unclear to me. Does its distribution depend on sample size and model violation types (for example, non-normality, omission of predictors, dependency)? Do the proposed tests try to get rid of this complicated distribution by using bootstrapping? I suspect that the $D$ or $\hat{D}$ strongly depends on sample, as it is a sum of 𝑛 terms. How can the $D$ itself be useful for detecting model deviation?
+The features of $D$ are unclear to me. Does its distribution depend on sample size and model violation types (for example, non-normality, omission of predictors, dependency)? Do the proposed tests try to get rid of this complicated distribution by using bootstrapping? I suspect that the $D$ or $\hat{D}$ strongly depends on sample, as it is a sum of $n$ terms. How can the $D$ itself be useful for detecting model deviation?
 
 :::
 
