@@ -27,7 +27,7 @@ format:
 
 ---
 
-We thank the editor and the reviewer for their constructive comments that have improved this paper. We have addressed all comments, colored in [purple]{.review}. In addition, we also include an annotated version of the paper (`diff.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
+We thank the reviewer for their time and constructive comments to improve this paper. The reviewer comments are colored in [purple]{.review} below and our response in black below. In addition, we also include an annotated version of the paper (`diff2.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
 
 ## Reviewer
 
@@ -41,7 +41,7 @@ be significantly revised to be solid. The paper contains two major ideas for res
 is the use of KL distance based measure $D$ for discriminate good models and wrong models. The
 other idea is to use computer vision models to estimate $D$ with $\hat{D}$. The methodology part of the
 paper needs to be separated clearly for these two tasks. The paper directly reports the performance
-of $\hat{D}$ but didnot verify the goodness of $D$ itself. _Although we see reasonable performance of $\hat{D}$, the
+of $\hat{D}$ but did not verify the goodness of $D$ itself. _Although we see reasonable performance of $\hat{D}$, the
 goodness of $D$ is still doubtful to me._ The measure $D$ is a logarithm of a sum of KL distances of $n$
 observations. Therefore, the raw value of $D$ is affected by the sample size $n$, the degree and types
 of model violation, and many other factors such as the number of predictors. Hence, the raw value
@@ -55,6 +55,9 @@ original $D$ along with computer-vision-based $\hat{D}$, and describe the bootst
 
 [TODO]
 
+Thank you for your valuable comments. 
+
+
 
 **2 Technical Critiques and Queries**
 
@@ -62,11 +65,11 @@ original $D$ along with computer-vision-based $\hat{D}$, and describe the bootst
 
 pg 8, line 29:
 
-The authors use the word “certain”. This makes it sound as though it is unknown. It is wellknown that in OLS, $Q$ follows a rank-deficient multivariate normal, and $\|\hat{e}\|^2$ follows $\chi^2$ with df = $n - p$.
+The authors use the word “certain”. This makes it sound as though it is unknown. It is well known that in OLS, $Q$ follows a rank-deficient multivariate normal, and $\|\hat{e}\|^2$ follows $\chi^2$ with df = $n - p$.
 
 :::
 
-[TODO]
+We believe this is referring to the sentence "It follows that the distribution of residuals $\hat{\boldsymbol{e}}$ can be characterized by a certain probability distribution, denoted as $Q$, which is transformed from the multivariate normal distribution." [TODO] We thank the reviewer for pointing out the ambiguity in the wording. We have revised the sentence to clarify that $Q$ is a specific distribution derived from the multivariate normal distribution of the residuals in OLS, and we have provided more details about its properties in the revised paper.
 
 ::: reviewer
 
@@ -77,16 +80,13 @@ explains this form. Why +1 and why log?
 
 :::
 
-[TODO]
+The form $\log(1 + D_{KL})$ is used to ensure that the measure $D$ spans real line and one is added as a pseudo-count to avoid taking log of zero when $D_{KL}$ is zero. [TODO]? We have added this explanation in the revised paper.
 
 ::: reviewer
 
 About the $D$:
 
-The features of $D$ are unclear to me. Does its distribution depend on sample size and model
-violation types (for example, non-normality, omission of predictors, dependency)? Do the
-proposed tests try to get rid of this complicated distribution by using bootstrapping? I suspect
-that the $D$ or $\hat{D}$ strongly depends on sample 
+The features of $D$ are unclear to me. Does its distribution depend on sample size and model violation types (for example, non-normality, omission of predictors, dependency)? Do the proposed tests try to get rid of this complicated distribution by using bootstrapping? I suspect that the $D$ or $\hat{D}$ strongly depends on sample, as it is a sum of 𝑛 terms. How can the $D$ itself be useful for detecting model deviation?
 
 :::
 
@@ -121,6 +121,8 @@ there color in a residual plot?
 
 :::
 
+The n is the sample size, h and w are the height and width of the image, and 3 is the number of color channels for RGB images. We use RGB images for computer vision because many pre-trained models are designed to work with RGB images, and it allows us to leverage transfer learning from models trained on large datasets. While residual plots typically do not contain color information, we can still represent them as RGB images by replicating the grayscale values across the three color channels. In our residual plot, the x axis is colored in red. This way, we can utilize the powerful feature extraction capabilities of pre-trained computer vision models. We have clarified this in the revised paper.
+
 [TODO]
 
 
@@ -128,10 +130,7 @@ there color in a residual plot?
 
 pg 16, Sections 4, 6, 7:
 
-These sections are all about how to generate training datasets with known $D$ to train the
-computer vision model $f_{CV}$. I think these three sections should be merged together into a
-single one. Section 5 should be moved after or before this section to explain how to use $D$ or
-$\hat{D}$ for obtain a test p-value.
+These sections are all about how to generate training datasets with known $D$ to train the computer vision model $f_{CV}$. I think these three sections should be merged together into a single one. Section 5 should be moved after or before this section to explain how to use $D$ or $\hat{D}$ for obtain a test p-value.
 
 :::
 
@@ -155,13 +154,9 @@ decision at all.
 
 ::: reviewer
 
-Fig 8: “Finally, the power curves in Figure 8 are fitted using logistic regression without
-intercepts and with an offset of log(0.05/0.95) to ensure a 5% rejection rate under H0.”
+Fig 8: “Finally, the power curves in Figure 8 are fitted using logistic regression without intercepts and with an offset of log(0.05/0.95) to ensure a 5% rejection rate under H0.”
 
-This way to report rejection rate is very wierd to me. Why don’t the authors simply report the
-rejection rate, ie, proportion of rejections with $p < 0.05$, but fitting a model to the decisions. In
-addition, it seems that this is based on true $D$ not $\hat{D}$. I think it is necessary to report the direct
-rejection rates of $\hat{D}$ and $D$. This may
+This way to report rejection rate is very wierd to me. Why don’t the authors simply report the rejection rate, ie, proportion of rejections with $p < 0.05$, but fitting a model to the decisions. In addition, it seems that this is based on true $D$ not $\hat{D}$. I think it is necessary to report the direct rejection rates of $\hat{D}$ and $D$. This may be the most convincing way to show the performance of the p-value based on $D$ and $\hat{D}$.
 
 :::
 
