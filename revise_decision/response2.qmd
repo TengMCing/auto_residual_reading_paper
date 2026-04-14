@@ -86,7 +86,8 @@ About the $D$:
 The features of $D$ are unclear to me. Does its distribution depend on sample size and model
 violation types (for example, non-normality, omission of predictors, dependency)? Do the
 proposed tests try to get rid of this complicated distribution by using bootstrapping? I suspect
-that the $D$ or $\hat{D}$ strongly depends on sample 
+that the $D$ or $\hat{D}$ strongly depends on sample sample size, as it is a sum of $n$ terms. How can the $D$
+itself be useful for detecting model deviation?
 
 :::
 
