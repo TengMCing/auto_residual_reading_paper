@@ -161,7 +161,7 @@ intercepts and with an offset of log(0.05/0.95) to ensure a 5% rejection rate un
 This way to report rejection rate is very wierd to me. Why don’t the authors simply report the
 rejection rate, ie, proportion of rejections with $p < 0.05$, but fitting a model to the decisions. In
 addition, it seems that this is based on true $D$ not $\hat{D}$. I think it is necessary to report the direct
-rejection rates of $\hat{D}$ and $D$. This may
+rejection rates of $\hat{D}$ and $D$. This may be the most convincing way to show the performance of the p-value based on $\hat{D}$ and $D$.
 
 :::
 
