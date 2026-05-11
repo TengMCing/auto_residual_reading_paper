@@ -300,7 +300,7 @@ $$\hat{\sigma}^2
 \bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b.$$
 
 
-# Distance Estimation {#sec-model-distance-estimation}
+# Distance Estimation Using Computer Vision Models {#sec-model-distance-estimation}
 
 We previously defined a distance measure (Equation \ref{eq:kl-0}) to quantify the difference between the true residual distribution $P$ and an ideal reference distribution $Q$. However, this distance measure can only be computed when the data generating process is known. In reality, we often have no knowledge about the data generating process, otherwise we do not need to do a residual diagnostic in the first place.
 
@@ -316,7 +316,7 @@ The distance estimator $\hat{D}$ allows us to assess how closely the residuals r
 
 
 
-# Model Architecture {#sec-model-architecture}
+## Model Architecture {#sec-model-architecture}
 
 The architecture of the computer vision model $f_{CV}$ is adapted from the well-established VGG16 architecture [@simonyan2014very]. While more recent architectures like ResNet [@he2016deep] and DenseNet[@huang2017densely], have achieved even greater performance, VGG16 remains a solid choice for many applications due to its simplicity and effectiveness. Our decision to use VGG16 aligns with our goal of starting with a proven and straightforward model. Figure \ref{fig:cnn-diag} provides a diagram of the architecture. More details about the neural network layers used in this study are provided in the Appendix B.
 
@@ -334,7 +334,7 @@ The concatenated tensor is then fed into the final prediction block. This block 
 
 The model weights $\boldsymbol{\theta}$ were randomly initialized using the Glorot Uniform method [@glorot2010understanding] and they were optimized by the Adam optimizer [@kingma2014adam] with the MSE loss function $\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, S_i))^2$, where $n_{\text{train}}$ is the number of training samples, $V_i$ is the $i$-th residual plot and $S_i$ is the auxiliary information about the $i$-th residual plot including four scagnostics and the number of observations. 
 
-# Data Generation and Model Training {#sec-model-data-generation}
+## Data Generation and Model Training {#sec-model-data-generation}
 
 To train the computer vision model for computing $\hat{D}$ (as described in Section \ref{sec-model-distance-estimation}), we used paired residual plots and their corresponding $D$ values. In deep learning, it is common to train computer vision models with synthetic data, especially when labelled data are scarce, costly, or difficult to annotate reliably [@nikolenko2021synthetic]. This approach is particularly suitable when the underlying data-generating process is well understood and large numbers of controlled examples can be produced, allowing the model to learn visual patterns associated with specific violations without the cost and ambiguity of manual labelling. Accordingly, we generated a synthetic dataset consisting of 80,000 training and 8,000 test residual plots, providing full control over the data-generating process, precise computation of $D$, cost-effective scaling, and coverage of a wide range of visual patterns associated with model violations.
 
