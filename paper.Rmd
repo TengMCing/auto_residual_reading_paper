@@ -188,10 +188,6 @@ The paper is structured as follows. Section \ref{sec-model-specifications} discu
 
 
 
-
-
-
-
 # Model Specifications {#sec-model-specifications}
 
 There are various specifications of the computer vision model that can be used to assess residual plots. We discuss these specifications below focusing on the input and the output formats.
@@ -214,13 +210,12 @@ Alternatively, a multiclass outcome may classify images into categories such as 
 
 A third option is to produce a meaningful and interpretable numerical measure that quantifies the strength of suspicious visual patterns reflecting the extent of model violations, or the difficulty index for identifying whether a residual plot has no issues. However, such measures are often used informally in daily communications but are rarely formalized. For supervised learning, they must be clearly defined and reliably estimable.
 
-In this study, we define and use a continuous distance between a true residual plot and a theoretically "good" residual plot. This approach captures the degree to which a plot deviates from model assumptions. In contrast, a probability output based on binary labels, where true residual plots are labeled as 1 and null plots as 0, cannot express the severity of violation. It forces the model to infer this information solely from the data distribution, which may be inefficient and discards useful prior knowledge.
+In this study, we formulate the output as a continuous measure of deviation from model assumptions. Compared to probability outputs based on binary labels (true residual plots labeled as 1 and null plots as 0), this formulation explicitly encodes the severity of violations and avoids forcing the model to infer such structure solely from the data distribution, which can be inefficient and discards useful prior knowledge.
 
 
 # Distance from a Theoretically "Good" Residual Plot  {#sec-model-distance-between-residual-plots}
 
-To develop a computer vision model for assessing residual plots within the visual inference framework, it is important to precisely define a numerical measure of "difference" or "distance" between plots. This distance can take the form of a basic statistical operation on pixels, such as the sum of square differences, however, a pixel-to-pixel comparison makes little sense in comparing residual plots where the main interest would be structural patterns. Alternatively, it 
-can involve established image similarity metrics like the Structural Similarity Index Measure [@wang2004image], which compares images by integrating three perception features of an image: contrast, luminance, and structure (related to average, standard deviation and correlation of pixel values over a window, respectively). These image similarity metrics are tailored for image comparison in tasks that are vastly different from evaluating data plots, where only essential plot elements require assessment [@chowdhury2018measuring]. A different direction is to define a notion of distance by integrating key plot elements (instead of key perception features like luminance, contrast, and structure), such as those captured by scagnostics (see Section \ref{sec-model-introduction}), but the functional form needs to be carefully tailored to reflect model violations meaningfully.
+A numerical measure of "difference" or "distance" between plots can take the form of a basic statistical operation on pixels, such as the sum of squared differences. However, direct pixel-to-pixel comparisons are not well suited to residual plots, where the primary interest lies in structural patterns. Alternatively, the distance can be based on established image similarity metrics such as the Structural Similarity Index Measure [@wang2004image], which compares images using contrast, luminance, and structure (related to the average, standard deviation, and correlation of pixel values within a window, respectively). These metrics are designed for general image comparison tasks that differ substantially from evaluating data plots, where only essential plot elements are relevant [@chowdhury2018measuring]. Another direction is to define distance using key scatter plot characteristics, such as those captured by scagnostics (see Section \ref{sec-model-introduction}), although the functional form must be carefully designed to reflect model violations meaningfully.
 
 In this section, we introduce a distance measure between a true residual plot and a theoretically "good" residual plot. This measure quantifies the divergence between the residual distribution of a given fitted regression model and that of a correctly specified model. The computation assumes knowledge of the data generating processes for predictors and response variables. Since these processes are often unknown in practice, we will discuss a method to estimate this distance using a computer vision model in Section \ref{sec-model-distance-estimation}.
 
