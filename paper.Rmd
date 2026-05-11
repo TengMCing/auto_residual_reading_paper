@@ -247,7 +247,7 @@ The reference distribution $Q$ assumes a correctly specified model. Under model 
 
 ## Distance of $P$ from $Q$ {#sec-distance-of-p-from-q}
 
-Defining a proper distance between distributions is usually easier than defining a proper distance between data plots. Given the true residual distribution $P$ and the reference residual distribution $Q$, we used a distance measure based on Kullback-Leibler divergence [@kullback1951information] to quantify the difference between two distributions as
+We define the distance of the true residual distribution $P$ from the reference residual distribution $Q$ using the Kullback–Leibler divergence [@kullback1951information]:
 
 \begin{equation} \label{eq:kl-0}
 D = \log\left(1 + D_{KL}(P \| Q)\right),
@@ -259,9 +259,9 @@ where $D_{KL}(P \| Q)$ is defined as
 D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
 \end{equation}
 
-\noindent and $p(.)$ and $q(.)$ are the probability density functions for distribution $P$ and distribution $Q$, respectively.
+\noindent and $p(.)$ and $q(.)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. 
+This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
 
 Since both $P$ and $Q$ are adjusted to be multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
 
