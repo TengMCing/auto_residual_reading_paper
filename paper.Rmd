@@ -256,12 +256,12 @@ D = \log\left(1 + D_{KL}(P \| Q)\right),
 where $D_{KL}(P \| Q)$ is defined as
 
 \begin{equation} \label{eq:kl-1}
-D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}p(\boldsymbol{e})d\boldsymbol{e},
+D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}p(\hat{\boldsymbol{e}})d\hat{\boldsymbol{e}},
 \end{equation}
 
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
+This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
 
 Since both $P$ and $Q$ are adjusted to be multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
 
@@ -272,25 +272,32 @@ D_{KL}(P \| Q) = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\bold
 
 \noindent where $\boldsymbol{\mu}_z = \boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z$, and $\boldsymbol{W} = \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R})$. The assumed error variance $\sigma^2$ is set to be $\text{tr}(\boldsymbol{V})/n$, which is the expectation of the estimated variance.
 
-
 ## Non-normal $P$
 
-For non-normal error $\boldsymbol{\varepsilon}$, the true residual distribution $P$ is unlikely to be a multivariate normal distribution. Thus, Equation \ref{eq:kl-2} given in @li2024plot will not be applicable to models violating the normality assumption. 
+When the error vector $\boldsymbol{e}$ is non-Gaussian, the induced residual distribution $P$ is generally non-Gaussian and typically not available in closed form. In this case, the Gaussian closed-form expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL divergence must be evaluated from its definition in Equation \ref{eq:kl-1}.
 
-To evaluate the Kullback-Leibler divergence of non-normal $P$ from $Q$, the fallback is to evaluate Equation \ref{eq:kl-1} numerically. However, since $\boldsymbol{e}$ is a linear transformation of non-normal random variables, it is very common that the general form of $P$ is unknown, meaning that we can not easily compute $p(\boldsymbol{e})$ using a well-known probability density function. Additionally, even if $p(\boldsymbol{e})$ can be calculated for any $\boldsymbol{e} \in \mathbb{R}^n$, it will be very difficult to do numerical integration over the $n$-dimensional space, because $n$ could be potentially very large.   
+However, since the residual vector $\hat{\boldsymbol{e}} = \boldsymbol{R}\boldsymbol{e}$ is a linear transformation of $\boldsymbol{e}$, the joint density $p(\hat{\boldsymbol{e}})$ is generally intractable even when the marginal distribution of $\boldsymbol{e}$ is known. Moreover, direct numerical evaluation of Equation \ref{eq:kl-1} involves an $n$-dimensional integral over $\mathbb{R}^n$, which becomes computationally infeasible for large $n$.
 
-In order to approximate $D_{KL}(P \| Q)$ in a practically computable manner, the elements of $\boldsymbol{e}$ are assumed to be independent of each other. This assumption solves both of the issues mentioned above. First, we no longer need to integrate over $n$ random variables. The result of Equation \ref{eq:kl-1} is now the sum of the Kullback-Leibler divergence evaluated for each individual residual due to the assumption of independence between observations. Second, it is not required to know the joint probability density $p(\boldsymbol{e})$ any more. Instead, the evaluation of Kullback-Leibler divergence for an individual residual relies on the knowledge of the marginal density $p_i(e_i)$, where $e_i$ is the $i$-th residual for $i = 1, ..., n$. This is much easier to approximate through simulation. It is also worth mentioning that this independence assumption generally will not hold if $\text{cov}(e_i, e_j) \neq 0$ for any $1 \leq i < j \leq n$, but its existence is essential for reducing the computational cost.
+To obtain a tractable approximation, we impose a working assumption that the residuals $\{\hat{e}_i\}_{i=1}^n$ are mutually independent, i.e., $p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(e_i)$. Under this factorisation, the KL divergence decomposes additively:
 
-Given $\boldsymbol{X}$ and $\boldsymbol{\beta}$, the algorithm for approximating Equation \ref{eq:kl-1} starts from simulating $m$ sets of observed values $\boldsymbol{y}$ according to the data generating process. The observed values are stored in a matrix $\boldsymbol{A}$ with $n$ rows and $m$ columns, where each column of $\boldsymbol{A}$ is a set of observed values. Then, we can get $m$ sets of realized values of $\boldsymbol{e}$ stored in the matrix $\boldsymbol{B}$ by applying the residual operator $\boldsymbol{B} = \boldsymbol{R}\boldsymbol{A}$. Furthermore, kernel density estimation (KDE) with Gaussian kernel and optimal bandwidth selected by the Silverman's rule of thumb [@silverman2018density] is applied on each row of $\boldsymbol{B}$ to estimate $p_i(e_i)$ for $i = 1, ..., n$. The KDE computation can be done by the `density` function in R. 
 
-Since the Kullback-Leibler divergence can be viewed as the expectation of the log-likelihood ratio between distribution $P$ and distribution $Q$ evaluated on distribution $P$, we can reuse the simulated residuals in matrix $\boldsymbol{B}$ to estimate the expectation by the sample mean. With the independence assumption, for non-normal $P$, $D_{KL}(P \| Q)$ can be approximated by
+$$D_{KL}(P \| Q) \approx \sum_{i=1}^n D_{KL}(P_i \| Q_i)=\sum_{i=1}^n\int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}d\hat{e}_i,$$
 
-\begin{align*} \label{eq:kl-3}
-D_{KL}(P \| Q) &\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}(P \| Q), \quad
-\hat{D}_{KL}^{(i)}(P \| Q) = \frac{1}{m}\sum_{j = 1}^{m} \log\frac{\hat{p}_i(B_{ij})}{q(B_{ij})},
-\end{align*} 
+where $P_i$ denotes the marginal distribution of $\hat{e}_i$ with density $p_i$, and $Q_i$ denotes the corresponding marginal under $Q$ with density $q_i$. The independence assumption generally does not hold, but it avoids high-dimensional integration and relies only on univariate densities, thereby substantially reducing computational cost.
 
-\noindent where $\hat{D}_{KL}^{(i)}(P \| Q)$ is the estimator of the Kullback-Leibler divergence for an individual residual $e_i$, $B_{ij}$ is the $i$-th row and $j$-th column entry of the matrix $\boldsymbol{B}$, $\hat{p}_i(.)$ is the kernel density estimator of $p_i(.)$, $q(.)$ is the normal density function with mean zero and an assumed variance estimated as $\hat{\sigma}^2 = \sum_{b \in vec(\boldsymbol{B})}(b - \sum_{b \in vec(\boldsymbol{B})} b/nm)^2/(nm - 1)$, and $vec(.)$ is the vectorization operator which turns a $n \times m$ matrix into a $nm \times 1$ column vector by stacking the columns of the matrix on top of each other.
+Since $p_i(\cdot)$ is generally unknown, we construct a Monte Carlo approximation. Let $\{B_{ij}\}_{j=1}^m$ denote $m$ simulated samples of $\hat{e}_i$. We estimate $p_i$ using a kernel density estimator $\hat{p}_i$ with Gaussian kernel and optimal bandwidth selected by the Silverman's rule of thumb [@silverman2018density], yielding
+
+$$\hat{D}_{KL}(P \| Q)
+\approx \sum_{i=1}^n \hat{D}_{KL}^{(i)}(P \| Q)
+= \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})}.$$
+
+Here, $q_i(\cdot)$ denotes the Gaussian reference density with variance $\hat{\sigma}^2\boldsymbol{R}_{ii}$, where
+
+$$\hat{\sigma}^2
+= \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})}
+\left(b - \bar{b}\right)^2,
+\quad
+\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b.$$
 
 
 # Distance Estimation {#sec-model-distance-estimation}
