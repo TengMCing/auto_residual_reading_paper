@@ -222,15 +222,17 @@ In this section, we introduce a distance measure between a true residual plot an
 
 For the classical normal linear regression model,
 $\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}$,
-the residuals are given by the difference between the observed and fitted values. Under a correctly specified model, the residuals can be expressed as a linear transformation of the error term,
+the residual vector is defined as
+$\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}}$,
+where $\hat{\boldsymbol{y}}$ denotes the fitted values. Under a correctly specified model, the residuals can be expressed as a linear transformation of the error term,
 $\hat{\boldsymbol{e}}=\boldsymbol{R}\boldsymbol{e}$,
 where
 $\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$
-is the residual operator [@frisch1933partial], $\boldsymbol{I}_n$ is the $n\times n$ identity matrix, and $n$ is the number of observations.
+is the residual operator, $\boldsymbol{I}_n$ is the $n\times n$ identity matrix, and $n$ is the number of observations.
 
 Under the classical assumptions,
 $\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$,
-the residuals also follow a multivariate normal distribution because they are obtained through the linear transformation $\boldsymbol{R}\boldsymbol{e}$. Their distribution depends only on the design matrix $\boldsymbol{X}$ and is denoted by the reference distribution $Q$, which characterizes the expected behavior of residuals under the correctly specified model.
+the residuals also follow a multivariate normal distribution because they are obtained through the linear transformation $\boldsymbol{R}\boldsymbol{e}$. Their distribution depends only on the design matrix $\boldsymbol{X}$. We refer to this distribution as the reference distribution $Q$, which characterizes the expected behavior of residuals under the correctly specified model.
 
 If $\boldsymbol{X}$ has full column rank $k$, then the hat matrix,
 $\boldsymbol{H}=\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$,
@@ -241,12 +243,12 @@ $\mathrm{diag}(\sigma^2\boldsymbol{R})$,
 yielding
 $Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)$.
 
-The reference distribution $Q$ assumes a correctly specified model. Under model misspecification, the true residual distribution $P$ differs from $Q$. For example, omitted variables correlated with columns of $\boldsymbol{X}$ alter the residual structure and therefore change $P$. Likewise, if the error term follows a non-normal distribution, such as a multivariate lognormal distribution, the residual distribution will typically exhibit skewness and heavier tails.
+The reference distribution $Q$ corresponds to a correctly specified model. Under model misspecification, however, the residuals follow a different distribution, denoted by $P$. For example, omitted variables correlated with columns of $\boldsymbol{X}$ alter the residual structure, causing $P$ to deviate from $Q$. Likewise, if the error term follows a non-normal distribution, such as a multivariate lognormal distribution, the residual distribution will typically exhibit skewness and heavier tails.
 
 
 ## Distance of $P$ from $Q$ {#sec-distance-of-p-from-q}
 
-We define the distance of the true residual distribution $P$ from the reference residual distribution $Q$ using the Kullback–Leibler divergence [@kullback1951information]:
+We define the distance of the true residual distribution $P$ from the reference residual distribution $Q$ based on the Kullback–Leibler divergence [@kullback1951information]:
 
 \begin{equation} \label{eq:kl-0}
 D = \log\left(1 + D_{KL}(P \| Q)\right),
@@ -260,9 +262,9 @@ D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{
 
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
+This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models in Section \ref{sec-model-distance-estimation}. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
 
-Since both $P$ and $Q$ are adjusted to be multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
+Since both $P$ and $Q$ are adjusted to be non-degenerate multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
 
 
 \begin{equation} \label{eq:kl-2}
