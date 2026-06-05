@@ -254,7 +254,7 @@ We define the distance of the true residual distribution $P$ from the reference 
 D = \log\left(1 + D_{KL}(P \| Q)\right),
 \end{equation}
 
-where $D_{KL}(P \| Q)$ is defined as
+\noindent where $D_{KL}(P \| Q)$ is defined as
 
 \begin{equation} \label{eq:kl-1}
 D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}p(\hat{\boldsymbol{e}})d\hat{\boldsymbol{e}},
@@ -275,16 +275,15 @@ D_{KL}(P \| Q) = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\bold
 
 ## Non-normal $P$
 
-When the error vector $\boldsymbol{e}$ is non-Gaussian, the induced residual distribution $P$ is generally non-Gaussian and typically not available in closed form. In this case, the Gaussian closed-form expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL divergence must be evaluated from its definition in Equation \ref{eq:kl-1}.
+When the error vector $\boldsymbol{e}$ is non-Gaussian, the induced residual distribution $P$ is generally non-Gaussian and typically does not admit a tractable analytical form. In particular, although the distribution of $\boldsymbol{e}$ may be known, the density of $\hat{\boldsymbol{e}}$ is typically unavailable in closed form after the linear projection induced by the residual operator. Consequently, the Gaussian closed-form expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL divergence must instead be evaluated from its definition in Equation \ref{eq:kl-1}. This requires knowledge of the residual density and, in general, involves a high-dimensional integration over the residual space, rendering direct analytical or numerical evaluation impractical for large $n$.
 
-However, since the residual vector $\hat{\boldsymbol{e}} = \boldsymbol{R}\boldsymbol{e}$ is a linear transformation of $\boldsymbol{e}$, the joint density $p(\hat{\boldsymbol{e}})$ is generally intractable even when the marginal distribution of $\boldsymbol{e}$ is known. Moreover, direct numerical evaluation of Equation \ref{eq:kl-1} involves an $n$-dimensional integral over $\mathbb{R}^n$, which becomes computationally infeasible for large $n$.
 
-To obtain a tractable approximation, we impose a working assumption that the residuals $\{\hat{e}_i\}_{i=1}^n$ are mutually independent, i.e., $p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(e_i)$. Under this factorisation, the KL divergence decomposes additively:
+To obtain a tractable approximation, we impose a working assumption that the residuals $\{\hat{e}_i\}_{i=1}^n$ are mutually independent, i.e., $p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(\hat{e}_i)$. Under this factorisation, the KL divergence decomposes additively:
 
 
 $$D_{KL}(P \| Q) \approx \sum_{i=1}^n D_{KL}(P_i \| Q_i)=\sum_{i=1}^n\int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}d\hat{e}_i,$$
 
-where $P_i$ denotes the marginal distribution of $\hat{e}_i$ with density $p_i$, and $Q_i$ denotes the corresponding marginal under $Q$ with density $q_i$. The independence assumption generally does not hold, but it avoids high-dimensional integration and relies only on univariate densities, thereby substantially reducing computational cost.
+\noindent where $P_i$ denotes the marginal distribution of $\hat{e}_i$ with density $p_i$, and $Q_i$ denotes the corresponding marginal under $Q$ with density $q_i$. The independence assumption generally does not hold, but it avoids high-dimensional integration and relies only on univariate densities, thereby substantially reducing computational cost.
 
 Since $p_i(\cdot)$ is generally unknown, we construct a Monte Carlo approximation. Let $\{B_{ij}\}_{j=1}^m$ denote $m$ simulated samples of $\hat{e}_i$. We estimate $p_i$ using a kernel density estimator $\hat{p}_i$ with Gaussian kernel and optimal bandwidth selected by the Silverman's rule of thumb [@silverman2018density], yielding
 
