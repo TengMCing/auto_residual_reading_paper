@@ -376,8 +376,6 @@ $$\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\fra
 
 The model was trained on paired inputs consisting of RGB residual plot images and corresponding $D$ values, with the objective of learning the mapping $\hat{D} = f_{\boldsymbol{\theta}}(V, \boldsymbol{s})$. Training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were tuned using Bayesian optimisation via KerasTuner [@omalley2019kerastuner], minimizing validation root mean square error (RMSE) over 100 trials. The search space included dropout rate, batch normalization configuration, input resolution, and the inclusion of auxiliary features.
 
-The computer vision model was trained on paired data consisting of an RGB residual plot image as input and the corresponding target value $D$, with the objective of learning to predict $\hat{D}$. Model training was conducted on the MASSIVE M3 high-performance computing platform [@goscinski2014multi] using TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Hyperparameters were optimized via Bayesian tuning with KerasTuner [@omalley2019kerastuner], minimizing validation root mean square error (RMSE) across 100 trials. The tuning process included early stopping and considered dropout rate, batch normalization, input resolution, and auxiliary inputs.
-
 Further details on the synthetic data-generating process, parameter settings, sampling scheme, example residual plots, and hyperparameter search configuration are provided in Appendix A and Appendix C.
 
 
