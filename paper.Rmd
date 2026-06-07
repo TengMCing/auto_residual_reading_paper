@@ -222,82 +222,66 @@ In this section, we introduce a distance measure between a true residual plot an
 
 For the classical normal linear regression model,
 $\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}$,
-the residual vector is defined as
-$\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}}$,
-where $\hat{\boldsymbol{y}}$ denotes the fitted values. Under a correctly specified model, the residuals can be expressed as a linear transformation of the error term,
-$\hat{\boldsymbol{e}}=\boldsymbol{R}\boldsymbol{e}$,
-where
-$\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$
-is the residual operator, $\boldsymbol{I}_n$ is the $n\times n$ identity matrix, and $n$ is the number of observations.
+the residual vector is 
+$\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}$, where $\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$ is the residual operator, $\boldsymbol{X}$ is the design matrix, $\boldsymbol{I}_n$ is the $n\times n$ identity matrix, and $n$ is the sample size.
 
-Under the classical assumptions,
-$\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$,
-the residuals also follow a multivariate normal distribution because they are obtained through the linear transformation $\boldsymbol{R}\boldsymbol{e}$. Their distribution depends only on the design matrix $\boldsymbol{X}$. We refer to this distribution as the reference distribution $Q$, which characterizes the expected behavior of residuals under the correctly specified model.
+Under the classical assumptions $\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, the residuals are also Gaussian, since they are a linear transformation of $\boldsymbol{e}$. We refer to this induced distribution as the reference distribution $Q$, which characterizes the residual behaviour under correct model specification and depends only on $\boldsymbol{X}$.
 
-If $\boldsymbol{X}$ has full column rank $k$, then the hat matrix,
-$\boldsymbol{H}=\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$,
-has trace $k$, implying that the residual operator $\boldsymbol{R}$ has rank $n-k$. Consequently, the residual covariance matrix,
-$\mathrm{cov}(\hat{\boldsymbol{e}})=\sigma^2\boldsymbol{R}$,
-is singular, and $Q$ is a degenerate multivariate normal distribution supported on an $(n-k)$-dimensional subspace. To obtain a non-degenerate reference distribution required for the distance computation in Section \ref{sec-distance-of-p-from-q}, we replace $\sigma^2\boldsymbol{R}$ with its diagonal approximation,
+If $\boldsymbol{X}$ has full column rank $k$, then $\text{rank}(\boldsymbol{R}) = n - k$, and $\mathrm{cov}(\hat{\boldsymbol{e}})=\sigma^2\boldsymbol{R}$ is singular. Hence, $Q$ is a degenerate Gaussian supported on an $(n-k)$-dimensional subspace. To obtain a non-degenerate reference distribution required for the distance computation in Section \ref{sec-distance-of-p-from-q}, we replace $\sigma^2\boldsymbol{R}$ with its diagonal approximation,
 $\mathrm{diag}(\sigma^2\boldsymbol{R})$,
 yielding
 $Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)$.
 
-The reference distribution $Q$ corresponds to a correctly specified model. Under model misspecification, however, the residuals follow a different distribution, denoted by $P$. For example, omitted variables correlated with columns of $\boldsymbol{X}$ alter the residual structure, causing $P$ to deviate from $Q$. Likewise, if the error term follows a non-normal distribution, such as a multivariate lognormal distribution, the residual distribution will typically exhibit skewness and heavier tails.
-
+The reference distribution $Q$ corresponds to correct model specification. Under misspecification, the residuals follow a different distribution $P$. For example, omitted variables correlated with $\boldsymbol{X}$ alter the residual structure, causing $P$ to deviate from $Q$. Similarly, non-Gaussian error distributions (e.g. multivariate lognormal) induce skewness and heavier tails.
 
 ## Distance of $P$ from $Q$ {#sec-distance-of-p-from-q}
 
 We define the distance of the true residual distribution $P$ from the reference residual distribution $Q$ based on the Kullback–Leibler divergence [@kullback1951information]:
-
 \begin{equation} \label{eq:kl-0}
 D = \log\left(1 + D_{KL}(P \| Q)\right),
 \end{equation}
-
 \noindent where $D_{KL}(P \| Q)$ is defined as
-
 \begin{equation} \label{eq:kl-1}
 D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}p(\hat{\boldsymbol{e}})d\hat{\boldsymbol{e}},
 \end{equation}
-
 \noindent and $p(.)$ and $q(.)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This distance measure was first proposed in @li2024plot, which was mainly designed for measuring the effect size of non-linearity and heteroskedasticity in a residual plot. @li2024plot has derived that, for a classical normal linear regression model that omits necessary higher-order predictors $\boldsymbol{Z}$ and the corresponding parameter $\boldsymbol{\beta}_z$, while incorrectly assuming $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, but in fact $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n, \boldsymbol{V})$ where $\boldsymbol{V}$ is an arbitrary symmetric positive semi-definite matrix, $P$ can be represented as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$. Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is a full-rank matrix. In addition, the form $\log(1 + D_{KL})$ is used to compress large values of $D_{KL}$, improving numerical stability during estimation with deep learning models in Section \ref{sec-model-distance-estimation}. It also avoids taking the logarithm of zero when $D_{KL} = 0$.
+This measure was introduced in @li2024plot to quantify the effect size of non-linearity and heteroskedasticity in residual plots. In the presence of model misspecification, if the error structure deviates from $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, for instance with covariance $\boldsymbol{V}$ and omitted higher-order terms $\boldsymbol{Z}\boldsymbol{\beta}_z$, the induced residual distribution can be expressed as $P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$, where the diagonal approximation ensures non-degenerate covariance matrix. The transformation $D = \log(1 + D_{KL})$ compresses large values of $D_{KL}$, improves numerical stability during estimation (Section \ref{sec-model-distance-estimation}), and ensures that $D$ is well-defined when $D_{KL} = 0$.
 
-Since both $P$ and $Q$ are adjusted to be non-degenerate multivariate normal distributions, Equation \ref{eq:kl-1} can be further expanded to
-
-
+Since $P$ and $Q$ are taken as non-degenerate Gaussian distributions, the KL divergence admits the closed form
 \begin{equation} \label{eq:kl-2}
 D_{KL}(P \| Q) = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\boldsymbol{W}^{-1}\text{diag}(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^\top\boldsymbol{W}^{-1}\boldsymbol{\mu}_z\right),
 \end{equation}
-
 \noindent where $\boldsymbol{\mu}_z = \boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z$, and $\boldsymbol{W} = \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R})$. The assumed error variance $\sigma^2$ is set to be $\text{tr}(\boldsymbol{V})/n$, which is the expectation of the estimated variance.
 
 ## Non-normal $P$
 
-When the error vector $\boldsymbol{e}$ is non-Gaussian, the induced residual distribution $P$ is generally non-Gaussian and typically does not admit a tractable analytical form. In particular, although the distribution of $\boldsymbol{e}$ may be known, the density of $\hat{\boldsymbol{e}}$ is typically unavailable in closed form after the linear projection induced by the residual operator. Consequently, the Gaussian closed-form expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL divergence must instead be evaluated from its definition in Equation \ref{eq:kl-1}. This requires knowledge of the residual density and, in general, involves a high-dimensional integration over the residual space, rendering direct analytical or numerical evaluation impractical for large $n$.
+When the error vector $\boldsymbol{e}$ is non-Gaussian, the induced residual distribution $P$ is generally non-Gaussian and typically unavailable in closed form. Consequently, the Gaussian closed-form expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL divergence must instead be evaluated from its definition in Equation \ref{eq:kl-1}. This requires high-dimensional integration over the residual space, rendering direct evaluation impractical for large $n$.
 
+To obtain a tractable approximation, we assume that the residual components $\{\hat{e}_i\}_{i=1}^n$ are mutually independent, so that $p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(\hat{e}_i)$ and $q(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n q_i(\hat{e}_i)$. This assumption holds for $Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)$, which has independent components, but generally does not hold for $P$. Nevertheless, it removes the need for high-dimensional integration and reduces the computation to univariate densities, substantially lowering computational cost.
 
-To obtain a tractable approximation, we impose a working assumption that the residuals $\{\hat{e}_i\}_{i=1}^n$ are mutually independent, i.e., $p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(\hat{e}_i)$. Under this factorisation, the KL divergence decomposes additively:
+Under this factorisation, the KL divergence decomposes additively:
+$$D_{KL}(P \| Q) \approx \sum_{i=1}^n \int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)} d\hat{e}_i = \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right],$$
+\noindent where $p_i$ and $q_i$ denote the marginal densities of $\hat{e}_i$ under $P$ and $Q$, respectively. 
 
+We approximate the expectation via Monte Carlo simulation. Specifically, we generate independent samples $\{\boldsymbol{e}^{(j)}\}_{j=1}^m$ from the error distribution and obtain residual vectors $\boldsymbol{B}_j = \boldsymbol{R}\boldsymbol{e}^{(j)}$. The marginal density $p_i$ is then estimated from $\{B_{ij}\}_{j=1}^m$ using a Gaussian kernel density estimator with bandwidth selected by Silverman’s rule of thumb [@silverman2018density], where $B_{ij}$ denotes the $i$-th component of $\boldsymbol{B}_j$. This yields
+$$D_{KL}(P \| Q) \approx \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right] \approx \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})},$$
+\noindent where $q_i(\cdot)$ denotes the Gaussian reference density with variance $\hat{\sigma}^2R_{ii}$, with $\hat{\sigma}^2 = \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} \left(b - \bar{b}\right)^2$ and $\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b$.
 
-$$D_{KL}(P \| Q) \approx \sum_{i=1}^n D_{KL}(P_i \| Q_i)=\sum_{i=1}^n\int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}d\hat{e}_i,$$
+<!-- # Distance Estimation Using Computer Vision Models {#sec-model-distance-estimation} -->
 
-\noindent where $P_i$ denotes the marginal distribution of $\hat{e}_i$ with density $p_i$, and $Q_i$ denotes the corresponding marginal under $Q$ with density $q_i$. The independence assumption generally does not hold, but it avoids high-dimensional integration and relies only on univariate densities, thereby substantially reducing computational cost.
+<!-- We define a distance measure Equation \ref{eq:kl-0} between the true residual distribution $P$ and a reference distribution $Q$, which is only directly computable when the data-generating process is known. In practice, this is unavailable, as residual diagnostics are typically motivated by its unknown structure. -->
 
-Since $p_i(\cdot)$ is generally unknown, we construct a Monte Carlo approximation. Let $\{B_{ij}\}_{j=1}^m$ denote $m$ simulated samples of $\hat{e}_i$. We estimate $p_i$ using a kernel density estimator $\hat{p}_i$ with Gaussian kernel and optimal bandwidth selected by the Silverman's rule of thumb [@silverman2018density], yielding
+<!-- To approximate this distance from a residual plot, we introduce a computer vision estimator -->
 
-$$\hat{D}_{KL}(P \| Q)
-\approx \sum_{i=1}^n \hat{D}_{KL}^{(i)}(P \| Q)
-= \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})}.$$
+<!-- $$\hat{D} = f_{CV}\big(V_{h \times w}(\hat{\boldsymbol{e}}, \hat{\boldsymbol{y}})\big),$$ -->
 
-Here, $q_i(\cdot)$ denotes the Gaussian reference density with variance $\hat{\sigma}^2\boldsymbol{R}_{ii}$, where
+<!-- where $V_{h \times w}(\cdot)$ converts the residual–fitted values plot into an $h \times w$ RGB image, and $f_{CV}(\cdot)$ maps the image to an estimated distance $\hat{D} \in [0,\infty)$. -->
 
-$$\hat{\sigma}^2
-= \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})}
-\left(b - \bar{b}\right)^2,
-\quad
-\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b.$$
+<!-- The estimator $\hat{D}$ serves as an empirical index of deviation from the ideal residual pattern, but it does not recover the true distance $D$ exactly. This is because a single residual plot is only a stochastic summary of $P$, and can vary noticeably across realizations, particularly for small $n$, inducing variability in $\hat{D}$ depending on how representative the plotted realization is. $\hat{D}$ by its own is also not very reliable in making decision for detecting model   -->
+
+<!-- To use $\hat{D}$ statistically, Section \ref{sec-model-statistical-testing} -->
+
 
 
 # Distance Estimation Using Computer Vision Models {#sec-model-distance-estimation}
