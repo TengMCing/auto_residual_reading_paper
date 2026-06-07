@@ -244,9 +244,9 @@ D = \log\left(1 + D_{KL}(P \| Q)\right),
 \begin{equation} \label{eq:kl-1}
 D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}p(\hat{\boldsymbol{e}})d\hat{\boldsymbol{e}},
 \end{equation}
-\noindent and $p(.)$ and $q(.)$ are the probability density functions for $P$ and $Q$, respectively.
+\noindent and $p(\cdot)$ and $q(\cdot)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This measure was introduced in @li2024plot to quantify the effect size of non-linearity and heteroskedasticity in residual plots. In the presence of model misspecification, if the error structure deviates from $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, for instance with covariance $\boldsymbol{V}$ and omitted higher-order terms $\boldsymbol{Z}\boldsymbol{\beta}_z$, the induced residual distribution can be expressed as $P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$, where the diagonal approximation ensures non-degenerate covariance matrix. The transformation $D = \log(1 + D_{KL})$ compresses large values of $D_{KL}$, improves numerical stability during estimation (Section \ref{sec-model-distance-estimation}), and ensures that $D$ is well-defined when $D_{KL} = 0$.
+This measure was introduced in @li2024plot to quantify the effect size of non-linearity and heteroskedasticity in residual plots. In the presence of model misspecification, if the error structure deviates from $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, for instance with covariance $\boldsymbol{V}$ and omitted higher-order terms $\boldsymbol{Z}\boldsymbol{\beta}_z$ correlated with $\boldsymbol{X}$, the induced residual distribution can be expressed as $P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$, where the diagonal approximation ensures non-degenerate covariance matrix. The transformation $D = \log(1 + D_{KL})$ compresses large values of $D_{KL}$, improves numerical stability during estimation (Section \ref{sec-model-distance-estimation}), and ensures that $D$ is well-defined when $D_{KL} = 0$.
 
 Since $P$ and $Q$ are taken as non-degenerate Gaussian distributions, the KL divergence admits the closed form
 \begin{equation} \label{eq:kl-2}
@@ -268,37 +268,18 @@ We approximate the expectation via Monte Carlo simulation. Specifically, we gene
 $$D_{KL}(P \| Q) \approx \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right] \approx \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})},$$
 \noindent where $q_i(\cdot)$ denotes the Gaussian reference density with variance $\hat{\sigma}^2R_{ii}$, with $\hat{\sigma}^2 = \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} \left(b - \bar{b}\right)^2$ and $\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b$.
 
-<!-- # Distance Estimation Using Computer Vision Models {#sec-model-distance-estimation} -->
-
-<!-- We define a distance measure Equation \ref{eq:kl-0} between the true residual distribution $P$ and a reference distribution $Q$, which is only directly computable when the data-generating process is known. In practice, this is unavailable, as residual diagnostics are typically motivated by its unknown structure. -->
-
-<!-- To approximate this distance from a residual plot, we introduce a computer vision estimator -->
-
-<!-- $$\hat{D} = f_{CV}\big(V_{h \times w}(\hat{\boldsymbol{e}}, \hat{\boldsymbol{y}})\big),$$ -->
-
-<!-- where $V_{h \times w}(\cdot)$ converts the residual–fitted values plot into an $h \times w$ RGB image, and $f_{CV}(\cdot)$ maps the image to an estimated distance $\hat{D} \in [0,\infty)$. -->
-
-<!-- The estimator $\hat{D}$ serves as an empirical index of deviation from the ideal residual pattern, but it does not recover the true distance $D$ exactly. This is because a single residual plot is only a stochastic summary of $P$, and can vary noticeably across realizations, particularly for small $n$, inducing variability in $\hat{D}$ depending on how representative the plotted realization is. $\hat{D}$ by its own is also not very reliable in making decision for detecting model   -->
-
-<!-- To use $\hat{D}$ statistically, Section \ref{sec-model-statistical-testing} -->
-
-
 
 # Distance Estimation Using Computer Vision Models {#sec-model-distance-estimation}
 
-We previously defined a distance measure (Equation \ref{eq:kl-0}) to quantify the difference between the true residual distribution $P$ and an ideal reference distribution $Q$. However, this distance measure can only be computed when the data generating process is known. In reality, we often have no knowledge about the data generating process, otherwise we do not need to do a residual diagnostic in the first place.
+The distance measure defined in Equation \ref{eq:kl-0} quantifies the difference between the true residual distribution $P$ and the reference distribution $Q$. However, it can only be computed when the data-generating process is known, which is rarely the case in practice.
 
-To estimate this distance from a residual plot, we proposed a computer vision estimator $\hat{D}$ formulated as
-
+To estimate this distance from a residual plot, we define a computer vision estimator
 \begin{equation*} \label{eq:d-approx}
 \hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})),
 \end{equation*}
+\noindent where $V_{h \times w}(\cdot)$ renders a residuals vs. fitted values plot as an $h \times w$ RGB image, and $f_{CV}(\cdot)$ maps the image to an estimated distance $\hat{D} \in [0, +\infty)$. Details of the model architecture and training procedure are provided in Section \ref{sec-model-architecture} and \ref{sec-model-data-generation}, respectively.
 
-\noindent where $V_{h \times w}(.)$ renders the residuals vs. fitted values plot as an $h \times w$ RGB image, and $f_{CV}(.)$ maps the image to an estimated distance $\hat{D} \in [0, +\infty)$. Details of the model architecture are provided in Section \ref{sec-model-architecture}, and the training procedure is described in Section \ref{sec-model-data-generation}.
-
-The distance estimator $\hat{D}$ allows us to assess how closely the residuals resemble an ideal distribution and use as an index of model violation severity (see Appendix D for details). However, $\hat{D}$ is not expected to equal the true distance $D$, as a single residual plot may not capture all characteristics of the residual distribution. For the same distribution $P$, simulated plots can vary visually, especially with small $n$, leading to estimation error that depends on how representative the input plot is.
-
-
+The distance estimator $\hat{D}$ quantifies how closely the residuals resemble the reference distribution $Q$ and, after adjusting for sample size effects, can be used as an index of model violation severity (see Appendix D for details). However, since a single residual plot may not fully characterize the underlying residual distribution, $\hat{D}$ is not expected to equal the true distance $D$. Residual plots generated from the same distribution $P$ may also vary visually, particularly for small $n$, introducing estimation error that depends on the representativeness of the input plot.
 
 ## Model Architecture {#sec-model-architecture}
 
