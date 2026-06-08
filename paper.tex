@@ -135,18 +135,23 @@ rather than indicating a flaw in the model.
 \end{figure}
 
 The concept of visual inference, as proposed by
-\citet{buja2009statistical}, provides an inferential framework to assess
-whether residual plots indeed contain visual patterns inconsistent with
-the model assumptions. The fundamental idea involves testing whether the
-true residual plot visually differs significantly from the null plots,
-where null plots are plotted with residuals generated from the residual
-rotation distribution \citep{langsrud2005rotation}, which is a
-distribution consistent with the null hypothesis \(H_0\) that the linear
-regression model is correctly specified. Typically, the visual test is
-accomplished through the lineup protocol (Figure \ref{fig:ex-lineup}),
-where the true residual plot is embedded within a field of null plots.
-If the true residual plot can be distinguished from the lineup, it
-provides evidence for rejecting \(H_0\).
+\citet{buja2009statistical}, provides an inferential framework for
+assessing whether residual plots contain visual patterns inconsistent
+with the model assumptions. In this framework, a \textbf{true residual
+plot} refers to the residual plot obtained from the observed data under
+the fitted regression model. In contrast, \textbf{null plots} are
+synthetic residual plots generated under the null hypothesis \(H_0\),
+where the linear regression model is correctly specified. These null
+plots are constructed by generating residuals from the residual rotation
+distribution \citep{langsrud2005rotation}, which preserves the structure
+implied by \(H_0\) (see Section \ref{sec-model-statistical-testing} for
+details).
+
+The goal is to assess whether the true residual plot is visually
+distinguishable from the null plots. This is typically done using the
+lineup protocol (Figure \ref{fig:ex-lineup}), where the true residual
+plot is embedded among multiple null plots. Successful identification of
+the true residual plot provides evidence against \(H_0\).
 
 \begin{figure}[!h]
 
@@ -488,12 +493,14 @@ vision estimator \begin{equation*} \label{eq:d-approx}
 \hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}}), \boldsymbol{s}),
 \end{equation*} \noindent where \(V_{h \times w}(\cdot)\) denotes the
 rendering function that coverts a residuals vs.~fitted values plot into
-an \(h \times w\) RGB image, \(\boldsymbol{s}\) is a vector of auxiliary
-features including scagnostics measures and sample size, and
-\(f_{CV}(\cdot)\) maps the image to an estimated distance
-\(\hat{D} \in [0, +\infty)\). Details of the model architecture and
-training procedure are provided in Section \ref{sec-model-architecture}
-and \ref{sec-model-data-generation}, respectively.
+an \(h \times w\) RGB image, with h and w denoting the image height and
+width (in pixels), respectively. Here, \(\boldsymbol{s}\) is a vector of
+auxiliary features including scagnostics measures and sample size, and
+\(f_{CV}(\cdot)\) maps the image and auxiliary features to an estimated
+distance \(\hat{D} \in [0, +\infty)\). Details of the model architecture
+and training procedure are provided in Section
+\ref{sec-model-architecture} and \ref{sec-model-data-generation},
+respectively.
 
 The auxiliary feature vector \(\boldsymbol{s}\) is included to
 complement information encoded in the residual plot image. While
@@ -539,8 +546,9 @@ The model accepts residual plots rendered as \(h \times w\) RGB images,
 with \(h,w \in \{32, 64, 128\}\), allowing us to study the effect of
 image resolution on predictive performance while balancing computational
 cost. Images are first converted to grayscale using the Rec. 601 luma
-formula \citep{series2011studio}, as data points are plotted in black on
-a white background.
+formula \citep{series2011studio}, as the data points are plotted in
+black on a white background. The background also includes a red
+reference line at \(y = 0\), which is preserved under this conversion.
 
 The processed images are used as input to the first convolutional block.
 The model consists of up to five consecutive convolutional blocks,
@@ -822,25 +830,29 @@ In order to check the validity of the proposed computer vision model,
 residual plots presented in the human subject experiment conducted by
 \citet{li2024plot} will be assessed.
 
-This study has collected 7,974 human responses to 1,152 lineups. Each
-lineup contains one randomly placed true residual plot and 19 null
-plots. Among the 1,152 lineups, 24 are attention check lineups in which
-the visual patterns are designed to be extremely obvious and very
-different from the corresponding to null plots, 36 are null lineups
-where all the lineups consist of only null plots, 279 are lineups with
-uniform predictor distribution evaluated by 11 participants, and the
-remaining 813 are lineups with discrete, skewed or normal predictor
-distribution evaluated by 5 participants. Attention check lineups and
-null lineups will not be assessed in the following analysis.
+The study collected 7,974 responses across 1,152 lineups, each
+containing one randomly positioned true residual plot and 19 null plots.
+Of these, 24 were attention-check lineups with highly obvious patterns,
+36 were null lineups containing only null plots, 279 involved uniformly
+distributed predictors and were evaluated by 11 participants each, and
+the remaining 813 involved discrete, skewed, or normally distributed
+predictors and were evaluated by 5 participants each. Attention-check
+and null lineups are excluded from the present analysis.
 
-In \citet{li2024plot}, the residual plots are simulated from a data
-generating process that corresponds to a special case of the synthetic
-data model used in this study. A key feature of the design is that model
-violations are introduced independently, meaning non-linearity and
-heteroskedasticity do not co-exist within a single lineup but are
-instead assigned uniformly across different lineups. Moreover, the
-experimental design does not account for non-normality or multiple
-predictors.
+Participants were recruited through Prolific. Most were not experts in
+residual plots, and 56.7\% reported no prior experience with studies
+involving data visualisations. The sample was approximately
+gender-balanced, more than half held a diploma or bachelor's degree, and
+almost all participants were between 18 and 39 years of age.
+Consequently, the results primarily reflect the ability of non-experts
+to distinguish true residual plots from null plots based on visual
+differences rather than specialised statistical training.
+
+The residual plots in \citet{li2024plot} were generated from a special
+case of the synthetic data model used in this study. Model violations
+were introduced independently, so non-linearity and heteroskedasticity
+did not co-occur within the same lineup. In addition, the experimental
+design did not consider non-normality or multiple predictors.
 
 \subsubsection{Model Performance on the Human-evaluated
 Data}\label{model-performance-on-the-human-evaluated-data}
