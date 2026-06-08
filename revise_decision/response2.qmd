@@ -29,6 +29,8 @@ format:
 
 We thank the reviewer for their time and constructive comments to improve this paper. The reviewer comments are colored in [purple]{.review} below and our response in black below. In addition, we also include an annotated version of the paper (`diff2.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
 
+[TODO] In this revision, we improve ...
+
 ## Reviewer
 
 
@@ -57,7 +59,8 @@ The authors use the word “certain”. This makes it sound as though it is unkn
 
 :::
 
-We believe this is referring to the sentence "It follows that the distribution of residuals $\hat{\boldsymbol{e}}$ can be characterized by a certain probability distribution, denoted as $Q$, which is transformed from the multivariate normal distribution." [TODO] We thank the reviewer for pointing out the ambiguity in the wording. We have revised the sentence to clarify that $Q$ is a specific distribution derived from the multivariate normal distribution of the residuals in OLS, and we have provided more details about its properties in the revised paper.
+We believe this refers to the sentence: "It follows that the distribution of residuals $\hat{\boldsymbol{e}}$ can be characterized by a probability distribution, denoted $Q$, which is transformed from the multivariate normal distribution." We thank the reviewer for highlighting this ambiguity. We have revised Section 3.1 to clarify that $Q$ is an induced distribution derived from the multivariate Gaussian error distribution in OLS in the revised manuscript. We have also substantially simplified Section 3.1 to improve readability.
+
 
 ::: reviewer
 
@@ -67,7 +70,8 @@ Can the authors explain why the specific form $\log(1 + D_{KL})$ is used? I don�
 
 :::
 
-The form $\log(1 + D_{KL})$ is used to ensure that large values of $D_{KL}$ are compressed and to avoid taking the logarithm of zero when $D_{KL}$ is zero. 
+We have added an explanation in Section 3.2. The transformation $D = \log(1 + D_{KL})$ is introduced to reduce the influence of large values of $D_{KL}$, thereby improving numerical stability during estimation. The addition of $1$ ensures the transformation remains well-defined when $D_{KL} = 0$, while the logarithm provides a smooth compression of the scale.
+
 
 ::: reviewer
 
@@ -77,6 +81,16 @@ The features of $D$ are unclear to me. Does its distribution depend on sample si
 
 :::
 
+$D$ is a measure defined in terms of the underlying data-generating process. As such, its quantity depends on the sample size and on the nature of the model violation. This dependence is inherent to the definition of $D$, since it aggregates information across $n$ observations.
+
+However, $D$ is not observable in practice because it depends on the unknown data-generating mechanism. In applications, we therefore work with its empirical counterpart $\hat{D}$, which is computed from the observed sample. As expected, $\hat{D}$ depends on the realized sample and varies across samples.
+
+Importantly, the proposed testing procedure does not attempt to eliminate or normalize away this dependence, and no bootstrap procedure is used. Instead, inference is based on comparing $\hat{D}$ with the distribution of $\hat{D}{\text{null}}$, where $\hat{D}{\text{null}}$ is generated under the null model using the same sample size. This ensures that any dependence on sample size is consistently reflected in both quantities, making them directly comparable.
+
+Finally, the goal of the procedure is not to interpret the magnitude of $\hat{D}$ alone, but to assess whether the observed $\hat{D}$ is consistent with the distribution induced by the null model. Model violations manifest through systematic deviations of $\hat{D}$ from $\hat{D}_{\text{null}}$, which is what enables detection.
+
+We have revised the relevant section to clarify these points and to better articulate the role of $\hat{D}$ and its null counterpart in the testing procedure. We have also separated the bootstrap component from this section to avoid potential confusion.
+
 [TODO]
 
 
@@ -84,16 +98,15 @@ The features of $D$ are unclear to me. Does its distribution depend on sample si
 
 pg 13: line 57: "we can apply bootstrapping to the estimated distance $D$":
 
-The bootstrapping procedure is unclear. How is the bootstrapping for residuals performed? To
-detect model deviation, we need to have $\hat{D}$ from the null distribution. Do the authors generate
-datasets from the fitted model for a given dataset? I raised this question for the authors’ R0
-version. The response letter said, "Specifically, assuming the fitted regression model is correct,
-we generate null residuals using residual rotation". _How can we assume the fitted model is
-correct? How can a rotation of residuals from a wrong model produce residuals from fitting a true
-distribution?_ In addition, the phrases "true residual plot" and "null residual plot" are used often
-by the authors. These phrases are technically confusing. A more detailed explaination is needed.
+The bootstrapping procedure is unclear. How is the bootstrapping for residuals performed? To detect model deviation, we need to have $\hat{D}$ from the null distribution. Do the authors generate datasets from the fitted model for a given dataset? I raised this question for the authors’ R0 version. The response letter said, "Specifically, assuming the fitted regression model is correct, we generate null residuals using residual rotation". _How can we assume the fitted model is correct? How can a rotation of residuals from a wrong model produce residuals from fitting a true distribution?_ In addition, the phrases "true residual plot" and "null residual plot" are used often by the authors. These phrases are technically confusing. A more detailed explanation is needed.
 
 :::
+
+We have substantially revised the bootstrap section and separated it from the statistical testing section to avoid potential confusion. The bootstrap procedure is not intended as a primary method for testing the null hypothesis that the model is correctly specified. Rather, it is used as an additional tool to assess the variability of the estimated distance (\hat{D}) and the stability of the resulting test outcome. In the revised manuscript, we clarify that the bootstrap is performed via case resampling with replacement from the observed data.
+
+We have also added a dedicated paragraph in the statistical testing section describing the generation of null residuals and null plots. Following Buja et al. (2009), this procedure constructs null datasets under (H_0) based on the fitted regression model. Specifically, under (H_0: \boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{e}), null residuals are generated as ((\boldsymbol{I}_n - \boldsymbol{H})\boldsymbol{w}), where (\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top) and (\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{0}, \hat{\sigma}^2 \boldsymbol{I}_n)), with (\hat{\sigma}^2) estimated from the fitted model. This yields the exact conditional distribution of residuals under (H_0), as described in Buja et al. (2009), and we have clarified this explicitly in the revised text.
+
+We consistently use the terms “true residual plot” and “null plot” throughout the manuscript, following standard terminology in the visual inference literature. To avoid ambiguity, we have added explicit definitions at their first occurrence in the introduction.
 
 [TODO]
 
@@ -108,7 +121,9 @@ there color in a residual plot?
 
 :::
 
-The n is the sample size, h and w are the height and width of the image, and 3 is the number of color channels for RGB images. We use RGB images for computer vision because many pre-trained models are designed to work with RGB images, and it allows us to leverage transfer learning from models trained on large datasets. While residual plots typically do not contain color information, we can still represent them as RGB images by replicating the grayscale values across the three color channels. In our residual plot, the x axis is colored in red. This way, we can utilize the powerful feature extraction capabilities of pre-trained computer vision models. We have clarified this in the revised paper.
+The quantity $n$ denotes the sample size, $h$ and $w$ are the height and width of the image, and $3$ corresponds to the three RGB colour channels. To reduce potential confusion, we have removed explicit references to $n$ and the channel dimension from the revised text and now focus only on $h$ and $w$, which are defined more clearly in Section 4.
+
+We use RGB images primarily to ensure consistency with the stimuli used in the human subject experiment reported in our previous study. Although the inputs are represented in RGB format, they are immediately converted to grayscale before being processed by the computer vision model. This is appropriate because the images are largely black-and-white, with the exception of a red $y = 0$ reference line. The grayscale conversion preserves sufficient contrast for this feature to remain distinguishable in the resulting intensity representation, and this has now been clarified in Section 4.1.
 
 [TODO]
 
@@ -121,6 +136,9 @@ These sections are all about how to generate training datasets with known $D$ to
 
 :::
 
+
+Thank you for this helpful suggestion. We have substantially reorganised the manuscript accordingly. The revised structure is now as follows: Section 3 introduces the definition of the distance $D$; Section 4 focuses on its estimation, including the computer vision model architecture (Section 4.1) and the generation of training data together with model training (Section 4.2); Section 5 presents the statistical testing procedure based on $\hat{D}$; and Section 6 discusses bootstrap methods for assessing variability of $\hat{D}$.
+
 [TODO]
 
 
@@ -129,12 +147,17 @@ These sections are all about how to generate training datasets with known $D$ to
 Sec 8.2.1:
 
 The comparison with human visual inference is hard for me to follow. Who are the humans
-who made the visual decision? Are the participants experienced in looking at residual plots?
-Also, what’s the difference between a “true residual plot” and a “null residual plot”? It seems
-to me that human judgment is subjective. It would be OK not to compare with human visual
-decision at all.
+who made the visual decision? Are the participants experienced in looking at residual plots? Also, what’s the difference between a “true residual plot” and a “null residual plot”? It seems to me that human judgment is subjective. It would be OK not to compare with human visual decision at all.
 
 :::
+
+Thank you for these comments. We have added a paragraph in Section 7.2.1 to clarify the characteristics of the participants in the previous study. Most participants were non-experts in residual plot interpretation, so the results primarily reflect the ability of non-experts to distinguish true residual plots from null plots based on visual differences rather than specialised statistical training.
+
+The distinction between "true residual plots" and "null plots" has also been clarified in the manuscript and is addressed in our response above.
+
+We agree that an individual visual judgment is inherently subjective. However, the visual inference framework and lineup protocol are specifically designed to aggregate many independent judgments from multiple participants. Through repeated evaluation across observers, subjective assessments can be translated into objective statistical evidence, allowing formal visual hypothesis tests to be conducted. This is the basis of the human subject experiments reported in the previous study.
+
+We believe the comparison with human-evaluated lineups remains important because the proposed computer vision framework is motivated by the goal of automating the lineup protocol within the visual inference framework. Comparing the model's performance with human evaluations therefore provides a useful benchmark for assessing whether the automated approach captures visual patterns that are meaningful to human observers.
 
 [TODO]
 
@@ -146,5 +169,19 @@ Fig 8: “Finally, the power curves in Figure 8 are fitted using logistic regres
 This way to report rejection rate is very wierd to me. Why don’t the authors simply report the rejection rate, ie, proportion of rejections with $p < 0.05$, but fitting a model to the decisions. In addition, it seems that this is based on true $D$ not $\hat{D}$. I think it is necessary to report the direct rejection rates of $\hat{D}$ and $D$. This may be the most convincing way to show the performance of the p-value based on $D$ and $\hat{D}$.
 
 :::
+
+
+We consider a large collection of residual plots, each characterized by a continuous distance value $D$. For each plot, a statistical testing procedure produces a binary outcome indicating whether the null hypothesis is rejected ($p < 0.05$) or not ($p \geq 0.05$). Our objective is to evaluate how the probability of rejection varies as a function of $D$, and to compare this relationship across different methods.
+
+Several approaches can be used to summarise rejection rates over a continuous range of $D$. A simple strategy is to partition $D$ into intervals and compute the empirical rejection rate within each bin. Alternatively, nonparametric smoothing methods, such as kernel smoothing or local regression, can be used to estimate the rejection probability as a smooth function of $D$. Parametric approaches, including logistic regression, provide another option by directly modelling the relationship between $D$ and the probability of rejection. Each approach involves a trade-off between interpretability, smoothness, and statistical efficiency.
+
+In our analysis, we use a logistic regression model to report the rejection probability as a function of $D$. This choice is consistent with prior work in visual inference, such as Majumder, Hofmann, and Cook (2013), which also modelled power curves using logistic regression in relation to effect size. We have also explored alternative summaries, including kernel smoothing and binning. The resulting curves are broadly consistent across approaches: smoothing yields nearly identical trends but with slightly more fluctuation, while binning produces similar results when the number of bins is large. With fewer bins, however, the summaries become less stable and less informative.
+
+We focus on rejection rates as a function of the true distance $D$, since $D$ reflects the underlying severity of model misspecification and thus the strength of the visual signal present in the residual plots. This allows us to characterise how each method responds across varying degrees of true deviation from the null model.
+
+By contrast, reporting rejection rates against the estimated distance $\hat{D}$ is less directly interpretable. The estimate $\hat{D}$ depends on the computer vision model and introduces additional variability, which may not align with how either classical tests or human visual inference conceptualise model deviation. As a result, curves indexed by $\hat{D}$ primarily describe performance conditional on the computer vision system’s perception of deviation, rather than the true underlying signal. In practice, we find that the qualitative conclusions remain unchanged, and the fitted curves are visually similar, aside from minor horizontal distortions due to heteroskedasticity (e.g., a slight compression of the range from approximately $0–8$ to $0–6$).
+
+For completeness, we include the corresponding results based on $\hat{D}$ in the Appendix for interested readers.
+
 
 [TODO]
