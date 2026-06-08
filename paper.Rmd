@@ -381,24 +381,27 @@ Further details on the synthetic data-generating process, parameter settings, sa
 
 # Statistical Testing {#sec-model-statistical-testing}
 
-Under the null hypothesis $H_0$, the distance satisfies $D = 0$ because $P = Q$. In practice, however, the estimated distance $\hat{D}$ is generally non-zero, even for null plots, due to sampling variability and imperfections in the computer vision model. Consequently, statistical significance should be assessed relative to the distribution of estimated distances obtained from null plots rather than by the magnitude of $\hat{D}$ alone.
+Under the null hypothesis $H_0$, corresponding to a correctly specified model, the distance satisfies $D = 0$ because $P = Q$. In practice, however, the estimated distance $\hat{D}$ is generally non-zero, even for null plots, due to sampling variability and imperfections in the computer vision model. Consequently, statistical significance should be assessed relative to the distribution of estimated distances obtained from null plots rather than by the magnitude of $\hat{D}$ alone.
 
 Let $\hat{D}$ denote the estimated distance for the true residual plot and let $\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}$ denote the estimated distances for $m$ null plots generated under $H_0$. For a lineup containing $m + 1$ plots (one true plot and $m$ null plots), the visual inference decision rule is $$\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} > \max_{1\le i\le m} \hat{D}_{null}^{(i)}.$$
-This corresponds to the standard lineup protocol, where the observed plot must be identified as the most visually distinct plot.
+This corresponds to the standard lineup protocol, where the true residual plot must be identified as the most visually distinct plot.
 
-More generally, the empirical distribution of $\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}$ provides an estimate of the null distribution of the test statistic. Let $Q_{null}(\alpha)$ denote the empirical $\alpha$-quantile of this distribution. A level-$\alpha$ test is then given by $$\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} \ge Q_{null}(\alpha).$$
-
+More generally, the empirical distribution of $\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}$ provides an estimate of the null distribution of the test statistic. Let $Q_{null}(\tau)$ denote the empirical $\tau$-quantile of this distribution. A level-$\alpha$ test is then given by $$\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} \ge Q_{null}(1-\alpha).$$
 Equivalently, a Monte Carlo $p$-value can be computed as
-$$\hat{p} = \frac{1}{m + 1} + \frac{1}{m + 1}\sum_{i=1}^{m} I\left( \hat{D}_{null}^{(i)} \ge \hat{D} \right).$$
+$$\hat{p} = \frac{1}{m + 1} + \frac{1}{m + 1}\sum_{i=1}^{m} \mathbb{I}\left( \hat{D}_{null}^{(i)} \ge \hat{D} \right).$$
 This is the standard simulation-based estimator of the tail probability under $H_0$. For computational efficiency, quantiles of the null distribution may be pre-computed over a range of sample sizes and stored in a lookup table, allowing approximate $p$-values to be obtained without generating new null plots.
 
-# Bootstrap Assessment of $\hat{D}$ {#sec-bootstrap-assessment}
+# Bootstrap Variability Assessment {#sec-bootstrap-assessment}
 
-Bootstrap methods are commonly used in linear regression to estimate parameter variability without strong distributional assumptions [@davison1997bootstrap; @efron1994introduction]. This involves resampling observations with replacement and refitting the model.
+Bootstrap methods are commonly used in linear regression to assess parameter variability without strong distributional assumptions [@davison1997bootstrap; @efron1994introduction]. This involves resampling the observed data (pairs of responses and predictors) with replacement and refitting the model on each bootstrap sample.
 
-Similarly, we can apply bootstrapping to the estimated distance $\hat{D}$. For each bootstrap sample $i = 1, \dots, n_{boot}$, we obtain a refitted model $M^{(i)}_{boot}$, a corresponding residual plot $V^{(i)}_{boot}$, and a predicted distance $\hat{D}^{(i)}_{boot}$. If we are interested in the variation of $\hat{D}$, the distribution of $\hat{D}^{(i)}_{boot}$ can be used to construct confidence intervals.
+Similarly, this case-resampling bootstrap can be used to assess the variability of the estimated distance $\hat{D}$. For each bootstrap sample $i=1, \ldots, n_{boot}$, a regression model $M_{boot}^{(i)}$ is refitted using the resampled data, producing a residual plot $V_{boot}^{(i)}$ and a corresponding estimated distance $\hat{D}_{boot}^{(i)}$. The empirical distribution of $\{\hat{D}_{boot}^{(i)}\}_{i=1}^{n_{boot}}$ provides an estimate of the sampling distribution of $\hat{D}$, from which confidence intervals may be constructed.
 
-Alternatively, since each $M_{boot}^{(i)}$ has its own residual distribution, a new approximated null distribution can be construed and the corresponding 95% sample quantile $Q_{boot}^{(i)}(0.95)$ can be computed. Then, if $\hat{D}_{boot}^{(i)} \geq Q_{boot}^{(i)}(0.95)$, $H_0$ will be rejected for $M_{boot}^{(i)}$. The ratio of rejected $M_{boot}^{(i)}$ among all the refitted models reflects how often the assumed regression model are considered to be misspecified if data were repeatedly drawn from the same process. But this approach is computationally very expensive because it requires $n_{boot} \times (n_{null} + 1)$ times of residual plot assessment. In practice, $Q_{null}(0.95)$ can be used to replace $Q_{boot}^{(i)}(0.95)$ in the computation. 
+More generally, each bootstrap model $M_{boot}^{(i)}$ induces its own null distribution of estimated distances. Let $Q_{boot}^{(i)}(1-\alpha)$ denote the ($1-\alpha$)-quantile of the corresponding null distribution. A level-$\alpha$ test for the $i$-th bootstrap model is then given by $$\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha).$$
+The proportion of bootstrap models for which $H_0$ is rejected, $$\frac{1}{n_{boot}}\sum_{i=1}^{n_{boot}}\mathbb{I}\left(\hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha)\right),$$
+estimates how often the fitted regression model would be judged misspecified under repeated sampling from the same data-generating process.
+
+This procedure is computationally expensive because it requires evaluating $n_{boot}(m + 1)$ residual plots, where $m$ denotes the number of null plots per bootstrap sample. In practice, the bootstrap-specific critical values $Q_{boot}^{(i)}(1-\alpha)$ may be approximated by the corresponding quantile $Q_{null}(1-\alpha)$ from the original null distribution, substantially reducing the computational burden.
 
 
 # Results {#sec-model-results}
