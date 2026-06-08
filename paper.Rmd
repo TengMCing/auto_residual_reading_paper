@@ -383,6 +383,10 @@ Further details on the synthetic data-generating process, parameter settings, sa
 
 Under the null hypothesis $H_0$, corresponding to a correctly specified model, the distance satisfies $D = 0$ because $P = Q$. In practice, however, the estimated distance $\hat{D}$ is generally non-zero, even for null plots, due to sampling variability and imperfections in the computer vision model. Consequently, statistical significance should be assessed relative to the distribution of estimated distances obtained from null plots rather than by the magnitude of $\hat{D}$ alone.
 
+We briefly recall the null plot generation procedure of @buja2009statistical. Draw an auxiliary response $\boldsymbol{w}$ with entries $w_i \overset{\text{iid}}{\sim} \mathcal{N}(0,1)$ and compute the projected residuals $\hat{\boldsymbol{e}}_w = \boldsymbol{R}\boldsymbol{w}$. These are then rescaled to match the Euclidean norm of the observed residuals,
+$$\tilde{\boldsymbol{e}}_w = \hat{\boldsymbol{e}}_w \cdot \frac{\|\hat{\boldsymbol{e}}\|}{\|\hat{\boldsymbol{e}}_w\|},$$
+so that $\|\tilde{\boldsymbol{e}}_w\| = \|\hat{\boldsymbol{e}}\|$. A null plot is then the scatter plot of $(\hat{\boldsymbol{y}},\, \tilde{\boldsymbol{e}}_w)$, which under the null hypothesis of a correctly specified model is statistically indistinguishable from the true residual plot $(\hat{\boldsymbol{y}},\, \hat{\boldsymbol{e}})$.
+
 Let $\hat{D}$ denote the estimated distance for the true residual plot and let $\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}$ denote the estimated distances for $m$ null plots generated under $H_0$. For a lineup containing $m + 1$ plots (one true plot and $m$ null plots), the visual inference decision rule is $$\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} > \max_{1\le i\le m} \hat{D}_{null}^{(i)}.$$
 This corresponds to the standard lineup protocol, where the true residual plot must be identified as the most visually distinct plot.
 
