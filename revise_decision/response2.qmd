@@ -27,7 +27,7 @@ format:
 
 ---
 
-We thank the reviewer for their time and constructive comments to improve this paper. The reviewer comments are colored in [purple]{.review} below and our response in black below. In addition, we also include an annotated version of the paper (`diff2.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
+We thank the editor, associate editor and reviewers for their time and constructive comments to improve this paper. The reviewer comments are colored in [purple]{.review} below and our response in black below. In addition, we also include an annotated version of the paper (`diff2.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
 
 [TODO] In this revision, we improve ...
 
