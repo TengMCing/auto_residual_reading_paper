@@ -222,10 +222,9 @@ In this section, we introduce a distance measure between a true residual plot an
 
 ## Residual Distribution
 
-For the classical normal linear regression model,
-$\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}$,
-the residual vector is 
-$\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}$, where $\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$ is the residual operator, $\boldsymbol{X}$ is the design matrix, $\boldsymbol{I}_n$ is the $n\times n$ identity matrix, and $n$ is the sample size.
+Consider the classical normal linear regression model,
+$\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}$, where $\boldsymbol{y}$ is the $n\times 1$ response vector, $\boldsymbol{X}$ is the design matrix, $\boldsymbol{\beta}$ is a vector of regression coefficients and $\boldsymbol{e}$ is the vector of random errors. The residual vector is 
+$\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}$, where $\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top$ is the residual operator, and $\boldsymbol{I}_n$ is the $n\times n$ identity matrix.
 
 Under the classical assumptions $\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, the residuals are also Gaussian, since they are a linear transformation of $\boldsymbol{e}$. We refer to this induced distribution as the reference distribution $Q$, which characterizes the residual behaviour under correct model specification and depends only on $\boldsymbol{X}$.
 
@@ -234,7 +233,7 @@ $\mathrm{diag}(\sigma^2\boldsymbol{R})$,
 yielding
 $Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)$.
 
-The reference distribution $Q$ corresponds to correct model specification. Under misspecification, the residuals follow a different distribution $P$. For example, omitted variables correlated with $\boldsymbol{X}$ alter the residual structure, causing $P$ to deviate from $Q$. Similarly, non-Gaussian error distributions (e.g. multivariate lognormal) induce skewness and heavier tails.
+The reference distribution $Q$ corresponds to the correct model specification. Under misspecification, the residuals follow a different distribution $P$. For example, omitted variables correlated with $\boldsymbol{X}$ alter the residual structure, causing $P$ to deviate from $Q$. Similarly, non-Gaussian error distributions (e.g. multivariate lognormal) induce skewness and heavier tails.
 
 ## Distance of $P$ from $Q$ {#sec-distance-of-p-from-q}
 
@@ -248,7 +247,7 @@ D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\frac{p(\hat{\boldsymbol{e}})}{q(\hat{
 \end{equation}
 \noindent and $p(\cdot)$ and $q(\cdot)$ are the probability density functions for $P$ and $Q$, respectively.
 
-This measure was introduced in @li2024plot to quantify the effect size of non-linearity and heteroskedasticity in residual plots. In the presence of model misspecification, if the error structure deviates from $\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, for instance with covariance $\boldsymbol{V}$ and omitted higher-order terms $\boldsymbol{Z}\boldsymbol{\beta}_z$ correlated with $\boldsymbol{X}$, the induced residual distribution can be expressed as $P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$, where the diagonal approximation ensures non-degenerate covariance matrix. The transformation $D = \log(1 + D_{KL})$ compresses large values of $D_{KL}$, improves numerical stability during estimation (Section \ref{sec-model-distance-estimation}), and ensures that $D$ is well-defined when $D_{KL} = 0$.
+This measure was introduced in @li2024plot to quantify the effect size of non-linearity and heteroskedasticity in residual plots. In the presence of model misspecification, if the error structure deviates from $\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)$, for instance with covariance $\boldsymbol{V}$ and omitted higher-order terms $\boldsymbol{Z}\boldsymbol{\beta}_z$ correlated with $\boldsymbol{X}$, the induced residual distribution can be expressed as $P = \mathcal{N}(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))$, where the diagonal approximation ensures non-degenerate covariance matrix. The transformation $D = \log(1 + D_{KL})$ compresses large values of $D_{KL}$, improves numerical stability during estimation (Section \ref{sec-model-distance-estimation}), and ensures that $D$ is well-defined when $D_{KL} = 0$.
 
 Since $P$ and $Q$ are taken as non-degenerate Gaussian distributions, the KL divergence admits the closed form
 \begin{equation} \label{eq:kl-2}
