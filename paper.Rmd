@@ -371,7 +371,7 @@ data_overall %>%
   kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
-Model parameters $\boldsymbol{\theta}$ were randomly initialized using the Glorot Uniform method [@glorot2010understanding] and optimized with the Adam optimizer [@kingma2014adam] under a mean squared error objective:
+Computer vision model parameters $\boldsymbol{\theta}$ were randomly initialized using the Glorot Uniform method [@glorot2010understanding] and optimized with the Adam optimizer [@kingma2014adam] under a mean squared error objective:
 $$\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, \boldsymbol{s}_i))^2,$$ 
 \noindent where $n_{\text{train}}$ denotes the number of training samples, $V_i$ is the $i$-th residual plot, and $\boldsymbol{s}_i$ represents the auxiliary tabular features, including four scagnostics measures and sample size.
 
