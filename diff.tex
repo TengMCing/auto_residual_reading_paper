@@ -1,7 +1,7 @@
 % interactcadsample.tex
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL paper.tex               Mon Jun 22 16:10:47 2026
-%DIF ADD paper-submission2.tex   Tue Apr 14 09:38:37 2026
+%DIF DEL paper-submission2.tex   Tue Apr 14 09:38:37 2026
+%DIF ADD paper.tex               Fri Jul 10 06:42:48 2026
 % v1.04 - May 2023
 
 \documentclass[]{interact}
@@ -174,39 +174,33 @@ rather than indicating a flaw in the model.
 
 }
 
-\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
+\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at \DIFdelbeginFL \DIFdelFL{95}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{5}\DIFaddendFL \% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
 \end{figure}
 
 The concept of visual inference, as proposed by
-\citet{buja2009statistical}, provides an inferential framework \DIFdelbegin \DIFdel{for
-assessing }\DIFdelend \DIFaddbegin \DIFadd{to assess
-}\DIFaddend whether residual plots \DIFaddbegin \DIFadd{indeed }\DIFaddend contain visual patterns inconsistent with
-the model assumptions. \DIFdelbegin \DIFdel{In this framework, a }\textbf{\DIFdel{true residual
-plot}} %DIFAUXCMD
-\DIFdel{refers to the
-residual plot obtained from the observed data under
-the fitted regression model. In contrast, }\textbf{\DIFdel{null plots}} %DIFAUXCMD
-\DIFdel{are
+\citet{buja2009statistical}, provides an inferential framework \DIFdelbegin \DIFdel{to assess
+}\DIFdelend \DIFaddbegin \DIFadd{for
+assessing }\DIFaddend whether residual plots \DIFdelbegin \DIFdel{indeed }\DIFdelend contain visual patterns inconsistent
+with the model assumptions. \DIFdelbegin \DIFdel{The fundamental idea involves testing whether the true residual plot visually differs significantly from the null plots ,
+where }\DIFdelend \DIFaddbegin \DIFadd{In this framework, a }\textbf{\DIFadd{true residual
+plot}} \DIFadd{refers to the residual plot obtained from the observed data under
+the fitted regression model. In contrast, }\textbf{\DIFadd{null plots}} \DIFadd{are
 synthetic residual plots generated under the null hypothesis \(H_0\),
-where the linear regression model is correctly specified. These }\DIFdelend \DIFaddbegin \DIFadd{The fundamental idea involves testing whether the
-true residual plot visually differs significantly from the }\DIFaddend null \DIFaddbegin \DIFadd{plots,
-where null }\DIFaddend plots are \DIFdelbegin \DIFdel{constructed by generating residuals }\DIFdelend \DIFaddbegin \DIFadd{plotted with residuals generated }\DIFaddend from the residual
-rotation distribution \citep{langsrud2005rotation}, which \DIFdelbegin \DIFdel{preserves the structure
-implied by }\DIFdelend \DIFaddbegin \DIFadd{is a
-distribution consistent with the null hypothesis }\DIFaddend \(H_0\) \DIFdelbegin \DIFdel{(see Section \ref{sec-model-statistical-testing} for
+where the linear regression model is correctly specified. These }\DIFaddend null
+plots are \DIFdelbegin \DIFdel{plotted with residuals generated }\DIFdelend \DIFaddbegin \DIFadd{constructed by generating residuals }\DIFaddend from the residual rotation
+distribution \citep{langsrud2005rotation}, which \DIFdelbegin \DIFdel{is a
+distribution consistent with the null hypothesis }\DIFdelend \DIFaddbegin \DIFadd{preserves the structure
+implied by }\DIFaddend \(H_0\) \DIFdelbegin \DIFdel{that the linear
+regression model is correctly specified. Typically, the visual test is accomplished through }\DIFdelend \DIFaddbegin \DIFadd{(see Section \ref{sec-model-statistical-testing} for
 details).
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{The goal is to assess whether the true residual plot is visually
-distinguishable from the null plots. This is
-typically done using }\DIFdelend \DIFaddbegin \DIFadd{that the linear
-regression model is correctly specified. Typically, the visual test is
-accomplished through }\DIFaddend the lineup protocol (Figure \ref{fig:ex-lineup}),
-where the true residual plot is embedded \DIFdelbegin \DIFdel{among multiple }\DIFdelend \DIFaddbegin \DIFadd{within a field of }\DIFaddend null plots.
-\DIFdelbegin \DIFdel{Successful identification of
-}\DIFdelend \DIFaddbegin \DIFadd{If }\DIFaddend the true residual plot \DIFdelbegin \DIFdel{provides evidence against }\DIFdelend \DIFaddbegin \DIFadd{can be distinguished from the lineup, it
-provides evidence for rejecting }\DIFaddend \(H_0\).
+\DIFadd{The goal is to assess whether the true residual plot is visually
+distinguishable from the null plots. This is typically done using }\DIFaddend the
+lineup protocol (Figure \ref{fig:ex-lineup}), where the true residual
+plot is embedded \DIFdelbegin \DIFdel{within a field of }\DIFdelend \DIFaddbegin \DIFadd{among multiple }\DIFaddend null plots. \DIFdelbegin \DIFdel{If }\DIFdelend \DIFaddbegin \DIFadd{Successful identification of
+}\DIFaddend the true residual plot \DIFdelbegin \DIFdel{can be distinguished from the lineup, it
+provides evidence for rejecting }\DIFdelend \DIFaddbegin \DIFadd{provides evidence against }\DIFaddend \(H_0\).
 
 \begin{figure}[!h]
 
@@ -230,12 +224,13 @@ effectiveness in forensic examinations.
 
 A practical limitation of the lineup protocol lies in its reliance on
 human judgments \citep[see][]{li2024plot}. Unlike conventional
-statistical tests that can be performed using in statistical software,
+statistical tests that can be performed using \DIFdelbegin \DIFdel{in }\DIFdelend \DIFaddbegin \DIFadd{a }\DIFaddend statistical software,
 the lineup protocol requires human evaluation of images. This
 characteristic makes it less suitable for large-scale applications,
 given the associated high labor costs and time requirements. There is a
 substantial need to develop an approach to substitute these human
-judgement with an automated reading of data plots using computer vision.
+judgement\DIFdelbegin \DIFdel{with an automated reading }\DIFdelend \DIFaddbegin \DIFadd{, for example through the automated interpretation }\DIFaddend of data
+plots using computer vision.
 
 Efforts to automate plot interpretation date back to early work like
 Tukey's ``Scagnostics'' \citep{tukey1985computer}, which is a set of
@@ -278,38 +273,33 @@ non-negative estimated distance \(\hat{D}\). Training and test data are
 generated from a synthetic data model, simulating residual plots under
 various violation scenarios, with targets defined as customized
 distances \(D\) computed from the underlying data generating process,
-quantifying the extent of model violations. The model \DIFaddbegin \DIFadd{performance }\DIFaddend is
-evaluated on held-out test plots \DIFdelbegin \DIFdel{for its ability to estimate \(\hat{D}\). In
+quantifying the extent of model violations. The model \DIFdelbegin \DIFdel{performance }\DIFdelend is evaluated on
+held-out test plots \DIFdelbegin \DIFdel{and compared }\DIFdelend \DIFaddbegin \DIFadd{for its ability to estimate \(\hat{D}\). In
 addition, we develop a statistical testing procedure based on
 \(\hat{D}\) for detecting model misspecification, and compare its
-performance }\DIFdelend \DIFaddbegin \DIFadd{and compared }\DIFaddend with classical residual
-diagnostic tests as well as results from a human-subject \DIFdelbegin \DIFdel{visual inference experimentusing the lineup
-protocol}\DIFdelend \DIFaddbegin \DIFadd{experiment}\DIFaddend .
+performance }\DIFaddend with classical residual diagnostic tests as well as results
+from a human-subject \DIFdelbegin \DIFdel{experiment}\DIFdelend \DIFaddbegin \DIFadd{visual inference experiment using the lineup
+protocol}\DIFaddend .
 
 The paper is structured as follows. Section
-\ref{sec-model-specifications} discusses \DIFdelbegin \DIFdel{different }\DIFdelend \DIFaddbegin \DIFadd{various }\DIFaddend specifications of the
+\ref{sec-model-specifications} discusses \DIFdelbegin \DIFdel{various }\DIFdelend \DIFaddbegin \DIFadd{different }\DIFaddend specifications of the
 computer vision models. Section
-\ref{sec-model-distance-between-residual-plots} \DIFdelbegin \DIFdel{introduces }\DIFdelend \DIFaddbegin \DIFadd{defines }\DIFaddend the distance
-measure used to \DIFdelbegin \DIFdel{quantify }\DIFdelend \DIFaddbegin \DIFadd{detect }\DIFaddend model violations, while Section
-\ref{sec-model-distance-estimation} \DIFdelbegin \DIFdel{describes how this measure is
-estimated using }\DIFdelend \DIFaddbegin \DIFadd{explains how the }\DIFaddend computer vision
-models \DIFdelbegin \DIFdel{, including the model
-architecture, data generation, and training procedure}\DIFdelend \DIFaddbegin \DIFadd{estimate this distance measure}\DIFaddend . Section
-\ref{sec-model-statistical-testing} \DIFdelbegin \DIFdel{describes }\DIFdelend \DIFaddbegin \DIFadd{covers the }\DIFaddend statistical tests based
-on the estimated distance\DIFdelbegin \DIFdel{, and
-Section \ref{sec-bootstrap-assessment}
+\ref{sec-model-distance-between-residual-plots} \DIFdelbegin \DIFdel{defines }\DIFdelend \DIFaddbegin \DIFadd{introduces }\DIFaddend the distance
+measure used to \DIFdelbegin \DIFdel{detect }\DIFdelend \DIFaddbegin \DIFadd{quantify }\DIFaddend model violations, while Section
+\ref{sec-model-distance-estimation} \DIFdelbegin \DIFdel{explains how the }\DIFdelend \DIFaddbegin \DIFadd{describes how this measure is
+estimated using }\DIFaddend computer vision models\DIFdelbegin \DIFdel{estimate this distance measure}\DIFdelend \DIFaddbegin \DIFadd{, including the model
+architecture, data generation, and training procedure}\DIFaddend . Section
+\ref{sec-model-statistical-testing} \DIFdelbegin \DIFdel{covers the }\DIFdelend \DIFaddbegin \DIFadd{describes }\DIFaddend statistical tests based on
+the estimated distance\DIFdelbegin \DIFdel{. Sections \ref{sec-model-architecture} and \ref{sec-model-data-generation} describe the model architecture and the corresponding data generation and training process, respectively. The
+results are presented }\DIFdelend \DIFaddbegin \DIFadd{, and Section \ref{sec-bootstrap-assessment}
 presents bootstrap-based methods for assessing the variability of
-estimated distance and the
-stability of model misspecification
-conclusions. Results are reported }\DIFdelend \DIFaddbegin \DIFadd{. Sections \ref{sec-model-architecture} and
-\ref{sec-model-data-generation} describe the model architecture and the
-corresponding data generation and training process, respectively. The
-results are presented }\DIFaddend in Section \ref{sec-model-results}\DIFdelbegin \DIFdel{,
-followed by illustrative applications on example datasets }\DIFdelend \DIFaddbegin \DIFadd{. Example
-dataset applications are discussed }\DIFaddend in Section \ref{sec-examples}.
-Finally, we conclude with a discussion of \DIFdelbegin \DIFdel{the
-findings and outline directions }\DIFdelend \DIFaddbegin \DIFadd{our findings and propose ideas
-}\DIFaddend for future research \DIFaddbegin \DIFadd{directions}\DIFaddend .
+estimated distance and the stability of model misspecification
+conclusions. Results are reported }\DIFaddend in Section \ref{sec-model-results}\DIFdelbegin \DIFdel{. Example
+dataset applications are discussed }\DIFdelend \DIFaddbegin \DIFadd{,
+followed by illustrative applications on example datasets }\DIFaddend in Section
+\ref{sec-examples}. Finally, we conclude with a discussion of \DIFdelbegin \DIFdel{our findings and propose ideas
+}\DIFdelend \DIFaddbegin \DIFadd{the
+findings and outline directions }\DIFaddend for future research\DIFdelbegin \DIFdel{directions}\DIFdelend .
 
 \section{Model Specifications}\label{sec-model-specifications}
 
@@ -383,113 +373,120 @@ measures are often used informally in daily communications but are
 rarely formalized. For supervised learning, they must be clearly defined
 and reliably estimable.
 
-In this study, we \DIFdelbegin \DIFdel{formulate the output as a continuous measure of
-deviation }\DIFdelend \DIFaddbegin \DIFadd{define and use a continuous distance between a true
+In this study, we \DIFdelbegin \DIFdel{define and use a continuous distance between a true
 residual plot and a theoretically ``good'' residual plot. This approach
-captures the degree to which a plot deviates }\DIFaddend from model assumptions. \DIFdelbegin \DIFdel{Compared to probability outputs }\DIFdelend \DIFaddbegin \DIFadd{In
-contrast, a probability output }\DIFaddend based on binary labels\DIFdelbegin \DIFdel{(}\DIFdelend \DIFaddbegin \DIFadd{, where }\DIFaddend true
-residual plots \DIFaddbegin \DIFadd{are }\DIFaddend labeled as 1 and null plots as 0\DIFdelbegin \DIFdel{), this formulation explicitly encodes }\DIFdelend \DIFaddbegin \DIFadd{, cannot express }\DIFaddend the
-severity of \DIFdelbegin \DIFdel{violations and
-avoids forcing }\DIFdelend \DIFaddbegin \DIFadd{violation. It forces }\DIFaddend the model to infer \DIFdelbegin \DIFdel{such structure }\DIFdelend \DIFaddbegin \DIFadd{this information
-}\DIFaddend solely from the data distribution, which \DIFdelbegin \DIFdel{can }\DIFdelend \DIFaddbegin \DIFadd{may }\DIFaddend be inefficient and discards
-useful prior knowledge.
+captures the degree to which a plot deviates }\DIFdelend \DIFaddbegin \DIFadd{formulate the output as a continuous measure of
+deviation }\DIFaddend from model assumptions. \DIFdelbegin \DIFdel{In
+contrast, a probability output }\DIFdelend \DIFaddbegin \DIFadd{Compared to probability outputs }\DIFaddend based
+on binary labels \DIFdelbegin \DIFdel{, where }\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend true residual plots \DIFdelbegin \DIFdel{are }\DIFdelend labeled as 1 and null plots as 0\DIFdelbegin \DIFdel{, cannot express }\DIFdelend \DIFaddbegin \DIFadd{),
+this formulation explicitly encodes }\DIFaddend the severity of \DIFdelbegin \DIFdel{violation. It forces }\DIFdelend \DIFaddbegin \DIFadd{violations and
+avoids forcing }\DIFaddend the model to infer \DIFdelbegin \DIFdel{this information
+}\DIFdelend \DIFaddbegin \DIFadd{such structure }\DIFaddend solely from the data
+distribution, which \DIFdelbegin \DIFdel{may }\DIFdelend \DIFaddbegin \DIFadd{can }\DIFaddend be inefficient and discards useful prior
+knowledge.
 
 \section{Distance from a Theoretically ``Good'' Residual
 Plot}\label{sec-model-distance-between-residual-plots}
 
-\DIFdelbegin \DIFdel{A }\DIFdelend \DIFaddbegin \DIFadd{To develop a computer vision model for assessing residual plots within
+\DIFdelbegin \DIFdel{To develop a computer vision model for assessing residual plots within
 the visual inference framework, it is important to precisely define a
-}\DIFaddend numerical measure of ``difference'' or ``distance'' between plots\DIFaddbegin \DIFadd{. This
-distance }\DIFaddend can take the form of a basic statistical operation on pixels,
-such as the sum of \DIFdelbegin \DIFdel{squared differences. However, direct }\DIFdelend \DIFaddbegin \DIFadd{square differences, however, a }\DIFaddend pixel-to-pixel
-\DIFdelbegin \DIFdel{comparisons
-are not well suited to residual plots , where the primary interest lies
-in }\DIFdelend \DIFaddbegin \DIFadd{comparison makes little sense in comparing residual plots where the main
-interest would be }\DIFaddend structural patterns. Alternatively, \DIFdelbegin \DIFdel{the distance can be based on
-}\DIFdelend \DIFaddbegin \DIFadd{it can involve
-}\DIFaddend established image similarity metrics \DIFdelbegin \DIFdel{such as }\DIFdelend \DIFaddbegin \DIFadd{like }\DIFaddend the Structural Similarity
-Index Measure \citep{wang2004image}, which compares images \DIFdelbegin \DIFdel{using
-}\DIFdelend \DIFaddbegin \DIFadd{by
-integrating three perception features of an image: }\DIFaddend contrast, luminance,
-and structure (related to \DIFdelbegin \DIFdel{the }\DIFdelend average, standard deviation \DIFdelbegin \DIFdel{, }\DIFdelend and correlation of
-pixel values \DIFdelbegin \DIFdel{within }\DIFdelend \DIFaddbegin \DIFadd{over }\DIFaddend a window, respectively). These \DIFdelbegin \DIFdel{metrics are designed for general image comparison tasks that differ substantially }\DIFdelend \DIFaddbegin \DIFadd{image similarity
+}\DIFdelend \DIFaddbegin \DIFadd{A }\DIFaddend numerical measure of ``difference'' or ``distance'' between plots \DIFdelbegin \DIFdel{. This
+distance }\DIFdelend can
+take the form of a basic statistical operation on pixels, such as the
+sum of \DIFdelbegin \DIFdel{square differences, however, a }\DIFdelend \DIFaddbegin \DIFadd{squared differences. However, direct }\DIFaddend pixel-to-pixel \DIFdelbegin \DIFdel{comparison makes little sense in comparing residual plotswhere the main
+interest would be }\DIFdelend \DIFaddbegin \DIFadd{comparisons
+are not well suited to residual plots, where the primary interest lies
+in }\DIFaddend structural patterns. Alternatively, \DIFdelbegin \DIFdel{it can involve
+}\DIFdelend \DIFaddbegin \DIFadd{the distance can be based on
+}\DIFaddend established image similarity metrics \DIFdelbegin \DIFdel{like }\DIFdelend \DIFaddbegin \DIFadd{such as }\DIFaddend the Structural Similarity
+Index Measure \citep{wang2004image}, which compares images \DIFdelbegin \DIFdel{by
+integrating three perception features of an image: }\DIFdelend \DIFaddbegin \DIFadd{using
+}\DIFaddend contrast, luminance, and structure (related to \DIFaddbegin \DIFadd{the }\DIFaddend average, standard
+deviation\DIFaddbegin \DIFadd{, }\DIFaddend and correlation of pixel values \DIFdelbegin \DIFdel{over }\DIFdelend \DIFaddbegin \DIFadd{within }\DIFaddend a window,
+respectively). These \DIFdelbegin \DIFdel{image similarity
 metrics are tailored for image comparison in tasks that are vastly
-different }\DIFaddend from evaluating data plots, where only essential plot elements
-\DIFdelbegin \DIFdel{are relevant \mbox{%DIFAUXCMD
+different }\DIFdelend \DIFaddbegin \DIFadd{metrics are designed for general image comparison
+tasks that differ substantially }\DIFaddend from evaluating data plots, where only
+essential plot elements \DIFdelbegin \DIFdel{require assessment \mbox{%DIFAUXCMD
 \citep{chowdhury2018measuring}}\hskip0pt%DIFAUXCMD
-. Another }\DIFdelend \DIFaddbegin \DIFadd{require assessment \mbox{%DIFAUXCMD
+.
+A different }\DIFdelend \DIFaddbegin \DIFadd{are relevant \mbox{%DIFAUXCMD
 \citep{chowdhury2018measuring}}\hskip0pt%DIFAUXCMD
-. A different }\DIFaddend direction
-is to define \DIFdelbegin \DIFdel{distance using key scatter plot characteristics, }\DIFdelend \DIFaddbegin \DIFadd{a notion of distance by integrating key plot elements
+.
+Another }\DIFaddend direction is to define \DIFdelbegin \DIFdel{a notion of distance by integrating key plot elements
 (instead of key perception features like luminance, contrast, and
-structure), }\DIFaddend such as those captured by scagnostics (see Section
-\ref{sec-model-introduction}), \DIFdelbegin \DIFdel{although }\DIFdelend \DIFaddbegin \DIFadd{but }\DIFaddend the functional form \DIFdelbegin \DIFdel{must be
-carefully designed }\DIFdelend \DIFaddbegin \DIFadd{needs to be
-carefully tailored }\DIFaddend to reflect model violations meaningfully.
+structure), }\DIFdelend \DIFaddbegin \DIFadd{distance using key scatter plot
+characteristics, }\DIFaddend such as those captured by scagnostics (see Section
+\ref{sec-model-introduction}), \DIFdelbegin \DIFdel{but }\DIFdelend \DIFaddbegin \DIFadd{although }\DIFaddend the functional form \DIFdelbegin \DIFdel{needs to be
+carefully tailored }\DIFdelend \DIFaddbegin \DIFadd{must be
+carefully designed }\DIFaddend to reflect model violations meaningfully.
 
 In this section, we introduce a distance measure between a true residual
 plot and a theoretically ``good'' residual plot. This measure quantifies
 the divergence between the residual distribution of a given fitted
-regression model and that of a correctly specified model. \DIFdelbegin \DIFdel{Its
-construction }\DIFdelend \DIFaddbegin \DIFadd{The
-computation }\DIFaddend assumes knowledge of the data generating processes for
-\DIFdelbegin \DIFdel{both
-}\DIFdelend predictors and response variables. Since these processes are often
-unknown in practice, \DIFdelbegin \DIFdel{Section \ref{sec-model-distance-estimation}
-discusses how the distance
-can be estimated }\DIFdelend \DIFaddbegin \DIFadd{we will discuss a method to estimate this distance
-}\DIFaddend using a computer vision model \DIFdelbegin \DIFdel{, while Section
-\ref{sec-model-statistical-testing} describes a
-statistical test based on the estimated distance}\DIFdelend \DIFaddbegin \DIFadd{in Section
-\ref{sec-model-distance-estimation}}\DIFaddend .
+regression model and that of a correctly specified model. \DIFdelbegin \DIFdel{The
+computation }\DIFdelend \DIFaddbegin \DIFadd{Its
+construction }\DIFaddend assumes knowledge of the data generating processes for \DIFaddbegin \DIFadd{both
+}\DIFaddend predictors and response variables. Since these processes are often
+unknown in practice, \DIFdelbegin \DIFdel{we will discuss a method to estimate this distance }\DIFdelend \DIFaddbegin \DIFadd{Section \ref{sec-model-distance-estimation}
+discusses how the distance can be estimated }\DIFaddend using a computer vision
+model\DIFdelbegin \DIFdel{in Section \ref{sec-model-distance-estimation}}\DIFdelend \DIFaddbegin \DIFadd{, while Section \ref{sec-model-statistical-testing} describes a
+statistical test based on the estimated distance}\DIFaddend .
 
 \subsection{Residual Distribution}\label{residual-distribution}
 
-For \DIFdelbegin \DIFdel{the }\DIFdelend \DIFaddbegin \DIFadd{a }\DIFaddend classical normal linear regression model,
-\DIFdelbegin \DIFdel{\(\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}\),
-the residual vector is \(\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}\), where
-\(\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
-}\DIFdelend \DIFaddbegin \DIFadd{\(\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{e}\),
+\DIFdelbegin \DIFdel{For a }\DIFdelend \DIFaddbegin \DIFadd{Consider the }\DIFaddend classical normal linear regression model,
+\DIFdelbegin \DIFdel{\(\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{e}\),
 the residuals \(\hat{\boldsymbol{e}}\) are derived as the difference of
-the fitted values and observed values \(\boldsymbol{y}\). Suppose the
+the fitted values and observed values }\DIFdelend \DIFaddbegin \DIFadd{\(\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}\),
+where }\DIFaddend \(\boldsymbol{y}\) \DIFdelbegin \DIFdel{. Suppose the
 data generating process is known and the regression model is correctly
-specified, by the Frisch-Waugh-Lowell theorem \mbox{%DIFAUXCMD
+specified,
+by the Frisch-Waugh-Lowell theorem \mbox{%DIFAUXCMD
 \citep{frisch1933partial}}\hskip0pt%DIFAUXCMD
-,
-residuals \(\hat{\boldsymbol{e}}\) can also be treated as random
-variables and written as a linear transformation of the error
-\(\boldsymbol{e}\) formulated as
-\(\hat{\boldsymbol{e}} = \boldsymbol{R}\boldsymbol{e}\), where
+, residuals \(\hat{\boldsymbol{e}}\) can also be treated as random
+variables and written as a
+linear transformation of the error
+}\DIFdelend \DIFaddbegin \DIFadd{is the \(n\times 1\) response vector,
+\(\boldsymbol{X}\) is the design matrix, \(\boldsymbol{\beta}\) is a
+vector of regression coefficients and }\DIFaddend \(\boldsymbol{e}\) \DIFdelbegin \DIFdel{formulated as
+\(\hat{\boldsymbol{e}} = \boldsymbol{R}\boldsymbol{e}\),
+where
 \(\boldsymbol{R}=\boldsymbol{I}_n -\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
-}\DIFaddend is the residual operator, \DIFdelbegin \DIFdel{\(\boldsymbol{X}\) is the design matrix,
-}\DIFdelend \(\boldsymbol{I}_n\) is \DIFdelbegin \DIFdel{the \(n\times n\) }\DIFdelend \DIFaddbegin \DIFadd{a \(n\) by \(n\)
-}\DIFaddend identity matrix, and \(n\) is the \DIFdelbegin \DIFdel{sample size}\DIFdelend \DIFaddbegin \DIFadd{number of observations}\DIFaddend .
+}\DIFdelend \DIFaddbegin \DIFadd{is the vector
+of random errors. The residual vector is
+\(\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}\),
+where
+\(\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
+}\DIFaddend is the residual operator, \DIFaddbegin \DIFadd{and }\DIFaddend \(\boldsymbol{I}_n\) is \DIFdelbegin \DIFdel{a \(n\) by \(n\)
+identity matrix, and \(n\) is the number of observations}\DIFdelend \DIFaddbegin \DIFadd{the \(n\times n\)
+identity matrix}\DIFaddend .
 
-\DIFdelbegin \DIFdel{Under the classical assumptions \(\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
+\DIFdelbegin \DIFdel{One of the assumptions of the classical normal linear regression model
+is that the error }\DIFdelend \DIFaddbegin \DIFadd{Under the classical assumptions
+\(\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
 the residuals are also Gaussian, since they are a linear transformation
-of }\DIFdelend \DIFaddbegin \DIFadd{One of the assumptions of the classical normal linear regression model
-is that the error }\DIFaddend \(\boldsymbol{e}\) \DIFdelbegin \DIFdel{. We refer to this induced distribution as the
-}\DIFdelend \DIFaddbegin \DIFadd{follows a multivariate normal
+of }\DIFaddend \(\boldsymbol{e}\)\DIFdelbegin \DIFdel{follows a multivariate normal
 distribution with zero mean and constant variance, i.e.,
 \(\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\). It
 follows that the distribution of residuals \(\hat{\boldsymbol{e}}\) can
-be characterized by a certain probability distribution, denoted as
-\(Q\), which is transformed from the multivariate normal distribution.
-This }\DIFaddend reference distribution \(Q\) \DIFdelbegin \DIFdel{, which characterizes the residual behaviour
+be characterized by a certain probability distribution, denoted as \(Q\), which is transformed from the
+multivariate normal distribution.
+This }\DIFdelend \DIFaddbegin \DIFadd{. We refer to this induced distribution as the
+}\DIFaddend reference distribution \(Q\)\DIFdelbegin \DIFdel{summarizes what ``good'' residuals
+should follow given the design matrix }\DIFdelend \DIFaddbegin \DIFadd{, which characterizes the residual behaviour
 under correct model specification and depends only on
-}\DIFdelend \DIFaddbegin \DIFadd{summarizes what ``good'' residuals
-should follow given the design matrix }\DIFaddend \(\boldsymbol{X}\) \DIFaddbegin \DIFadd{is known and
-fixed}\DIFaddend .
+}\DIFaddend \(\boldsymbol{X}\)\DIFdelbegin \DIFdel{is known and fixed}\DIFdelend .
 
-\DIFdelbegin \DIFdel{If }\DIFdelend \DIFaddbegin \DIFadd{Suppose the design matrix }\DIFaddend \(\boldsymbol{X}\) has \DIFdelbegin \DIFdel{full column rank }\DIFdelend \DIFaddbegin \DIFadd{linearly independent
+\DIFdelbegin \DIFdel{Suppose the design matrix }\DIFdelend \DIFaddbegin \DIFadd{If }\DIFaddend \(\boldsymbol{X}\) has \DIFdelbegin \DIFdel{linearly independent
 columns, the trace of the hat matrix
 \(\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
-equals the number of columns in \(\boldsymbol{X}\) denoted as }\DIFaddend \(k\)\DIFdelbegin \DIFdel{, then
+equals the number of columns in \(\boldsymbol{X}\) denoted as }\DIFdelend \DIFaddbegin \DIFadd{full column rank }\DIFaddend \(k\)\DIFdelbegin \DIFdel{. As
+a result, the rank of \(\boldsymbol{R}\) is \(n - k\), and
+}\DIFdelend \DIFaddbegin \DIFadd{, then
 \(\text{rank}(\boldsymbol{R}) = n - k\), and
-\(\mathrm{cov}(\hat{\boldsymbol{e}})=\sigma^2\boldsymbol{R}\) is singular. Hence, }\DIFdelend \DIFaddbegin \DIFadd{. As
-a result, the rank of \(\boldsymbol{R}\) is \(n - k\), and }\DIFaddend \(Q\) is a
-degenerate \DIFdelbegin \DIFdel{Gaussian supported on an
-\((n-k)\)-dimensional subspace. To obtain a }\DIFdelend \DIFaddbegin \DIFadd{multivariate distribution. To capture the characteristics of
+\(\mathrm{cov}(\hat{\boldsymbol{e}})=\sigma^2\boldsymbol{R}\) is
+singular. Hence, }\DIFaddend \(Q\) is a degenerate \DIFdelbegin \DIFdel{multivariate distribution. To capture the characteristics of
 \(Q\), such as moments, we can simulate a large number of
 \(\boldsymbol{\varepsilon}\) and transform it to \(\boldsymbol{e}\) to
 get the empirical estimates. For the purpose of this study, we replaced
@@ -500,115 +497,113 @@ with a full-rank diagonal matrix
 the non-diagonal entries of a matrix to zeros. The resulting
 distribution for \(Q\) was
 \(N(\boldsymbol{0}_n, \text{diag}(\boldsymbol{R}\sigma^2))\). This
-replacement ensures a }\DIFaddend non-degenerate \DIFdelbegin \DIFdel{reference
-distributionrequired for the distance computation }\DIFdelend \DIFaddbegin \DIFadd{distribution, which is required for
-computing the distance defined }\DIFaddend in Section
-\ref{sec-distance-of-p-from-q}\DIFdelbegin \DIFdel{, we replace \(\sigma^2\boldsymbol{R}\)
+replacement ensures a }\DIFdelend \DIFaddbegin \DIFadd{Gaussian supported on an
+\((n-k)\)-dimensional subspace. To obtain a }\DIFaddend non-degenerate \DIFdelbegin \DIFdel{distribution, which is required for computing the distance defined }\DIFdelend \DIFaddbegin \DIFadd{reference
+distribution required for the distance computation }\DIFaddend in Section
+\ref{sec-distance-of-p-from-q}\DIFaddbegin \DIFadd{, we replace \(\sigma^2\boldsymbol{R}\)
 with its diagonal approximation,
 \(\mathrm{diag}(\sigma^2\boldsymbol{R})\), yielding
-\(Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)\)}\DIFdelend .
+\(Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)\)}\DIFaddend .
 
-\DIFdelbegin \DIFdel{The reference distribution }\DIFdelend \DIFaddbegin \DIFadd{Distribution }\DIFaddend \(Q\) \DIFdelbegin \DIFdel{corresponds to correct modelspecification.
-Under misspecification, the residuals follow a different
-distribution }\DIFdelend \DIFaddbegin \DIFadd{is derived from the correctly specified model.
+\DIFdelbegin \DIFdel{Distribution }\DIFdelend \DIFaddbegin \DIFadd{The reference distribution }\DIFaddend \(Q\) \DIFdelbegin \DIFdel{is derived from the correctly specified model
+.
 However, if the model is misspecified, then the actual distribution of
-residuals denoted as }\DIFaddend \(P\)\DIFaddbegin \DIFadd{, will be different from \(Q\)}\DIFaddend . For example,
-\DIFdelbegin \DIFdel{omitted }\DIFdelend \DIFaddbegin \DIFadd{if the data generating process contains }\DIFaddend variables correlated with \DIFaddbegin \DIFadd{any
-column of }\DIFaddend \(\boldsymbol{X}\) \DIFdelbegin \DIFdel{alter the residual structure,
-causing }\DIFdelend \DIFaddbegin \DIFadd{but are missing from \(\boldsymbol{X}\),
-causing an omitted variable problem, }\DIFaddend \(P\) \DIFdelbegin \DIFdel{to
-deviate }\DIFdelend \DIFaddbegin \DIFadd{will be different }\DIFaddend from \(Q\)
-\DIFaddbegin \DIFadd{because the residual operator obtained from the fitted regression model
+residuals denoted as }\DIFdelend \DIFaddbegin \DIFadd{corresponds to the correct model
+specification. Under misspecification, the residuals follow a different
+distribution }\DIFaddend \(P\)\DIFdelbegin \DIFdel{, will be different
+from \(Q\)}\DIFdelend . For example, \DIFdelbegin \DIFdel{if the data generating process contains }\DIFdelend \DIFaddbegin \DIFadd{omitted }\DIFaddend variables correlated with
+\DIFdelbegin \DIFdel{any
+column of }\DIFdelend \(\boldsymbol{X}\) \DIFdelbegin \DIFdel{but are missing from \(\boldsymbol{X}\), causing an omitted variable problem, }\DIFdelend \DIFaddbegin \DIFadd{alter the residual structure, causing }\DIFaddend \(P\) \DIFdelbegin \DIFdel{will be different }\DIFdelend \DIFaddbegin \DIFadd{to
+deviate }\DIFaddend from \(Q\)\DIFdelbegin \DIFdel{because the residual operator obtained from the fitted regression model
 will not be the same as \(\boldsymbol{R}\). Besides, if the
 \(\boldsymbol{\varepsilon}\) follows a non-normal distribution such as a
-multivariate lognormal distribution, \(P\) will usually be skewed and
-has a long tail}\DIFaddend .
-\DIFdelbegin \DIFdel{Similarly, non-Gaussian error distributions
-(e.g.~multivariate lognormal ) induce skewness and
-heavier tails.
-}\DIFdelend 
+multivariate lognormaldistribution, \(P\) will usually be skewed and has a long tail}\DIFdelend . \DIFaddbegin \DIFadd{Similarly, non-Gaussian error distributions
+(e.g.~multivariate lognormal) induce skewness and heavier tails.
+}\DIFaddend 
 
 \subsection{\texorpdfstring{Distance of \(P\) from
 \(Q\)}{Distance of P from Q}}\label{sec-distance-of-p-from-q}
 
-\DIFdelbegin \DIFdel{We define the distance of }\DIFdelend \DIFaddbegin \DIFadd{Defining a proper distance between distributions is usually easier than
-defining a proper distance between data plots. Given }\DIFaddend the true residual
-distribution \(P\) \DIFdelbegin \DIFdel{from }\DIFdelend \DIFaddbegin \DIFadd{and }\DIFaddend the reference residual distribution \(Q\)\DIFdelbegin \DIFdel{based on the Kullback--Leibler
-divergence
-\mbox{%DIFAUXCMD
-\citep{kullback1951information} }\hskip0pt%DIFAUXCMD
-:
-}\DIFdelend \DIFaddbegin \DIFadd{, we
-used a distance measure based on Kullback-Leibler divergence
-\mbox{%DIFAUXCMD
-\citep{kullback1951information} }\hskip0pt%DIFAUXCMD
+\DIFdelbegin \DIFdel{Defining a proper distance between distributions is usually easier than
+defining a proper distance between data plots. Given }\DIFdelend \DIFaddbegin \DIFadd{We define the distance of }\DIFaddend the true residual distribution \(P\) \DIFdelbegin \DIFdel{and }\DIFdelend \DIFaddbegin \DIFadd{from }\DIFaddend the
+reference residual distribution \(Q\) \DIFdelbegin \DIFdel{, we
+used a distance measure based on Kullback-Leibler divergence \mbox{%DIFAUXCMD
+\citep{kullback1951information}}\hskip0pt%DIFAUXCMD
 to quantify the difference between two
 distributions as
-}
+}%DIFDELCMD < 
 
-\DIFaddend \begin{equation} \label{eq:kl-0}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{based on the Kullback--Leibler
+divergence \mbox{%DIFAUXCMD
+\citep{kullback1951information}}\hskip0pt%DIFAUXCMD
+:
+}\DIFaddend \begin{equation} \label{eq:kl-0}
 D = \log\left(1 + D_{KL}(P \| Q)\right),
-\end{equation}
-\DIFdelbegin %DIFDELCMD < \noindent %%%
-\DIFdelend \DIFaddbegin 
+\end{equation} \DIFdelbegin %DIFDELCMD < 
 
-\DIFaddend where \(D_{KL}(P \| Q)\) is defined as
-\DIFaddbegin 
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \noindent \DIFaddend where \(D_{KL}(P \| Q)\) is defined as
+\DIFdelbegin %DIFDELCMD < 
 
-\DIFaddend \begin{equation} \label{eq:kl-1}
-D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\DIFdelbegin \DIFdel{\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}}\DIFdelend \DIFaddbegin \DIFadd{\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}}\DIFaddend p(\DIFdelbegin %DIFDELCMD < \hat{\boldsymbol{e}}%%%
-\DIFdelend \DIFaddbegin \boldsymbol{e}\DIFaddend )d\DIFdelbegin %DIFDELCMD < \hat{\boldsymbol{e}}%%%
-\DIFdelend \DIFaddbegin \boldsymbol{e}\DIFaddend ,
-\end{equation}
-\DIFaddbegin 
+%DIFDELCMD < %%%
+\DIFdelend \begin{equation} \label{eq:kl-1}
+D_{KL}(P \| Q) = \int_{\mathbb{R}^{n}}\log\DIFdelbegin \DIFdel{\frac{p(\boldsymbol{e})}{q(\boldsymbol{e})}}\DIFdelend \DIFaddbegin \DIFadd{\frac{p(\hat{\boldsymbol{e}})}{q(\hat{\boldsymbol{e}})}}\DIFaddend p(\DIFdelbegin %DIFDELCMD < \boldsymbol{e}%%%
+\DIFdelend \DIFaddbegin \hat{\boldsymbol{e}}\DIFaddend )d\DIFdelbegin %DIFDELCMD < \boldsymbol{e}%%%
+\DIFdelend \DIFaddbegin \hat{\boldsymbol{e}}\DIFaddend ,
+\end{equation} \DIFdelbegin %DIFDELCMD < 
 
-\DIFaddend \noindent and \DIFdelbegin \DIFdel{\(p(\cdot)\) and \(q(\cdot)\) }\DIFdelend \DIFaddbegin \DIFadd{\(p(.)\) and \(q(.)\) }\DIFaddend are the probability density
-functions for \DIFaddbegin \DIFadd{distribution }\DIFaddend \(P\) and \DIFaddbegin \DIFadd{distribution }\DIFaddend \(Q\), respectively.
+%DIFDELCMD < %%%
+\DIFdelend \noindent and \DIFdelbegin \DIFdel{\(p(.)\) and \(q(.)\) }\DIFdelend \DIFaddbegin \DIFadd{\(p(\cdot)\) and \(q(\cdot)\) }\DIFaddend are the
+probability density functions for \DIFdelbegin \DIFdel{distribution }\DIFdelend \(P\) and \DIFdelbegin \DIFdel{distribution }\DIFdelend \(Q\), respectively.
 
-This \DIFdelbegin \DIFdel{measure was introduced in \mbox{%DIFAUXCMD
-\citet{li2024plot}}\hskip0pt%DIFAUXCMD
-to quantify }\DIFdelend \DIFaddbegin \DIFadd{distance measure was first proposed in \mbox{%DIFAUXCMD
-\citet{li2024plot}}\hskip0pt%DIFAUXCMD
+This \DIFdelbegin \DIFdel{distance measure was first proposed in \mbox{%DIFAUXCMD
+\citet{li2024plot} }\hskip0pt%DIFAUXCMD
 , which
-was mainly designed for measuring }\DIFaddend the effect size of non-linearity and
-heteroskedasticity in \DIFdelbegin \DIFdel{residual plots. In the
-presence of model misspecification, if the
-error structure deviates from
-\(\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\), for instance with covariance \(\boldsymbol{V}\) and omitted }\DIFdelend \DIFaddbegin \DIFadd{a residual plot. \mbox{%DIFAUXCMD
+was mainly designed for measuring }\DIFdelend \DIFaddbegin \DIFadd{measure was introduced in \mbox{%DIFAUXCMD
+\citet{li2024plot} }\hskip0pt%DIFAUXCMD
+to quantify }\DIFaddend the effect
+size of non-linearity and heteroskedasticity in \DIFdelbegin \DIFdel{a residual plot. \mbox{%DIFAUXCMD
 \citet{li2024plot} }\hskip0pt%DIFAUXCMD
 has derived
 that, for a classical normal linear regression model that omits
-necessary }\DIFaddend higher-order \DIFdelbegin \DIFdel{terms \(\boldsymbol{Z}\boldsymbol{\beta}_z\) correlated with
-\(\boldsymbol{X}\), the induced residual distribution can be expressed
-as
-\(P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\),
-where the diagonal approximation ensures non-degenerate covariance
-matrix . The transformation \(D = \log(1 + D_{KL})\) compresses large
-values of \(D_{KL}\), improves numerical stability during estimation
-(Section \ref{sec-model-distance-estimation}), and ensures that \(D\) is well-defined when \(D_{KL} = 0\)}\DIFdelend \DIFaddbegin \DIFadd{predictors \(\boldsymbol{Z}\) and the
-corresponding parameter \(\boldsymbol{\beta}_z\), while incorrectly
+necessary higher-order predictors \(\boldsymbol{Z}\) and the corresponding parameter \(\boldsymbol{\beta}_z\),
+while incorrectly
 assuming
 \(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
 but in fact
 \(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0}_n, \boldsymbol{V})\)
-where \(\boldsymbol{V}\) is an arbitrary symmetric positive
+where }\DIFdelend \DIFaddbegin \DIFadd{residual plots. In the
+presence of model misspecification, if the error structure deviates from
+\(\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
+for instance with covariance }\DIFaddend \(\boldsymbol{V}\) \DIFdelbegin \DIFdel{is an arbitrary symmetric positive
 semi-definite matrix, \(P\) can be represented as
 \(N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\).
-Note that the variance-covariance matrix was replaced with the diagonal
-matrix to ensure it is a full-rank matrix}\DIFaddend .
+Note that the variance-covariance matrix was replaced with the diagonal matrix to ensure it is
+a full-rank matrix}\DIFdelend \DIFaddbegin \DIFadd{and omitted higher-order
+terms \(\boldsymbol{Z}\boldsymbol{\beta}_z\) correlated with
+\(\boldsymbol{X}\), the induced residual distribution can be expressed
+as
+\(P = \mathcal{N}(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\),
+where the diagonal approximation ensures non-degenerate covariance
+matrix. The transformation \(D = \log(1 + D_{KL})\) compresses large
+values of \(D_{KL}\), improves numerical stability during estimation
+(Section \ref{sec-model-distance-estimation}), and ensures that \(D\) is
+well-defined when \(D_{KL} = 0\)}\DIFaddend .
 
-Since \DIFaddbegin \DIFadd{both }\DIFaddend \(P\) and \(Q\) are \DIFdelbegin \DIFdel{taken as non-degenerate Gaussian
-distributions, the KL divergence admits the closed form
-}\DIFdelend \DIFaddbegin \DIFadd{adjusted to be multivariate normal
+Since \DIFdelbegin \DIFdel{both }\DIFdelend \(P\) and \(Q\) are \DIFdelbegin \DIFdel{adjusted to be multivariate normal
 distributions, Equation \ref{eq:kl-1} can be further expanded to
-}
+}%DIFDELCMD < 
 
-\DIFaddend \begin{equation} \label{eq:kl-2}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{taken as non-degenerate Gaussian
+distributions, the KL divergence admits the closed form
+}\DIFaddend \begin{equation} \label{eq:kl-2}
 D_{KL}(P \| Q) = \frac{1}{2}\left(\log\frac{|\boldsymbol{W}|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\boldsymbol{W}^{-1}\text{diag}(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^\top\boldsymbol{W}^{-1}\boldsymbol{\mu}_z\right),
-\end{equation}
-\DIFaddbegin 
+\end{equation} \DIFdelbegin %DIFDELCMD < 
 
-\DIFaddend \noindent where
+%DIFDELCMD < %%%
+\DIFdelend \noindent where
 \(\boldsymbol{\mu}_z = \boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z\),
 and
 \(\boldsymbol{W} = \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R})\).
@@ -619,45 +614,41 @@ estimated variance.
 \subsection{\texorpdfstring{Non-normal
 \(P\)}{Non-normal P}}\label{non-normal-p}
 
-\DIFdelbegin \DIFdel{When the error vector \(\boldsymbol{e}\) is non-Gaussian, the induced
-}\DIFdelend \DIFaddbegin \DIFadd{For non-normal error \(\boldsymbol{\varepsilon}\), the true }\DIFaddend residual
-distribution \(P\) is \DIFdelbegin \DIFdel{generally non-Gaussian and typically
-unavailable in closed form.
-Consequently, the Gaussian closed-form
-expression in Equation \ref{eq:kl-2} is no longer applicable , and the KL
-divergence must instead be evaluated from
-its definition in Equation \ref{eq:kl-1} . This requires high-dimensional }\DIFdelend \DIFaddbegin \DIFadd{unlikely to be a multivariate normal distribution.
-Thus, Equation \ref{eq:kl-2} given in \mbox{%DIFAUXCMD
+\DIFdelbegin \DIFdel{For non-normal error \(\boldsymbol{\varepsilon}\), the true }\DIFdelend \DIFaddbegin \DIFadd{When the error vector \(\boldsymbol{e}\) is non-Gaussian, the induced
+}\DIFaddend residual distribution \(P\) is \DIFdelbegin \DIFdel{unlikely to be a multivariate normal distribution. Thus, Equation \ref{eq:kl-2} given in \mbox{%DIFAUXCMD
 \citet{li2024plot} }\hskip0pt%DIFAUXCMD
 will not be
-applicable to models violating the normality assumption.
-}
+applicableto models violating the normality assumption.
+}%DIFDELCMD < 
 
-\DIFadd{To evaluate the Kullback-Leibler divergence of non-normal \(P\) from
-\(Q\), the fallback is to evaluate Equation \ref{eq:kl-1} numerically.
-However, since \(\boldsymbol{e}\) is a linear transformation of
+%DIFDELCMD < %%%
+\DIFdel{To evaluate the Kullback-Leibler divergence of non-normal \(P\) from \(Q\), the fallback is to evaluate Equation
+\ref{eq:kl-1}numerically. However, since \(\boldsymbol{e}\) is a linear transformation of
 non-normal random variables, it is very common that the general form of
 \(P\) is unknown, meaning that we can not easily compute
 \(p(\boldsymbol{e})\) using a well-known probability density function.
 Additionally, even if \(p(\boldsymbol{e})\) can be calculated for any
 \(\boldsymbol{e} \in \mathbb{R}^n\), it will be very difficult to do
-numerical }\DIFaddend integration over the \DIFdelbegin \DIFdel{residual space, rendering direct evaluation impractical for large }\DIFdelend \(n\)\DIFaddbegin \DIFadd{-dimensional space, because \(n\)
-could be potentially very large}\DIFaddend .
+numerical }\DIFdelend \DIFaddbegin \DIFadd{generally non-Gaussian and typically
+unavailable in closed form. Consequently, the Gaussian closed-form
+expression in Equation \ref{eq:kl-2} is no longer applicable, and the KL
+divergence must instead be evaluated from its definition in Equation
+\ref{eq:kl-1}. This requires high-dimensional }\DIFaddend integration over the
+\DIFaddbegin \DIFadd{residual space, rendering direct evaluation impractical for large }\DIFaddend \(n\)\DIFdelbegin \DIFdel{-dimensional space, because \(n\)
+could be potentially very large }\DIFdelend .
 
-\DIFdelbegin \DIFdel{To obtain a tractable approximation, we assume that the residual
-components \(\{\hat{e}_i\}_{i=1}^n\) are mutually independent
-, so that
+\DIFdelbegin \DIFdel{In order to approximate \(D_{KL}(P \| Q)\) in a practically computable
+manner, the elements of \(\boldsymbol{e}\) are assumed to be independentof each other}\DIFdelend \DIFaddbegin \DIFadd{To obtain a tractable approximation, we assume that the residual
+components \(\{\hat{e}_i\}_{i=1}^n\) are mutually independent, so that
 \(p(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n p_i(\hat{e}_i)\) and
-\(q(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n q_i(\hat{e}_i)\)}\DIFdelend \DIFaddbegin \DIFadd{In order to approximate \(D_{KL}(P \| Q)\) in a practically computable
-manner, the elements of \(\boldsymbol{e}\) are assumed to be independent
-of each other}\DIFaddend . This assumption \DIFdelbegin \DIFdel{holds for
-\(Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)\), which has independent components, but generally does not hold for \(P\). Nevertheless, it removes the need for high-dimensional integration and
-reduces the computation to univariate densities, substantially lowering
-}\DIFdelend \DIFaddbegin \DIFadd{solves both of the issues mentioned
+\(q(\hat{\boldsymbol{e}}) \approx \prod_{i=1}^n q_i(\hat{e}_i)\)}\DIFaddend . This
+assumption \DIFdelbegin \DIFdel{solves both of the issues mentioned
 above. First, we no longer need to integrate over \(n\) random
 variables. The result of Equation \ref{eq:kl-1} is now the sum of the
-Kullback-Leibler divergence evaluated for each individual residual due
-to the assumption of independence between observations. Second, it is
+Kullback-Leibler divergence evaluated for
+each individual residual due
+to the assumption of independence between observations. Second,
+it is
 not required to know the joint probability density \(p(\boldsymbol{e})\)
 any more. Instead, the evaluation of Kullback-Leibler divergence for an
 individual residual relies on the knowledge of the marginal density
@@ -665,136 +656,152 @@ individual residual relies on the knowledge of the marginal density
 \(i = 1, ..., n\). This is much easier to approximate through
 simulation. It is also worth mentioning that this independence
 assumption generally will not hold if \(\text{cov}(e_i, e_j) \neq 0\)
-for any \(1 \leq i < j \leq n\), but its existence is essential for
-reducing the }\DIFaddend computational cost.
+for any \(1 \leq i < j \leq n\), but its existence is essential for reducing the }\DIFdelend \DIFaddbegin \DIFadd{holds for
+\(Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)\),
+which has independent components, but generally does not hold for \(P\).
+Nevertheless, it removes the need for high-dimensional integration and
+reduces the computation to univariate densities, substantially lowering
+}\DIFaddend computational cost.
 
-\DIFdelbegin \DIFdel{Under this factorisation, the KL divergence decomposes additively:
-}\[\DIFdel{D_{KL}(P \| Q) \approx \sum_{i=1}^n \int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)} d\hat{e}_i = \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right],}\]%DIFAUXCMD
-%DIFDELCMD < \noindent %%%
-\DIFdel{where \(p_i\) }\DIFdelend \DIFaddbegin \DIFadd{Given \(\boldsymbol{X}\) }\DIFaddend and \DIFdelbegin \DIFdel{\(q_i\) denote the marginal densities of \(\hat{e}_i\) under \(P\) and \(Q\), respectively. }%DIFDELCMD < 
-
-%DIFDELCMD < %%%
-\DIFdel{We approximate the expectation via Monte Carlo simulation. Specifically, we generate independent samples \(\{\boldsymbol{e}^{(j)}\}_{j=1}^m\)
-from the error distribution and obtain residual vectors
-\(\boldsymbol{B}_j = \boldsymbol{R}\boldsymbol{e}^{(j)}\). The marginal
-density \(p_i\) is then estimated from \(\{B_{ij}\}_{j=1}^m\) using a
-Gaussian kernel
-density estimator with }\DIFdelend \DIFaddbegin \DIFadd{\(\boldsymbol{\beta}\), the algorithm for
+\DIFdelbegin \DIFdel{Given \(\boldsymbol{X}\) }\DIFdelend \DIFaddbegin \DIFadd{Under this factorisation, the KL divergence decomposes additively:
+}\[\DIFadd{D_{KL}(P \| Q) \approx \sum_{i=1}^n \int_{\mathbb{R}} p_i(\hat{e}_i)\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)} d\hat{e}_i = \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right],}\]
+\noindent \DIFadd{where \(p_i\) }\DIFaddend and \DIFdelbegin \DIFdel{\(\boldsymbol{\beta}\), the algorithm for
 approximating Equation \ref{eq:kl-1} starts from simulating \(m\) sets
 of observed values \(\boldsymbol{y}\) according to the data generating
 process. The observed values are stored in a matrix \(\boldsymbol{A}\)
 with \(n\) rows and \(m\) columns, where each column of
-\(\boldsymbol{A}\) is a set of observed values. Then, we can get \(m\)
+\(\boldsymbol{A}\) is a set of observed values.
+Then,
+we can get \(m\)
 sets of realized values of \(\boldsymbol{e}\) stored in the matrix
 \(\boldsymbol{B}\) by applying the residual operator
 \(\boldsymbol{B} = \boldsymbol{R}\boldsymbol{A}\). Furthermore, kernel
-density estimation (KDE) with Gaussian kernel and optimal }\DIFaddend bandwidth
-selected by \DIFaddbegin \DIFadd{the }\DIFaddend Silverman's rule of thumb \citep{silverman2018density}
-\DIFaddbegin \DIFadd{is applied on each row of \(\boldsymbol{B}\) to estimate \(p_i(e_i)\)
-for \(i = 1, ..., n\). The KDE computation can be done by the
-}\texttt{\DIFadd{density}} \DIFadd{function in R.
+density estimation (KDE) with Gaussian kernel and optimal }\DIFdelend \DIFaddbegin \DIFadd{\(q_i\) denote the marginal densities of
+\(\hat{e}_i\) under \(P\) and \(Q\), respectively.
 }
 
-\DIFadd{Since the Kullback-Leibler divergence can be viewed as the expectation
+\DIFadd{We approximate the expectation via Monte Carlo simulation. Specifically,
+we generate independent samples \(\{\boldsymbol{e}^{(j)}\}_{j=1}^m\)
+from the error distribution and obtain residual vectors
+\(\boldsymbol{B}_j = \boldsymbol{R}\boldsymbol{e}^{(j)}\). The marginal
+density \(p_i\) is then estimated from \(\{B_{ij}\}_{j=1}^m\) using a
+Gaussian kernel density estimator with }\DIFaddend bandwidth selected by \DIFdelbegin \DIFdel{the }\DIFdelend Silverman's
+rule of thumb \citep{silverman2018density}\DIFdelbegin \DIFdel{is applied on each row of \(\boldsymbol{B}\) to estimate \(p_i(e_i)\)
+for \(i = 1, ..., n\). The KDE computation can be done by the
+}\texttt{\DIFdel{density}} %DIFAUXCMD
+\DIFdel{function in R.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{Since the Kullback-Leibler divergence can be viewed as the expectation
 of the log-likelihood ratio between distribution \(P\) and distribution
 \(Q\) evaluated on distribution \(P\), we can reuse the simulated
 residuals in matrix \(\boldsymbol{B}\) to estimate the expectation by
-the sample mean. With the independence assumption, for non-normal \(P\)}\DIFaddend ,
-\DIFdelbegin \DIFdel{where }\DIFdelend \DIFaddbegin \DIFadd{\(D_{KL}(P \| Q)\) can be approximated by
-}
+the sample mean. With the independence assumption, for non-normal \(P\)}\DIFdelend , \DIFdelbegin \DIFdel{\(D_{KL}(P \| Q)\) can be approximated by
+}%DIFDELCMD < 
 
-\begin{align*} \DIFadd{\label{eq:kl-3}
-D_{KL}(P \| Q) }&\DIFadd{\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}(P \| Q), \quad
+%DIFDELCMD < %%%
+\begin{align*} \DIFdel{%DIFDELCMD < \label{eq:kl-3}%%%
+D_{KL}(P \| Q) }&\DIFdel{\approx \sum_{i = 1}^{n} \hat{D}_{KL}^{(i)}(P \| Q), \quad
 \hat{D}_{KL}^{(i)}(P \| Q) = \frac{1}{m}\sum_{j = 1}^{m} \log\frac{\hat{p}_i(B_{ij})}{q(B_{ij})},
-}\end{align*}
+}\end{align*}%DIFAUXCMD
+%DIFDELCMD < 
 
-\noindent \DIFadd{where \(\hat{D}_{KL}^{(i)}(P \| Q)\) is the estimator of the
-Kullback-Leibler divergence for an individual residual \(e_i\),
-}\DIFaddend \(B_{ij}\) \DIFdelbegin \DIFdel{denotes }\DIFdelend \DIFaddbegin \DIFadd{is }\DIFaddend the \(i\)-th \DIFdelbegin \DIFdel{component of \(\boldsymbol{B}_j\). This yields
-}\[\DIFdel{D_{KL}(P \| Q) \approx \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right] \approx \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})},}\]%DIFAUXCMD
 %DIFDELCMD < \noindent %%%
-\DIFdel{where \(q_i(\cdot)\) denotes the Gaussian reference density with variance \(\hat{\sigma}^2R_{ii}\),
-with
-\(\hat{\sigma}^2 = \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} \left(b - \bar{b}\right)^2\)
-and \(\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b\)}\DIFdelend \DIFaddbegin \DIFadd{row and \(j\)-th column entry of the matrix
-\(\boldsymbol{B}\), \(\hat{p}_i(.)\) is the kernel density estimator of
+\DIFdel{where \(\hat{D}_{KL}^{(i)}(P \| Q)\) is the estimator of the
+Kullback-Leibler divergence for an individual residual \(e_i\),
+}\DIFdelend \DIFaddbegin \DIFadd{where }\DIFaddend \(B_{ij}\) \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{denotes }\DIFaddend the
+\(i\)-th \DIFdelbegin \DIFdel{row and \(j\)-th column entry of the matrix
+\(\boldsymbol{B}\), \(\hat{p}_i(.)\) is the kernel density
+estimator of
 \(p_i(.)\), \(q(.)\) is the normal density function with mean zero and
 an assumed variance estimated as
-\(\hat{\sigma}^2 = \sum_{b \in vec(\boldsymbol{B})}(b - \sum_{b \in vec(\boldsymbol{B})} b/nm)^2/(nm - 1)\),
-and \(vec(.)\) is the vectorization operator which turns a
+\(\hat{\sigma}^2 = \sum_{b \in vec(\boldsymbol{B})}(b - \sum_{b \in vec(\boldsymbol{B})} b/nm)^2/(nm - 1)\), and \(vec(.)\) is the vectorization operator which turns a
 \(n \times m\) matrix into a \(nm \times 1\) column vector by stacking
-the columns of the matrix on top of each other}\DIFaddend .
+the columns of the matrix on top of each other}\DIFdelend \DIFaddbegin \DIFadd{component of \(\boldsymbol{B}_j\). This yields
+}\[\DIFadd{D_{KL}(P \| Q) \approx \sum_{i=1}^n \mathbb{E}_{p_i}\left[\log\frac{p_i(\hat{e}_i)}{q_i(\hat{e}_i)}\right] \approx \sum_{i=1}^n\frac{1}{m}\sum_{j=1}^m \log\frac{\hat{p}_i(B_{ij})}{q_i(B_{ij})},}\]
+\noindent \DIFadd{where \(q_i(\cdot)\) denotes the Gaussian reference density
+with variance \(\hat{\sigma}^2R_{ii}\), with
+\(\hat{\sigma}^2 = \frac{1}{nm - 1}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} \left(b - \bar{b}\right)^2\)
+and
+\(\bar{b} = \frac{1}{nm}\sum_{b \in \mathrm{vec}(\boldsymbol{B})} b\)}\DIFaddend .
 
-\section{Distance Estimation\DIFdelbegin \DIFdel{Using Computer Vision
-Models}\DIFdelend }\label{sec-model-distance-estimation}
+\section{Distance Estimation \DIFaddbegin \DIFadd{Using Computer Vision
+Models}\DIFaddend }\label{sec-model-distance-estimation}
 
-\DIFdelbegin \DIFdel{The distance measure defined in Equation \ref{eq:kl-0}quantifies }\DIFdelend \DIFaddbegin \DIFadd{We previously defined a distance measure (Equation \ref{eq:kl-0}) to
-quantify }\DIFaddend the difference between the true residual distribution \(P\) and
-\DIFdelbegin \DIFdel{the
-}\DIFdelend \DIFaddbegin \DIFadd{an ideal }\DIFaddend reference distribution \(Q\). However, \DIFdelbegin \DIFdel{it }\DIFdelend \DIFaddbegin \DIFadd{this distance measure
-}\DIFaddend can only be computed when the \DIFdelbegin \DIFdel{data-generating }\DIFdelend \DIFaddbegin \DIFadd{data generating }\DIFaddend process is known\DIFdelbegin \DIFdel{, which is rarely the case in practice}\DIFdelend \DIFaddbegin \DIFadd{. In
+\DIFdelbegin \DIFdel{We previously defined a distance measure (Equation \ref{eq:kl-0} ) to
+quantify }\DIFdelend \DIFaddbegin \DIFadd{The distance measure defined in Equation \ref{eq:kl-0} quantifies }\DIFaddend the
+difference between the true residual distribution \(P\) and \DIFdelbegin \DIFdel{an ideal }\DIFdelend \DIFaddbegin \DIFadd{the
+}\DIFaddend reference distribution \(Q\). However, \DIFdelbegin \DIFdel{this distance measure
+}\DIFdelend \DIFaddbegin \DIFadd{it }\DIFaddend can only be computed when the
+\DIFdelbegin \DIFdel{data generating }\DIFdelend \DIFaddbegin \DIFadd{data-generating }\DIFaddend process is known\DIFdelbegin \DIFdel{. In
 reality, we often have no knowledge about the data generating process,
-otherwise we do not need to do a residual diagnostic in the first place}\DIFaddend .
+otherwise we do not need to do a residual diagnostic in the first place}\DIFdelend \DIFaddbegin \DIFadd{, which is rarely the case in practice}\DIFaddend .
 
-To estimate this distance from a residual plot, we \DIFdelbegin \DIFdel{define }\DIFdelend \DIFaddbegin \DIFadd{proposed }\DIFaddend a computer
-vision estimator \DIFaddbegin \DIFadd{\(\hat{D}\) formulated as
-}
+To estimate this distance from a residual plot, we \DIFdelbegin \DIFdel{proposed }\DIFdelend \DIFaddbegin \DIFadd{define }\DIFaddend a computer
+vision estimator \DIFdelbegin \DIFdel{\(\hat{D}\) formulated as
+}%DIFDELCMD < 
 
-\DIFaddend \begin{equation*} \label{eq:d-approx}
-\hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})\DIFdelbegin \DIFdel{, }%DIFDELCMD < \boldsymbol{s}%%%
-\DIFdelend ),
-\end{equation*}
-\DIFaddbegin 
+%DIFDELCMD < %%%
+\DIFdelend \begin{equation*} \label{eq:d-approx}
+\hat{D} = f_{CV}(V_{h \times w}(\boldsymbol{e}, \hat{\boldsymbol{y}})\DIFaddbegin \DIFadd{, }\boldsymbol{s}\DIFaddend ),
+\end{equation*} \DIFdelbegin %DIFDELCMD < 
 
-\DIFaddend \noindent where \DIFdelbegin \DIFdel{\(V_{h \times w}(\cdot)\) denotes the rendering function that coverts a }\DIFdelend \DIFaddbegin \DIFadd{\(V_{h \times w}(.)\) renders the }\DIFaddend residuals vs.~fitted
-values plot \DIFdelbegin \DIFdel{into
-}\DIFdelend \DIFaddbegin \DIFadd{as }\DIFaddend an \(h \times w\) RGB image, \DIFdelbegin \DIFdel{with h and w denoting the image height and
+%DIFDELCMD < %%%
+\DIFdelend \noindent where \DIFdelbegin \DIFdel{\(V_{h \times w}(.)\) renders the
+}\DIFdelend \DIFaddbegin \DIFadd{\(V_{h \times w}(\cdot)\) denotes the
+rendering function that coverts a }\DIFaddend residuals vs.~fitted values plot \DIFdelbegin \DIFdel{as }\DIFdelend \DIFaddbegin \DIFadd{into
+}\DIFaddend an \(h \times w\) RGB image, \DIFdelbegin \DIFdel{and \(f_{CV}(.)\) }\DIFdelend \DIFaddbegin \DIFadd{with h and w denoting the image height and
 width (in pixels), respectively. Here, \(\boldsymbol{s}\) is a vector of
 auxiliary features including scagnostics measures and sample size, and
-\(f_{CV}(\cdot)\) }\DIFdelend \DIFaddbegin \DIFadd{and \(f_{CV}(.)\) }\DIFaddend maps the
-image \DIFdelbegin \DIFdel{and auxiliary features }\DIFdelend to an estimated distance \(\hat{D} \in [0, +\infty)\). Details of
-the model architecture \DIFdelbegin \DIFdel{and training procedure }\DIFdelend are provided in Section
-\ref{sec-model-architecture}\DIFdelbegin \DIFdel{and \ref{sec-model-data-generation}, respectively.
-}\DIFdelend \DIFaddbegin \DIFadd{, and the training procedure is described in
-Section \ref{sec-model-data-generation}.
+\(f_{CV}(\cdot)\) }\DIFaddend maps the image \DIFaddbegin \DIFadd{and auxiliary features }\DIFaddend to an estimated
+distance \(\hat{D} \in [0, +\infty)\). Details of the model architecture
+\DIFaddbegin \DIFadd{and training procedure }\DIFaddend are provided in \DIFdelbegin \DIFdel{Section
+\ref{sec-model-architecture} , and the training procedure is described in Section \ref{sec-model-data-generation}. }\DIFdelend \DIFaddbegin \DIFadd{Sections
+\ref{sec-model-architecture} and \ref{sec-model-data-generation},
+respectively.
 }\DIFaddend 
 
-\DIFdelbegin \DIFdel{The auxiliary feature vector \(\boldsymbol{s}\) is included to
-complement information encoded in
-the residual plot image.
-While
+\DIFaddbegin \DIFadd{The auxiliary feature vector \(\boldsymbol{s}\) is included to
+complement information encoded in the residual plot image. While
 \(V_{h \times w}(\cdot)\) captures visual patterns of misspecification,
 certain attributes such as sample size are not recoverable from the
 image. In addition, we include scagnostics as useful graph-based
 summaries of scatter plot structure, which have been shown to be
 effective descriptors of shape, clustering, and outliers in exploratory
 data analysis.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdelend The distance estimator \(\hat{D}\) \DIFdelbegin \DIFdel{quantifies }\DIFdelend \DIFaddbegin \DIFadd{allows us to assess }\DIFaddend how closely the
-residuals resemble \DIFdelbegin \DIFdel{the reference distribution \(Q\) and , after adjusting for
-sample size effects, can be used }\DIFdelend \DIFaddbegin \DIFadd{an ideal distribution and use }\DIFaddend as an index of model
-violation severity (see Appendix D for details). However, \DIFdelbegin \DIFdel{since a single residual plot may
-not fully characterize the underlying residual distribution, }\DIFdelend \(\hat{D}\) is
-not expected to equal the true distance \(D\)\DIFdelbegin \DIFdel{. Residual plots
-generated from }\DIFdelend \DIFaddbegin \DIFadd{, as a single residual plot
+\DIFaddend The distance estimator \(\hat{D}\) \DIFdelbegin \DIFdel{allows us to assess }\DIFdelend \DIFaddbegin \DIFadd{quantifies }\DIFaddend how closely the residuals
+resemble \DIFdelbegin \DIFdel{an ideal distribution and use }\DIFdelend \DIFaddbegin \DIFadd{the reference distribution \(Q\) and, after adjusting for
+sample size effects, can be used }\DIFaddend as an index of model violation severity
+(see Appendix D for details). However, \DIFaddbegin \DIFadd{since a single residual plot may
+not fully characterize the underlying residual distribution, }\DIFaddend \(\hat{D}\)
+is not expected to equal the true distance \(D\)\DIFdelbegin \DIFdel{, as a single residual plot
 may not capture all characteristics of the residual distribution. For
-}\DIFaddend the same distribution \(P\)\DIFdelbegin \DIFdel{may also }\DIFdelend \DIFaddbegin \DIFadd{, simulated plots can }\DIFaddend vary visually,
-\DIFdelbegin \DIFdel{particularly for }\DIFdelend \DIFaddbegin \DIFadd{especially with }\DIFaddend small \(n\), \DIFdelbegin \DIFdel{introducing }\DIFdelend \DIFaddbegin \DIFadd{leading to }\DIFaddend estimation error that depends on
-\DIFdelbegin \DIFdel{the representativeness of
-the input plot. }\DIFdelend \DIFaddbegin \DIFadd{how representative the input plot is.
+}\DIFdelend \DIFaddbegin \DIFadd{. Residual plots
+generated from }\DIFaddend the same distribution \(P\) \DIFdelbegin \DIFdel{, simulated plots can }\DIFdelend \DIFaddbegin \DIFadd{may also }\DIFaddend vary visually,
+\DIFdelbegin \DIFdel{especially with }\DIFdelend \DIFaddbegin \DIFadd{particularly for }\DIFaddend small \(n\), \DIFdelbegin \DIFdel{leading to }\DIFdelend \DIFaddbegin \DIFadd{introducing }\DIFaddend estimation error that depends
+on \DIFdelbegin \DIFdel{how representative the input plot is.
+}\DIFdelend \DIFaddbegin \DIFadd{the representativeness of the input plot.
 }\DIFaddend 
 
-\DIFaddbegin \section{\DIFadd{Statistical Testing}}\label{sec-model-statistical-testing}
+\DIFdelbegin \section{\DIFdel{Statistical Testing}}%DIFAUXCMD
+\addtocounter{section}{-1}%DIFAUXCMD
+%DIFDELCMD < \label{sec-model-statistical-testing}
+%DIFDELCMD < 
 
-\subsection{\DIFadd{Lineup Evaluation}}\label{sec-model-lineup-evaluation}
+%DIFDELCMD < %%%
+\subsection{\DIFdel{Lineup Evaluation}}%DIFAUXCMD
+\addtocounter{subsection}{-1}%DIFAUXCMD
+%DIFDELCMD < \label{sec-model-lineup-evaluation}
+%DIFDELCMD < 
 
-\DIFadd{Theoretically, the distance \(D\) for a correctly specified model is
+%DIFDELCMD < %%%
+\DIFdel{Theoretically, the distance \(D\) for a correctly specified model is
 \(0\), as \(P = Q\). However, a computer vision model may not predict
 \(\hat{D} = 0\) for a null plot. For example, Figure
-\ref{fig:false-finding} shows a null plot with a pattern suggestive of
-heteroskedasticity. The model can not discern whether such patterns
+\ref{fig:false-finding} shows a null plot with a pattern suggestive of heteroskedasticity. The model can not discern whether such patterns
 arise from heteroskedasticity or from skewed fitted values.
 Additionally, some null plots could have outliers or strong visual
 patterns due to randomness, and a reasonable model will try to summarize
@@ -802,22 +809,25 @@ those information into the prediction, resulting in \(\hat{D} > 0\).
 This is not problematic when \(\hat{D}\) is large, as strong visual
 signals typically justify rejection of \(H_0\). But when \(\hat{D}\) is
 moderate, it is insufficient alone for decision-making.
-}
+}%DIFDELCMD < 
 
-\DIFadd{To address this issue we can adhere to the paradigm of visual inference,
+%DIFDELCMD < %%%
+\DIFdel{To address this issue we can adhere to the paradigm of visual inference,
 by comparing the estimated distance \(\hat{D}\) to the estimated
 distances for the null plots in a lineup. Specifically, if a lineup
 comprises 20 plots, \(H_0\) will be rejected if \(\hat{D}\) exceeds the
 maximum estimated distance among the 19 null plots, denoted as
 \(\max\limits_{1 \leq i \leq 19} {\hat{D}_{null}^{(i)}}\), where
 \(\hat{D}_{null}^{(i)}\) represents the estimated distance for the
-\(i\)-th null plot. This approach is conceptually equivalent to the
+\(i\)-th null plot.
+This approach is conceptually equivalent to the
 typical lineup protocol requiring a 95\% significance level, where
 \(H_0\) is rejected if the data plot is identified as the most distinct
 plot by the sole observer.
-}
+}%DIFDELCMD < 
 
-\DIFadd{Moreover, if the number of plots in a lineup, denoted by \(m\), is
+%DIFDELCMD < %%%
+\DIFdel{Moreover, if the number of plots in a lineup, denoted by \(m\), is
 sufficiently large, the empirical distribution of
 \(\hat{D}_{null}^{(i)}\) can be viewed as an approximation to the null
 distribution of the estimated distance. Consequently, quantiles of the
@@ -838,35 +848,41 @@ distribution exhibits heavy tails. Alternatively, a \(p\)-value can be
 defined as the probability, under \(H_0\), of observing a distance at
 least as large as \(\hat{D}\), and it can be estimated as
 \(\frac{1}{m} + \frac{1}{m}\sum_{i=1}^{m-1}I\left(\hat{D}_{null}^{(i)} \geq \hat{D}\right)\).
-}
+}%DIFDELCMD < 
 
-\DIFadd{To reduce computational cost, a pre-computed lattice of \(\hat{D}\)
+%DIFDELCMD < %%%
+\DIFdel{To reduce computational cost, a pre-computed lattice of \(\hat{D}\)
 quantiles under \(H_0\) for various sample sizes can be used. By
 matching observed values to the closest entries in this lattice,
 approximate \(p\)-values can be obtained efficiently, with minor loss of
 precision.
-}
+}%DIFDELCMD < 
 
-\DIFaddend \subsection{\DIFdelbegin \DIFdel{Model Architecture}\DIFdelend \DIFaddbegin \DIFadd{Bootstrapping}\DIFaddend }\DIFaddbegin \label{bootstrapping}
+%DIFDELCMD < %%%
+\DIFdelend \subsection{\DIFdelbegin \DIFdel{Bootstrapping}\DIFdelend \DIFaddbegin \DIFadd{Model Architecture}\DIFaddend }\DIFdelbegin %DIFDELCMD < \label{bootstrapping}
+%DIFDELCMD < 
 
-\DIFadd{Bootstrap methods are commonly used in linear regression to estimate
+%DIFDELCMD < %%%
+\DIFdel{Bootstrap methods are commonly used in linear regression to estimate
 parameter variability without strong distributional assumptions
 \mbox{%DIFAUXCMD
 \citep{davison1997bootstrap, efron1994introduction}}\hskip0pt%DIFAUXCMD
 . This involves
 resampling observations with replacement and refitting the model.
-}
+}%DIFDELCMD < 
 
-\DIFadd{Similarly, we can apply bootstrapping to the estimated distance
+%DIFDELCMD < %%%
+\DIFdel{Similarly, we can apply bootstrapping to the estimated distance
 \(\hat{D}\). For each bootstrap sample \(i = 1, \dots, n_{boot}\), we
 obtain a refitted model \(M^{(i)}_{boot}\), a corresponding residual
 plot \(V^{(i)}_{boot}\), and a predicted distance
 \(\hat{D}^{(i)}_{boot}\). If we are interested in the variation of
 \(\hat{D}\), the distribution of \(\hat{D}^{(i)}_{boot}\) can be used to
 construct confidence intervals.
-}
+}%DIFDELCMD < 
 
-\DIFadd{Alternatively, since each \(M_{boot}^{(i)}\) has its own residual
+%DIFDELCMD < %%%
+\DIFdel{Alternatively, since each \(M_{boot}^{(i)}\) has its own residual
 distribution, a new approximated null distribution can be construed and
 the corresponding 95\% sample quantile \(Q_{boot}^{(i)}(0.95)\) can be
 computed. Then, if \(\hat{D}_{boot}^{(i)} \geq Q_{boot}^{(i)}(0.95)\),
@@ -878,9 +894,12 @@ computationally very expensive because it requires
 \(n_{boot} \times (n_{null} + 1)\) times of residual plot assessment. In
 practice, \(Q_{null}(0.95)\) can be used to replace
 \(Q_{boot}^{(i)}(0.95)\) in the computation.
-}
+}%DIFDELCMD < 
 
-\section{\DIFadd{Model Architecture}}\DIFaddend \label{sec-model-architecture}
+%DIFDELCMD < %%%
+\section{\DIFdel{Model Architecture}}%DIFAUXCMD
+\addtocounter{section}{-1}%DIFAUXCMD
+\DIFdelend \label{sec-model-architecture}
 
 The architecture of the computer vision model \(f_{CV}\) is adapted from
 the well-established VGG16 architecture \citep{simonyan2014very}. While
@@ -889,9 +908,11 @@ DenseNet\citep{huang2017densely}, have achieved even greater
 performance, VGG16 remains a solid choice for many applications due to
 its simplicity and effectiveness. Our decision to use VGG16 aligns with
 our goal of starting with a proven and straightforward model. Figure
-\ref{fig:cnn-diag} \DIFdelbegin \DIFdel{illustrates the architecture, while Appendix Bprovides detailed layer specifications}\DIFdelend \DIFaddbegin \DIFadd{provides a diagram of the architecture. More details
+\ref{fig:cnn-diag} \DIFdelbegin \DIFdel{provides a diagram of the architecture. More details
 about the neural network layers used in this study are provided in the
-Appendix B}\DIFaddend .
+Appendix B
+}\DIFdelend \DIFaddbegin \DIFadd{illustrates the architecture, while Appendix B
+provides detailed layer specifications}\DIFaddend .
 
 \begin{figure}[!h]
 
@@ -902,96 +923,89 @@ Appendix B}\DIFaddend .
 \caption{Diagram of the architecture of the optimized computer vision model. Numbers at the bottom of each box show the shape of the output of each layer. The band of each box drawn in a darker color indicates the use of the rectified linear unit activation function.  Yellow boxes are 2D convolutional layers, orange boxes are pooling layers, the grey box is the concatenation layer, and the purple boxes are dense layers.}\label{fig:cnn-diag}
 \end{figure}
 
-The model \DIFdelbegin \DIFdel{accepts residual plots rendered as \(h \times w\) RGB images,
-with \(h,w \in \{32, 64, 128\}\), allowing us to study the effect of image resolution on predictive performance while balancing computational
-cost.
-Images are first converted to grayscale using the }\DIFdelend \DIFaddbegin \DIFadd{begins with an input layer of shape
-\(n \times h \times w \times 3\), capable of handling \(n\) RGB images.
-This is followed by a grayscale conversion layer using the luma formula
-under the }\DIFaddend Rec. 601 \DIFdelbegin \DIFdel{luma
+The model \DIFdelbegin \DIFdel{begins with an input layer of shape
+\(n \times h \times w \times 3\), capable of
+handling \(n\) RGB images. This is followed by a grayscale conversion layer using the luma formula
+under the }\DIFdelend \DIFaddbegin \DIFadd{accepts residual plots rendered as \(h \times w\) RGB images,
+with \(h,w \in \{32, 64, 128\}\), allowing us to study the effect of
+image resolution on predictive performance while balancing computational
+cost. Images are first converted to grayscale using the }\DIFaddend Rec. 601 \DIFdelbegin \DIFdel{standard \mbox{%DIFAUXCMD
+\citep{series2011studio}}\hskip0pt%DIFAUXCMD
+, which converts the color image to grayscale. Grayscale suffices for our task since }\DIFdelend \DIFaddbegin \DIFadd{luma
 formula \mbox{%DIFAUXCMD
 \citep{series2011studio}}\hskip0pt%DIFAUXCMD
-, as the
-}\DIFdelend \DIFaddbegin \DIFadd{standard \mbox{%DIFAUXCMD
-\citep{series2011studio}}\hskip0pt%DIFAUXCMD
-, which converts the
-color image to grayscale. Grayscale suffices for our task since }\DIFaddend data
-points are plotted in black\DIFdelbegin \DIFdel{on a white background. The background also includes a red
-reference line at \(y = 0\), which is preserved under this conversion}\DIFdelend . \DIFaddbegin \DIFadd{We experiment with three combinations of
+, as the }\DIFaddend data points are plotted in
+black \DIFaddbegin \DIFadd{on a white background. The background also includes a red
+reference line at \(y = 0\), which is preserved under this conversion}\DIFaddend .
+\DIFdelbegin \DIFdel{We experiment with three combinations of
 \(h\) and \(w\): \(32 \times 32\), \(64 \times 64\), and
 \(128 \times 128\), aiming to achieve sufficiently high image resolution
 for the problem at hand.
-}\DIFaddend 
+}\DIFdelend 
 
-The processed \DIFdelbegin \DIFdel{images are used as input to }\DIFdelend \DIFaddbegin \DIFadd{image is used as the input for }\DIFaddend the first convolutional
-block. The model \DIFdelbegin \DIFdel{consists of up to }\DIFdelend \DIFaddbegin \DIFadd{comprises at most }\DIFaddend five consecutive convolutional
-blocks, mirroring the original VGG16 architecture. Within each block,
-\DIFdelbegin \DIFdel{two
+The processed \DIFdelbegin \DIFdel{image is used as the input for }\DIFdelend \DIFaddbegin \DIFadd{images are used as input to }\DIFaddend the first convolutional block.
+The model \DIFdelbegin \DIFdel{comprises at most }\DIFdelend \DIFaddbegin \DIFadd{consists of up to }\DIFaddend five consecutive convolutional blocks,
+mirroring the original VGG16 architecture. Within each block, \DIFdelbegin \DIFdel{there are two
+2D convolutional layers followed by two activation layers,
+respectively. Subsequently, a 2D }\DIFdelend \DIFaddbegin \DIFadd{two
 \(3 \times 3\) convolutional layers are applied, each followed by batch
 normalization for training stability and a rectified linear unit (ReLU)
-activation for non-linearity. The block concludes with a
-\(2 \times 2\)
-}\DIFdelend \DIFaddbegin \DIFadd{there are two 2D convolutional layers followed by two activation layers,
-respectively. Subsequently, a 2D }\DIFaddend max-pooling \DIFaddbegin \DIFadd{layer follows the second
-activation layer. The 2D convolutional layer convolves the input with a
-fixed number of \(3 \times 3\) convolution filters, while the 2D
-max-pooling }\DIFaddend layer \DIFdelbegin \DIFdel{that downsamples the }\DIFdelend \DIFaddbegin \DIFadd{downsamples the input along its }\DIFaddend spatial dimensions by
-taking the maximum \DIFdelbegin \DIFdel{over non-overlapping windows }\DIFdelend \DIFaddbegin \DIFadd{value over a \(2 \times 2\) window }\DIFaddend for each channel
-\DIFdelbegin \DIFdel{. A }\DIFdelend \DIFaddbegin \DIFadd{of the input. The activation layer employs the rectified linear unit
+activation for non-linearity. The block concludes with a \(2 \times 2\)
+}\DIFaddend max-pooling \DIFdelbegin \DIFdel{layer follows the second
+activation layer. The 2D convolutional layer convolves the input with a fixed number of \(3 \times 3\) convolution filters, while the 2D
+max-pooling }\DIFdelend layer \DIFdelbegin \DIFdel{downsamples the input along its }\DIFdelend \DIFaddbegin \DIFadd{that downsamples the }\DIFaddend spatial dimensions by taking the
+maximum \DIFdelbegin \DIFdel{value over a \(2 \times 2\) window }\DIFdelend \DIFaddbegin \DIFadd{over non-overlapping windows }\DIFaddend for each channel\DIFdelbegin \DIFdel{of the input. The activation layer employs the rectified linear unit
 (ReLU) activation function, a standard practice in deep learning, which
 introduces a non-linear transformation of the output of the 2D
 convolutional layer. Additionally, to regularize training, a batch
 normalization layer is added after each 2D convolutional layer and
-before the activation layer. Finally, a }\DIFaddend dropout layer is \DIFdelbegin \DIFdel{then applied }\DIFdelend \DIFaddbegin \DIFadd{appended }\DIFaddend at the
-end of each \DIFaddbegin \DIFadd{convolutional }\DIFaddend block to randomly \DIFdelbegin \DIFdel{deactivate
-activations }\DIFdelend \DIFaddbegin \DIFadd{set some inputs to zero
-}\DIFaddend during training, \DIFdelbegin \DIFdel{improving }\DIFdelend \DIFaddbegin \DIFadd{further aiding in }\DIFaddend regularization.
+before the activation layer. Finally, a }\DIFdelend \DIFaddbegin \DIFadd{. A }\DIFaddend dropout layer
+is \DIFdelbegin \DIFdel{appended }\DIFdelend \DIFaddbegin \DIFadd{then applied }\DIFaddend at the end of each \DIFdelbegin \DIFdel{convolutional }\DIFdelend block to randomly \DIFdelbegin \DIFdel{set some inputs to zero
+}\DIFdelend \DIFaddbegin \DIFadd{deactivate
+activations }\DIFaddend during training, \DIFdelbegin \DIFdel{further aiding in }\DIFdelend \DIFaddbegin \DIFadd{improving }\DIFaddend regularization.
 
-The \DIFdelbegin \DIFdel{final convolutional output is aggregated using either }\DIFdelend \DIFaddbegin \DIFadd{output of the last convolutional block is summarized by either a
-}\DIFaddend global max-pooling \DIFdelbegin \DIFdel{or }\DIFdelend \DIFaddbegin \DIFadd{layer or a }\DIFaddend global average-pooling \DIFdelbegin \DIFdel{, producing }\DIFdelend \DIFaddbegin \DIFadd{layer, resulting in
-}\DIFaddend a two-dimensional \DIFdelbegin \DIFdel{feature representation. This feature representation }\DIFdelend \DIFaddbegin \DIFadd{tensor. To enrich predictions with additional
-information beyond visual features, this tensor }\DIFaddend is concatenated with an
-\DIFaddbegin \DIFadd{additional }\DIFaddend \(n \times 5\) tensor\DIFdelbegin \DIFdel{containing }\DIFdelend \DIFaddbegin \DIFadd{, which contains }\DIFaddend the ``Monotonic'',
-``Sparse'', ``Splines'', and ``Striped'' measures computed using the
-\texttt{cassowaryr} R package \citep{mason2022cassowaryr} , along with
-the \DIFdelbegin \DIFdel{sample size for each residual plot. }\footnote{\DIFdel{Note: These measures
-  were selected for their reliability and computational efficiency.
-  Other scagnostics were excluded because they occasionally caused R
-  process crashes (\(\sim 5\%\)) during data preparation due to a bug in
-  the }\texttt{\DIFdel{interp}} %DIFAUXCMD
-\DIFdel{package \mbox{%DIFAUXCMD
-\citep{Albrecht2023interp}}\hskip0pt%DIFAUXCMD
-. Although this
-  issue was later fixed at our request, the corrected version was not
-  available during model training, and the full set of features was also
-  deemed too computationally expensive for efficient inference.}}
-%DIFAUXCMD
-\addtocounter{footnote}{-1}%DIFAUXCMD
-\DIFdelend \DIFaddbegin \DIFadd{number of observations for \(n\) residual plots. These measures were
+The \DIFdelbegin \DIFdel{output of the last convolutional block is summarized by either a
+}\DIFdelend \DIFaddbegin \DIFadd{final convolutional output is aggregated using either }\DIFaddend global
+max-pooling \DIFdelbegin \DIFdel{layer or a }\DIFdelend \DIFaddbegin \DIFadd{or }\DIFaddend global average-pooling\DIFdelbegin \DIFdel{layer, resulting in
+}\DIFdelend \DIFaddbegin \DIFadd{, producing }\DIFaddend a two-dimensional
+\DIFdelbegin \DIFdel{tensor. To enrich predictions with additional
+information beyond visual features, this tensor }\DIFdelend \DIFaddbegin \DIFadd{feature representation. This feature representation }\DIFaddend is concatenated with
+an \DIFdelbegin \DIFdel{additional }\DIFdelend \(n \times 5\) tensor \DIFdelbegin \DIFdel{, which contains }\DIFdelend \DIFaddbegin \DIFadd{containing }\DIFaddend the ``Monotonic'', ``Sparse'',
+``Splines'', and ``Striped'' measures computed using the
+\texttt{cassowaryr} R package \citep{mason2022cassowaryr}, along with
+the \DIFdelbegin \DIFdel{number of observations for \(n\) residual plots. These measures were
 selected for their reliability and efficiency, as other scagnostics
 occasionally caused R process crashes (\(\sim 5\%\)) during data
-preparation due to a bug in the }\texttt{\DIFadd{interp}} \DIFadd{package
+preparation due to a bug in the }\texttt{\DIFdel{interp}} %DIFAUXCMD
+\DIFdel{package
 \mbox{%DIFAUXCMD
 \citep{Albrecht2023interp}}\hskip0pt%DIFAUXCMD
 . Although this bug was later fixed at our
 request, the fix came too late to re-train the model. Moreover, their
 high computational cost makes them unsuitable for fast inference.
-}\DIFaddend 
+}\DIFdelend \DIFaddbegin \DIFadd{sample size for each residual plot. }\footnote{\DIFadd{Note: These measures
+  were selected for their reliability and computational efficiency.
+  Other scagnostics were excluded because they occasionally caused R
+  process crashes (\(\sim 5\%\)) during data preparation due to a bug in
+  the }\texttt{\DIFadd{interp}} \DIFadd{package \mbox{%DIFAUXCMD
+\citep{Albrecht2023interp}}\hskip0pt%DIFAUXCMD
+. Although this
+  issue was later fixed at our request, the corrected version was not
+  available during model training, and the full set of features was also
+  deemed too computationally expensive for efficient inference.}}
+\DIFaddend 
 
-The concatenated \DIFdelbegin \DIFdel{feature tensor is passed to }\DIFdelend \DIFaddbegin \DIFadd{tensor is then fed into }\DIFaddend the final prediction block\DIFdelbegin \DIFdel{,
-which }\DIFdelend \DIFaddbegin \DIFadd{.
-This block }\DIFaddend consists of two \DIFdelbegin \DIFdel{fully connected }\DIFdelend \DIFaddbegin \DIFadd{fully-connected }\DIFaddend layers. The first layer
-\DIFdelbegin \DIFdel{has }\DIFdelend \DIFaddbegin \DIFadd{contains }\DIFaddend at least \(128\) units\DIFdelbegin \DIFdel{and is followed by batch normalization and dropout
-for regularization}\DIFdelend \DIFaddbegin \DIFadd{, followed by a dropout layer. A batch
-normalization layer is inserted between the fully-connected layer and
-the dropout layer for regularization purposes}\DIFaddend . The second
-\DIFdelbegin \DIFdel{fully connected layer contains a single
-unit, followed by a ReLU activation to enforce non-negative outputs,
-producing the final scalar prediction}\DIFdelend \DIFaddbegin \DIFadd{fully-connected layer consists of only one unit, serving as the output
+The concatenated \DIFdelbegin \DIFdel{tensor is then fed into }\DIFdelend \DIFaddbegin \DIFadd{feature tensor is passed to }\DIFaddend the final prediction block\DIFdelbegin \DIFdel{.
+This block }\DIFdelend \DIFaddbegin \DIFadd{,
+which }\DIFaddend consists of two \DIFdelbegin \DIFdel{fully-connected }\DIFdelend \DIFaddbegin \DIFadd{fully connected }\DIFaddend layers. The first layer \DIFdelbegin \DIFdel{contains }\DIFdelend \DIFaddbegin \DIFadd{has }\DIFaddend at
+least \(128\) units \DIFdelbegin \DIFdel{, followed by a dropout layer. A batch normalization layer is inserted between the fully-connected layer and the dropout
+layer for regularizationpurposes}\DIFdelend \DIFaddbegin \DIFadd{and is followed by batch normalization and dropout
+for regularization}\DIFaddend . The second \DIFdelbegin \DIFdel{fully-connected layer consists of only one unit, serving as the output
 of the model.
-}
+}%DIFDELCMD < 
 
-\DIFadd{The model weights \(\boldsymbol{\theta}\) were randomly initialized
+%DIFDELCMD < %%%
+\DIFdel{The model weights \(\boldsymbol{\theta}\) were randomly initialized
 using the Glorot Uniform method \mbox{%DIFAUXCMD
 \citep{glorot2010understanding} }\hskip0pt%DIFAUXCMD
 and they
@@ -1003,61 +1017,60 @@ loss function
 where \(n_{\text{train}}\) is the number of training samples, \(V_i\) is
 the \(i\)-th residual plot and \(S_i\) is the auxiliary information
 about the \(i\)-th residual plot including four scagnostics and the
-number of observations}\DIFaddend .
+number of observations}\DIFdelend \DIFaddbegin \DIFadd{fully connected layer contains a single
+unit, followed by a ReLU activation to enforce non-negative outputs,
+producing the final scalar prediction}\DIFaddend .
 
-\DIFdelbegin \subsection{\DIFdel{Data Generation and Model
+\DIFdelbegin \section{\DIFdel{Data Generation and Model
 Training}}%DIFAUXCMD
-\addtocounter{subsection}{-1}%DIFAUXCMD
-\DIFdelend \DIFaddbegin \section{\DIFadd{Data Generation and Model
+\addtocounter{section}{-1}%DIFAUXCMD
+\DIFdelend \DIFaddbegin \subsection{\DIFadd{Data Generation and Model
 Training}}\DIFaddend \label{sec-model-data-generation}
 
-To train the computer vision model for \DIFdelbegin \DIFdel{estimating }\DIFdelend \DIFaddbegin \DIFadd{computing }\DIFaddend \(\hat{D}\) \DIFdelbegin \DIFdel{, we
-constructed a dataset of }\DIFdelend \DIFaddbegin \DIFadd{(as
-described in Section \ref{sec-model-distance-estimation}), we used
-}\DIFaddend paired residual plots and their corresponding \(D\) values. In deep
-learning, \DIFdelbegin \DIFdel{synthetic data are commonly used for
-training vision models }\DIFdelend \DIFaddbegin \DIFadd{it is common to train computer vision models with synthetic
-data, especially }\DIFaddend when labelled data are scarce, costly, or difficult to
-\DIFdelbegin \DIFdel{obtain }\DIFdelend \DIFaddbegin \DIFadd{annotate }\DIFaddend reliably \citep{nikolenko2021synthetic}. This \DIFdelbegin \DIFdel{is
-particularly appropriate when the }\DIFdelend \DIFaddbegin \DIFadd{approach is
-particularly suitable when the underlying }\DIFaddend data-generating \DIFdelbegin \DIFdel{mechanism is
-well specified, enabling controlled generation of large-scale examples that
-encode known structural violations }\DIFdelend \DIFaddbegin \DIFadd{process is
-well understood and large numbers of controlled examples can be
+To train the computer vision model for \DIFdelbegin \DIFdel{computing }\DIFdelend \DIFaddbegin \DIFadd{estimating }\DIFaddend \(\hat{D}\)\DIFdelbegin \DIFdel{(as
+described in Section \ref{sec-model-distance-estimation}), we
+used
+}\DIFdelend \DIFaddbegin \DIFadd{, we
+constructed a dataset of }\DIFaddend paired residual plots and their corresponding
+\(D\) values. In deep learning, \DIFdelbegin \DIFdel{it is common to train computer vision models with synthetic data , especially }\DIFdelend \DIFaddbegin \DIFadd{synthetic data are commonly used for
+training vision models }\DIFaddend when labelled data are scarce, costly, or
+difficult to \DIFdelbegin \DIFdel{annotate }\DIFdelend \DIFaddbegin \DIFadd{obtain }\DIFaddend reliably \citep{nikolenko2021synthetic}. This \DIFdelbegin \DIFdel{approach is
+particularly suitable when the underlying }\DIFdelend \DIFaddbegin \DIFadd{is
+particularly appropriate when the }\DIFaddend data-generating \DIFdelbegin \DIFdel{process is well
+understood and large numbers of controlled examples can be
 produced, allowing the model to learn visual patterns associated with
-specific violations without the cost and ambiguity of manual labelling}\DIFaddend .
-Accordingly, we generated \DIFaddbegin \DIFadd{a synthetic dataset consisting of }\DIFaddend 80,000
-training \DIFdelbegin \DIFdel{samples }\DIFdelend and 8,000 test \DIFdelbegin \DIFdel{samples}\DIFdelend \DIFaddbegin \DIFadd{residual plots}\DIFaddend , providing full control over the
-\DIFdelbegin \DIFdel{generative process, exact }\DIFdelend \DIFaddbegin \DIFadd{data-generating process, precise }\DIFaddend computation of \(D\), \DIFdelbegin \DIFdel{and broad coverage of residual }\DIFdelend \DIFaddbegin \DIFadd{cost-effective
-scaling, and coverage of a wide range of visual }\DIFaddend patterns associated with
-model \DIFdelbegin \DIFdel{misspecification}\DIFdelend \DIFaddbegin \DIFadd{violations}\DIFaddend .
+specific violationswithout the cost and ambiguity of manual labelling}\DIFdelend \DIFaddbegin \DIFadd{mechanism is well
+specified, enabling controlled generation of large-scale examples that
+encode known structural violations}\DIFaddend . Accordingly, we generated \DIFdelbegin \DIFdel{a synthetic dataset consisting of }\DIFdelend 80,000
+training \DIFaddbegin \DIFadd{samples }\DIFaddend and 8,000 test \DIFdelbegin \DIFdel{residual plots}\DIFdelend \DIFaddbegin \DIFadd{samples}\DIFaddend , providing full control over the
+\DIFdelbegin \DIFdel{data-generating process, precise }\DIFdelend \DIFaddbegin \DIFadd{generative process, exact }\DIFaddend computation of \(D\), \DIFdelbegin \DIFdel{cost-effective
+scaling, and coverage of a wide range of visual }\DIFdelend \DIFaddbegin \DIFadd{and broad coverage of
+residual }\DIFaddend patterns associated with model \DIFdelbegin \DIFdel{violations}\DIFdelend \DIFaddbegin \DIFadd{misspecification}\DIFaddend .
 
 The simulated data incorporated three common types of residual
 departures: non-linearity, heteroskedasticity, and non-normality. These
-\DIFdelbegin \DIFdel{effects were induced }\DIFdelend \DIFaddbegin \DIFadd{were introduced }\DIFaddend by fitting a \DIFaddbegin \DIFadd{standard }\DIFaddend simple linear regression model to
-data generated from a more flexible \DIFdelbegin \DIFdel{underlying process }\DIFdelend \DIFaddbegin \DIFadd{model }\DIFaddend based on Hermite polynomials
-\citep{hermite1864nouveau}, multiple predictors, and \DIFdelbegin \DIFdel{a range
-of predictor and error distributions}\DIFdelend \DIFaddbegin \DIFadd{varying
-distributions in both predictors and error terms}\DIFaddend . A comprehensive grid
-of parameter \DIFdelbegin \DIFdel{settings was used to produce diverse residual behaviours, including
-configurations with
-multiple simultaneous violations .
-}%DIFDELCMD < 
+\DIFdelbegin \DIFdel{were introduced }\DIFdelend \DIFaddbegin \DIFadd{effects were induced }\DIFaddend by fitting a \DIFdelbegin \DIFdel{standard }\DIFdelend simple linear regression model to data
+generated from a more flexible \DIFdelbegin \DIFdel{model }\DIFdelend \DIFaddbegin \DIFadd{underlying process }\DIFaddend based on Hermite
+polynomials \citep{hermite1864nouveau}, multiple predictors, and \DIFdelbegin \DIFdel{varying
+distributions in both predictors and error terms}\DIFdelend \DIFaddbegin \DIFadd{a range
+of predictor and error distributions}\DIFaddend . A comprehensive grid of parameter
+\DIFdelbegin \DIFdel{combinations was explored to generate a wide range of
+residual patterns. Importantly, the simulation included scenarios with multiple violations occurring simultaneously.
+}\DIFdelend \DIFaddbegin \DIFadd{settings was used to produce diverse residual behaviours, including
+configurations with multiple simultaneous violations.
+}
 
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \DIFadd{combinations was explored to generate a wide range of
-residual patterns. Importantly, the simulation included scenarios with
-multiple violations occurring simultaneously. }\DIFaddend To ensure uniform coverage
-across the \DIFdelbegin \DIFdel{target space of }\DIFdelend \DIFaddbegin \DIFadd{difficulty scale of the target variable }\DIFaddend \(D\), \DIFdelbegin \DIFdel{we adopted
-a bucketed sampling strategy. Specifically, simulated samples were
-iteratively generated and assigned to }\DIFdelend \DIFaddbegin \DIFadd{a bucket
+\DIFaddend To ensure uniform coverage across the \DIFdelbegin \DIFdel{difficulty scale of the target variable }\DIFdelend \DIFaddbegin \DIFadd{target space of }\DIFaddend \(D\), \DIFdelbegin \DIFdel{a bucket
 sampling scheme was used to create a balanced dataset. Samples were
-iteratively simulated and accepted into }\DIFaddend one of 50 \DIFdelbegin \DIFdel{bins corresponding to
-quantiles }\DIFdelend \DIFaddbegin \DIFadd{buckets, each
-representing a distinct range }\DIFaddend of \(D\)\DIFdelbegin \DIFdel{, with acceptance controlled to balance representation
-across difficulty levels}\DIFdelend . Table \ref{tab:data-overall}
-\DIFdelbegin \DIFdel{summarises the resulting sample sizes for each violation scenario}\DIFdelend \DIFaddbegin \DIFadd{summarizes the number of training and test samples under the different
-violation scenarios}\DIFaddend .
+iteratively simulated and accepted into }\DIFdelend \DIFaddbegin \DIFadd{we adopted
+a bucketed sampling strategy. Specifically, simulated samples were
+iteratively generated and assigned to }\DIFaddend one of 50 \DIFdelbegin \DIFdel{buckets, each
+representing a distinct range }\DIFdelend \DIFaddbegin \DIFadd{bins corresponding to
+quantiles }\DIFaddend of \(D\)\DIFaddbegin \DIFadd{, with acceptance controlled to balance representation
+across difficulty levels}\DIFaddend . Table \ref{tab:data-overall} \DIFdelbegin \DIFdel{summarizes the
+number of training and test samples under the different
+violation scenarios}\DIFdelend \DIFaddbegin \DIFadd{summarises the
+resulting sample sizes for each violation scenario}\DIFaddend .
 
 \begin{table}
 \centering
@@ -1082,49 +1095,47 @@ non-linearity + heteroskedasticity + non-normality & 7,721 & 0.432 & 717 & 0.620
 \end{tabular}}
 \end{table}
 
-\DIFdelbegin \DIFdel{Model parameters \(\boldsymbol{\theta}\) were randomly initialized using
-the Glorot Uniform method \mbox{%DIFAUXCMD
+\DIFdelbegin \DIFdel{The computer vision model }\DIFdelend \DIFaddbegin \DIFadd{Computer vision model parameters \(\boldsymbol{\theta}\) were randomly
+initialized using the Glorot Uniform method
+\mbox{%DIFAUXCMD
 \citep{glorot2010understanding} }\hskip0pt%DIFAUXCMD
-and optimized
-with the Adam optimizer \mbox{%DIFAUXCMD
+and optimized with the Adam optimizer
+\mbox{%DIFAUXCMD
 \citep{kingma2014adam} }\hskip0pt%DIFAUXCMD
-under a mean squared
-error objective:
-}\[\DIFdel{\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, \boldsymbol{s}_i))^2,}\]%DIFAUXCMD
-%DIFDELCMD < \noindent %%%
-\DIFdel{where \(n_{\text{train}}\) denotes the number of training
+under a mean squared error objective:
+}\[\DIFadd{\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, \boldsymbol{s}_i))^2,}\]
+\noindent \DIFadd{where \(n_{\text{train}}\) denotes the number of training
 samples, \(V_i\) is the \(i\)-th residual plot, and \(\boldsymbol{s}_i\)
 represents the auxiliary tabular features, including four scagnostics
 measures and sample size.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{The }\DIFdelend \DIFaddbegin \DIFadd{The computer vision }\DIFaddend model was trained on paired \DIFdelbegin \DIFdel{inputs consisting of }\DIFdelend \DIFaddbegin \DIFadd{data consisting of an
-}\DIFaddend RGB residual plot \DIFdelbegin \DIFdel{images and corresponding }\DIFdelend \DIFaddbegin \DIFadd{image as input and the corresponding target value
-}\DIFaddend \(D\)\DIFdelbegin \DIFdel{values}\DIFdelend , with the objective of learning \DIFdelbegin \DIFdel{the mapping \(\hat{D} = f_{\boldsymbol{\theta}}(V, \boldsymbol{s})\). Training }\DIFdelend \DIFaddbegin \DIFadd{to predict \(\hat{D}\). Model
-training }\DIFaddend was conducted on the MASSIVE M3 high-performance computing
+\DIFadd{The model }\DIFaddend was trained on paired \DIFdelbegin \DIFdel{data consisting of an
+}\DIFdelend \DIFaddbegin \DIFadd{inputs consisting of }\DIFaddend RGB residual plot
+\DIFdelbegin \DIFdel{image as input and the corresponding target value
+}\DIFdelend \DIFaddbegin \DIFadd{images and corresponding }\DIFaddend \(D\) \DIFaddbegin \DIFadd{values}\DIFaddend , with the objective of learning
+\DIFdelbegin \DIFdel{to predict \(\hat{D}\).
+Model
+training }\DIFdelend \DIFaddbegin \DIFadd{the mapping \(\hat{D} = f_{\boldsymbol{\theta}}(V, \boldsymbol{s})\).
+Training }\DIFaddend was conducted on the MASSIVE M3 high-performance computing
 platform \citep{goscinski2014multi} using TensorFlow
 \citep{abadi2016tensorflow} and Keras \citep{chollet2015keras}.
-Hyperparameters were \DIFdelbegin \DIFdel{tuned using Bayesian optimisation via }\DIFdelend \DIFaddbegin \DIFadd{optimized via Bayesian tuning with }\DIFaddend KerasTuner
+Hyperparameters were \DIFdelbegin \DIFdel{optimized via Bayesian tuning with }\DIFdelend \DIFaddbegin \DIFadd{tuned using Bayesian optimisation via }\DIFaddend KerasTuner
 \citep{omalley2019kerastuner}, minimizing validation root mean square
-error (RMSE) \DIFdelbegin \DIFdel{over }\DIFdelend \DIFaddbegin \DIFadd{across }\DIFaddend 100 trials. The \DIFdelbegin \DIFdel{search space included }\DIFdelend \DIFaddbegin \DIFadd{tuning process included early
-stopping and considered }\DIFaddend dropout rate, batch normalization\DIFdelbegin \DIFdel{configuration}\DIFdelend , input
-resolution, and \DIFdelbegin \DIFdel{the inclusion
-of auxiliary features}\DIFdelend \DIFaddbegin \DIFadd{auxiliary inputs}\DIFaddend .
+error (RMSE) \DIFdelbegin \DIFdel{across }\DIFdelend \DIFaddbegin \DIFadd{over }\DIFaddend 100 trials. The \DIFdelbegin \DIFdel{tuning process included early
+stopping and considered }\DIFdelend \DIFaddbegin \DIFadd{search space included }\DIFaddend dropout rate,
+batch normalization \DIFaddbegin \DIFadd{configuration}\DIFaddend , input resolution, and \DIFdelbegin \DIFdel{auxiliary inputs}\DIFdelend \DIFaddbegin \DIFadd{the inclusion
+of auxiliary features}\DIFaddend .
 
-Further details\DIFdelbegin \DIFdel{on the synthetic
-data-generating process, parameter settings}\DIFdelend \DIFaddbegin \DIFadd{, including mathematical formulations of the synthetic
-data model, parameter specifications}\DIFaddend , sampling scheme, example residual
-plots \DIFdelbegin \DIFdel{, and hyperparameter search configuration}\DIFdelend \DIFaddbegin \DIFadd{and hyperparameter tuning configuration, }\DIFaddend are provided in \DIFaddbegin \DIFadd{the
-}\DIFaddend Appendix A and \DIFdelbegin \DIFdel{Appendix }\DIFdelend C.
+Further details \DIFdelbegin \DIFdel{, including mathematical formulations of the synthetic data model, parameter
+specifications}\DIFdelend \DIFaddbegin \DIFadd{on the synthetic data-generating process, parameter
+settings}\DIFaddend , sampling scheme, example residual plots\DIFdelbegin \DIFdel{and hyperparameter tuning configuration , }\DIFdelend \DIFaddbegin \DIFadd{, and hyperparameter
+search configuration }\DIFaddend are provided in \DIFdelbegin \DIFdel{the
+}\DIFdelend Appendix A and \DIFaddbegin \DIFadd{Appendix }\DIFaddend C.
 
-\DIFdelbegin \section{\DIFdel{Statistical Testing}}%DIFAUXCMD
-\addtocounter{section}{-1}%DIFAUXCMD
-%DIFDELCMD < \label{sec-model-statistical-testing}
-%DIFDELCMD < 
+\DIFaddbegin \section{\DIFadd{Statistical Testing}}\label{sec-model-statistical-testing}
 
-%DIFDELCMD < %%%
-\DIFdel{Under the null hypothesis \(H_0\), corresponding to a correctly
+\DIFadd{Under the null hypothesis \(H_0\), corresponding to a correctly
 specified model, the distance satisfies \(D = 0\) because \(P = Q\). In
 practice, however, the estimated distance \(\hat{D}\) is generally
 non-zero, even for null plots, due to sampling variability and
@@ -1132,15 +1143,14 @@ imperfections in the computer vision model. Consequently, statistical
 significance should be assessed relative to the distribution of
 estimated distances obtained from null plots rather than by the
 magnitude of \(\hat{D}\) alone.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{We briefly recall the null plot generation procedure of
-\mbox{%DIFAUXCMD
+\DIFadd{To calibrate \(\hat{D}\), we adopt the residual rotation procedure used
+for null plot generation in \mbox{%DIFAUXCMD
 \citet{buja2009statistical}}\hskip0pt%DIFAUXCMD
-. Draw an auxiliary response
-\(\boldsymbol{w}\) with entries
-\(w_i \overset{\text{iid}}{\sim} \mathcal{N}(0,1)\) and compute the
+. This involves
+drawing an auxiliary response \(\boldsymbol{w}\) from
+\(\mathcal{N}(\boldsymbol{0}_n, \mathbf{I}_n)\) and compute the
 projected residuals
 \(\hat{\boldsymbol{e}}_w = \boldsymbol{R}\boldsymbol{w}\). These are
 then rescaled to match the Euclidean norm of the observed residuals,
@@ -1151,54 +1161,46 @@ null plot is then the scatter plot of
 null hypothesis of a correctly specified model is statistically
 indistinguishable from the true residual plot
 \((\hat{\boldsymbol{y}},\, \hat{\boldsymbol{e}})\).
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{Let \(\hat{D}\) denote the estimated distance for the true residual plot
+\DIFadd{Let \(\hat{D}\) denote the estimated distance for the true residual plot
 and let \(\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}\) denote the estimated
 distances for \(m\) null plots generated under \(H_0\). For a lineup
 containing \(m + 1\) plots (one true plot and \(m\) null plots), the
 visual inference decision rule is
-}\[\DIFdel{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} > \max_{1\le i\le m} \hat{D}_{null}^{(i)}.}\]%DIFAUXCMD
-\DIFdel{This corresponds to the standard lineup protocol, where the true
+}\[\DIFadd{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} > \max_{1\le i\le m} \hat{D}_{null}^{(i)}.}\]
+\DIFadd{This corresponds to the standard lineup protocol, where the true
 residual plot must be identified as the most visually distinct plot.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{More generally, the empirical distribution of
+\DIFadd{More generally, the empirical distribution of
 \(\{\hat{D}_{null}^{(i)}\}_{i=1}^{m}\) provides an estimate of the null
 distribution of the test statistic. Let \(Q_{null}(\tau)\) denote the
 empirical \(\tau\)-quantile of this distribution. A level-\(\alpha\)
 test is then given by
-}\[\DIFdel{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} \ge Q_{null}(1-\alpha).}\]%DIFAUXCMD
-\DIFdel{Equivalently, a Monte Carlo \(p\)-value can be computed as
-}\[\DIFdel{\hat{p} = \frac{1}{m + 1} + \frac{1}{m + 1}\sum_{i=1}^{m} \mathbb{I}\left( \hat{D}_{null}^{(i)} \ge \hat{D} \right).}\]%DIFAUXCMD
-\DIFdel{This is the standard simulation-based estimator of the tail probability
+}\[\DIFadd{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D} \ge Q_{null}(1-\alpha).}\]
+\DIFadd{Equivalently, a Monte Carlo \(p\)-value can be computed as
+}\[\DIFadd{\hat{p} = \frac{1}{m + 1} + \frac{1}{m + 1}\sum_{i=1}^{m} \mathbb{I}\left( \hat{D}_{null}^{(i)} \ge \hat{D} \right).}\]
+\DIFadd{This is the standard simulation-based estimator of the tail probability
 under \(H_0\). For computational efficiency, quantiles of the null
 distribution may be pre-computed over a range of sample sizes and stored
 in a lookup table, allowing approximate \(p\)-values to be obtained
 without generating new null plots.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\section{\DIFdel{Bootstrap Variability
-Assessment}}%DIFAUXCMD
-\addtocounter{section}{-1}%DIFAUXCMD
-%DIFDELCMD < \label{sec-bootstrap-assessment}
-%DIFDELCMD < 
+\section{\DIFadd{Bootstrap Variability
+Assessment}}\label{sec-bootstrap-assessment}
 
-%DIFDELCMD < %%%
-\DIFdel{Bootstrap methods are commonly used in linear regression to assess
+\DIFadd{Bootstrap methods are commonly used in linear regression to assess
 parameter variability without strong distributional assumptions
 \mbox{%DIFAUXCMD
 \citep{davison1997bootstrap, efron1994introduction}}\hskip0pt%DIFAUXCMD
 . This involves
 resampling the observed data (pairs of responses and predictors) with
 replacement and refitting the model on each bootstrap sample.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{Similarly, this case-resampling bootstrap can be used to assess the
+\DIFadd{Similarly, this case-resampling bootstrap can be used to assess the
 variability of the estimated distance \(\hat{D}\). For each bootstrap
 sample \(i=1, \ldots, n_{boot}\), a regression model \(M_{boot}^{(i)}\)
 is refitted using the resampled data, producing a residual plot
@@ -1207,38 +1209,38 @@ is refitted using the resampled data, producing a residual plot
 \(\{\hat{D}_{boot}^{(i)}\}_{i=1}^{n_{boot}}\) provides an estimate of
 the sampling distribution of \(\hat{D}\), from which confidence
 intervals may be constructed.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{More generally, each bootstrap model \(M_{boot}^{(i)}\) induces its own
+\DIFadd{More generally, each bootstrap model \(M_{boot}^{(i)}\) induces its own
 null distribution of estimated distances. Let \(Q_{boot}^{(i)}(\tau)\)
 denote the \(\tau\)-quantile of the corresponding null distribution. A
 level-\(\alpha\) test for the \(i\)-th bootstrap model is then given by
-}\[\DIFdel{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha).}\]%DIFAUXCMD
-\DIFdel{The proportion of bootstrap models for which \(H_0\) is rejected,
-}\[\DIFdel{\frac{1}{n_{boot}}\sum_{i=1}^{n_{boot}}\mathbb{I}\left(\hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha)\right),}\]%DIFAUXCMD
-\DIFdel{estimates how often the fitted regression model would be judged
+}\[\DIFadd{\text{Reject } H_0 \quad \Longleftrightarrow \quad \hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha).}\]
+\DIFadd{The proportion of bootstrap models for which \(H_0\) is rejected,
+}\[\DIFadd{\frac{1}{n_{boot}}\sum_{i=1}^{n_{boot}}\mathbb{I}\left(\hat{D}_{boot}^{(i)} \ge Q_{boot}^{(i)}(1-\alpha)\right),}\]
+\DIFadd{estimates how often the fitted regression model would be judged
 misspecified under repeated sampling from the same data-generating
 process.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{This procedure is computationally expensive because it requires
+\DIFadd{This procedure is computationally expensive because it requires
 evaluating \(n_{boot}(m + 1)\) residual plots, where \(m\) denotes the
 number of null plots per bootstrap sample. In practice, the
 bootstrap-specific critical values \(Q_{boot}^{(i)}(1-\alpha)\) may be
 approximated by the corresponding quantile \(Q_{null}(1-\alpha)\) from
 the original null distribution, substantially reducing the computational
 burden.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdelend \section{Results}\label{sec-model-results}
+\DIFaddend \section{Results}\label{sec-model-results}
 
 \subsection{Model Performance}\label{model-performance}
 
-Table \ref{tab:performance} summarizes the test performance of optimized
-models using three input sizes. The \(32 \times 32\) model consistently
+Table \ref{tab:performance} summarizes the test performance of \DIFdelbegin \DIFdel{optimized
+models using }\DIFdelend \DIFaddbegin \DIFadd{the
+optimized models across }\DIFaddend three input sizes\DIFaddbegin \DIFadd{, using 80,000 training samples
+and 8,000 test samples generated as described in Section
+\ref{sec-model-data-generation}}\DIFaddend . The \(32 \times 32\) model consistently
 outperformed others, with a mean absolute error of approximately
 \(0.43\), a negligible deviation given the typical \(D\) range of \(0\)
 to \(7\). High \(R^2\) values also indicated strong linear correlation
@@ -1253,12 +1255,12 @@ were observed. Over-prediction occurred when \(D < 1.5\), and
 under-prediction primarily when \(\hat{D} > 6\).
 
 For null plots (\(D = 0\)), over-prediction was expected (see Section
-\DIFdelbegin \DIFdel{\ref{sec-model-statistical-testing}}\DIFdelend \DIFaddbegin \DIFadd{\ref{sec-model-lineup-evaluation}}\DIFaddend ), but not under-prediction. Therefore,
-we analysed the relationship between residuals and all the factors
-involved in the data generating process. We found that most deviations
-stemmed from non-linearity and the presence of a second predictor in the
-synthetic data model, where small \(\varepsilon\) variances caused
-under-predictions and large \(\varepsilon\) variances caused
+\DIFdelbegin \DIFdel{\ref{sec-model-lineup-evaluation}}\DIFdelend \DIFaddbegin \DIFadd{\ref{sec-model-statistical-testing}}\DIFaddend ), but not under-prediction.
+Therefore, we analysed the relationship between residuals and all the
+factors involved in the data generating process. We found that most
+deviations stemmed from non-linearity and the presence of a second
+predictor in the synthetic data model, where small \DIFdelbegin \DIFdel{\(\varepsilon\) }\DIFdelend \DIFaddbegin \DIFadd{error }\DIFaddend variances
+caused under-predictions and large \DIFdelbegin \DIFdel{\(\varepsilon\) }\DIFdelend \DIFaddbegin \DIFadd{error }\DIFaddend variances caused
 over-prediction, as illustrated in Figure \ref{fig:over-under}.
 
 To investigate further, we stratified the train and test set by
@@ -1311,25 +1313,29 @@ Experiment}\label{overview-of-the-human-subject-experiment}
 
 In order to check the validity of the proposed computer vision model,
 residual plots presented in the human subject experiment conducted by
-\citet{li2024plot} will be assessed.
+\citet{li2024plot} \DIFdelbegin \DIFdel{will be assessed. }%DIFDELCMD < 
 
-\DIFdelbegin \DIFdel{The study }\DIFdelend \DIFaddbegin \DIFadd{This study has }\DIFaddend collected 7,974 \DIFdelbegin \DIFdel{responses across }\DIFdelend \DIFaddbegin \DIFadd{human responses to }\DIFaddend 1,152 lineups\DIFdelbegin \DIFdel{, each
-containing one randomly positioned }\DIFdelend \DIFaddbegin \DIFadd{. Each
-lineup contains one randomly placed }\DIFaddend true residual plot and 19 null
-plots. \DIFdelbegin \DIFdel{Of these,}\DIFdelend \DIFaddbegin \DIFadd{Among the 1,152 lineups, }\DIFaddend 24 \DIFdelbegin \DIFdel{were attention-check lineups with highly obvious patterns }\DIFdelend \DIFaddbegin \DIFadd{are attention check lineups in which
+%DIFDELCMD < %%%
+\DIFdel{This study has }\DIFdelend \DIFaddbegin \DIFadd{was assessed. The study }\DIFaddend collected 7,974 \DIFdelbegin \DIFdel{human responses
+to }\DIFdelend \DIFaddbegin \DIFadd{responses
+across }\DIFaddend 1,152 lineups\DIFdelbegin \DIFdel{. Each
+lineup contains one randomly placed }\DIFdelend \DIFaddbegin \DIFadd{, each containing one randomly positioned }\DIFaddend true
+residual plot and 19 null plots. \DIFdelbegin \DIFdel{Among the 1, 152 lineups, }\DIFdelend \DIFaddbegin \DIFadd{Of these, }\DIFaddend 24 \DIFdelbegin \DIFdel{are attention check lineups in which
 the visual patterns are designed to be extremely obvious and very
-different from the corresponding to null plots}\DIFaddend , 36 \DIFdelbegin \DIFdel{were null lineups
-containing }\DIFdelend \DIFaddbegin \DIFadd{are null lineups
-where all the lineups consist of }\DIFaddend only null plots, 279 \DIFdelbegin \DIFdel{involved uniformly
-distributed predictors and were }\DIFdelend \DIFaddbegin \DIFadd{are lineups with
-uniform predictor distribution }\DIFaddend evaluated by 11 participants\DIFdelbegin \DIFdel{each}\DIFdelend , and the
-remaining 813 \DIFdelbegin \DIFdel{involved }\DIFdelend \DIFaddbegin \DIFadd{are lineups with }\DIFaddend discrete, skewed \DIFdelbegin \DIFdel{, or normally distributed
-predictors and were }\DIFdelend \DIFaddbegin \DIFadd{or normal predictor
-distribution }\DIFaddend evaluated by 5 participants\DIFdelbegin \DIFdel{each. Attention-check
-}\DIFdelend \DIFaddbegin \DIFadd{. Attention check lineups }\DIFaddend and
-null lineups \DIFdelbegin \DIFdel{are excluded from the present }\DIFdelend \DIFaddbegin \DIFadd{will not be assessed in the following }\DIFaddend analysis.
+different from the corresponding to null plots}\DIFdelend \DIFaddbegin \DIFadd{were attention-check
+lineups with highly obvious patterns}\DIFaddend , 36 \DIFdelbegin \DIFdel{are null lineups where all the lineups consist of }\DIFdelend \DIFaddbegin \DIFadd{were null lineups containing
+}\DIFaddend only null plots, 279 \DIFdelbegin \DIFdel{are lineups with
+uniform predictor distribution }\DIFdelend \DIFaddbegin \DIFadd{involved uniformly distributed predictors and were
+}\DIFaddend evaluated by 11 participants \DIFaddbegin \DIFadd{each}\DIFaddend , and the remaining 813 \DIFdelbegin \DIFdel{are lineups with }\DIFdelend \DIFaddbegin \DIFadd{involved
+}\DIFaddend discrete, skewed\DIFdelbegin \DIFdel{or normal predictor
+distribution }\DIFdelend \DIFaddbegin \DIFadd{, or normally distributed predictors and were }\DIFaddend evaluated
+by 5 participants \DIFdelbegin \DIFdel{. Attention check lineups }\DIFdelend \DIFaddbegin \DIFadd{each. Attention-check }\DIFaddend and null lineups \DIFdelbegin \DIFdel{will not be assessed in the following }\DIFdelend \DIFaddbegin \DIFadd{are excluded
+from the present }\DIFaddend analysis.
 
-\DIFdelbegin \DIFdel{Participants were recruited through Prolific. Most were not experts in
+\DIFdelbegin \DIFdel{In \mbox{%DIFAUXCMD
+\citet{li2024plot}}\hskip0pt%DIFAUXCMD
+, the residual plots are simulated from a data
+generating process that corresponds to a }\DIFdelend \DIFaddbegin \DIFadd{Participants were recruited through Prolific. Most were not experts in
 residual plots, and 56.7\% reported no prior experience with studies
 involving data visualisations. The sample was approximately
 gender-balanced, more than half held a diploma or bachelor's degree, and
@@ -1337,21 +1343,18 @@ almost all participants were between 18 and 39 years of age.
 Consequently, the results primarily reflect the ability of non-experts
 to distinguish true residual plots from null plots based on visual
 differences rather than specialised statistical training.
-}%DIFDELCMD < 
+}
 
-%DIFDELCMD < %%%
-\DIFdel{The residual plots in \mbox{%DIFAUXCMD
+\DIFadd{The residual plots in \mbox{%DIFAUXCMD
 \citet{li2024plot} }\hskip0pt%DIFAUXCMD
-were generated from a }\DIFdelend \DIFaddbegin \DIFadd{In \mbox{%DIFAUXCMD
-\citet{li2024plot}}\hskip0pt%DIFAUXCMD
-, the residual plots are simulated from a data
-generating process that corresponds to a }\DIFaddend special case of the synthetic
-data model used in this study. \DIFdelbegin \DIFdel{Model violations were }\DIFdelend \DIFaddbegin \DIFadd{A key feature of the design is that model
-violations are }\DIFaddend introduced independently, \DIFdelbegin \DIFdel{so }\DIFdelend \DIFaddbegin \DIFadd{meaning }\DIFaddend non-linearity and
-heteroskedasticity \DIFdelbegin \DIFdel{did not co-occur within the same lineup . In addition}\DIFdelend \DIFaddbegin \DIFadd{do not co-exist within a single lineup but are
-instead assigned uniformly across different lineups. Moreover}\DIFaddend , the
-experimental design \DIFdelbegin \DIFdel{did not consider }\DIFdelend \DIFaddbegin \DIFadd{does not account for }\DIFaddend non-normality or multiple
-predictors.
+were generated from a }\DIFaddend special
+case of the synthetic data model used in this study. \DIFdelbegin \DIFdel{A key feature of the design is that model
+violations
+are }\DIFdelend \DIFaddbegin \DIFadd{Model violations
+were }\DIFaddend introduced independently, \DIFdelbegin \DIFdel{meaning }\DIFdelend \DIFaddbegin \DIFadd{so }\DIFaddend non-linearity and heteroskedasticity
+\DIFdelbegin \DIFdel{do not co-exist within a single lineupbut are
+instead assigned uniformly across different lineups. Moreover}\DIFdelend \DIFaddbegin \DIFadd{did not co-occur within the same lineup. In addition}\DIFaddend , the experimental
+design \DIFdelbegin \DIFdel{does not account for }\DIFdelend \DIFaddbegin \DIFadd{did not consider }\DIFaddend non-normality or multiple predictors.
 
 \subsubsection{Model Performance on the Human-evaluated
 Data}\label{model-performance-on-the-human-evaluated-data}
@@ -1424,7 +1427,7 @@ violations.
 
 }
 
-\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
+\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non \DIFdelbeginFL \DIFdelFL{negliable }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{negligible }\DIFaddendFL amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the \DIFdelbeginFL \DIFdelFL{width }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{height }\DIFaddendFL of the top left yellow rectangle.}\label{fig:conv-mosaic}
 \end{figure}
 
 To further illustrate these patterns, Figure \ref{fig:pcp} presents
@@ -1554,24 +1557,24 @@ decision-making.
 \subsection{Left-triangle}\label{left-triangle}
 
 In Section \ref{sec-model-introduction}, we introduced a residual plot
-(Figure \ref{fig:false-finding}) where the ``left-triangle'' shape could
+(Figure \DIFdelbegin \DIFdel{\ref{fig:false-finding}}\DIFdelend \DIFaddbegin \DIFadd{\ref{fig:false-check}A}\DIFaddend ) where the ``left-triangle'' shape could
 be misinterpreted as evidence of heteroskedasticity. Although the
 residuals are drawn from a correctly specified model, the Breusch-Pagan
 test rejects \(H_0\) (\(p = 0.046\)). This visual artifact stems from
-the skewed distribution of fitted values, as illustrated in the lineup
-in Figure \ref{fig:lineup}A, where similar ``left-triangle'' patterns
-appear across all residual plots. Since the true plot (at position 10)
-is visually indistinguishable from the null plots, a visual test would
-not reject \(H_0\).
+the skewed distribution of fitted values, as \DIFaddbegin \DIFadd{later }\DIFaddend illustrated in the
+lineup in Figure \ref{fig:lineup}A, where similar ``left-triangle''
+patterns appear across all residual plots. Since the true plot (at
+position 10) is visually indistinguishable from the null plots, a visual
+test would not reject \(H_0\).
 
-The computer vision model yields a consistent conclusion. As shown in
-Figure \ref{fig:false-check}, the estimated distance \(\hat{D}\) falls
-well below the 95\% quantile of the null distribution, with a
-\(p\)-value of \(0.33\). The bootstrapped distribution further suggests
-that rejection of the fitted model is highly unlikely. Together, the
-visual and model-based tests do not reject \(H_0\), in contrast to the
-Breusch-Pagan test, which lacks the context provided by null plots and
-may be misled by visual artifacts.
+The computer vision model yields \DIFdelbegin \DIFdel{a consistent conclusion }\DIFdelend \DIFaddbegin \DIFadd{the same conclusion from the lineup}\DIFaddend . As
+shown in Figure \ref{fig:false-check}\DIFaddbegin \DIFadd{C}\DIFaddend , the estimated distance
+\(\hat{D}\) falls well below the 95\% quantile of the null distribution,
+with a \(p\)-value of \(0.33\). The bootstrapped distribution further
+suggests that rejection of the fitted model is highly unlikely.
+Together, the visual and model-based tests do not reject \(H_0\), in
+contrast to the Breusch-Pagan test, which lacks the context provided by
+null plots and may be misled by visual artifacts.
 
 To further interpret the model's output, the attention map in Figure
 \ref{fig:false-check}B, computed as the gradient of the output with
@@ -1591,7 +1594,7 @@ visually indistinct, aligning with our interpretation of the lineup.
 
 }
 
-\caption{A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.}\label{fig:false-check}
+\caption{A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.}\label{fig:false-check}
 \end{figure}
 
 \subsection{Boston Housing}\label{boston-housing}
@@ -1629,7 +1632,7 @@ visual test would also likely reject \(H_0\) in this case.
 
 }
 
-\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.}\label{fig:boston-check}
+\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL U" shape. (B) The attention map highlights the central region of the \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.}\label{fig:boston-check}
 \end{figure}
 
 \subsection{DatasauRus}\label{datasaurus}
@@ -1679,7 +1682,7 @@ supporting them.
 
 }
 
-\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model's decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.}\label{fig:dino-check}
+\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL dinosaur" shape. (B) The attention map highlights the \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL dinosaur\DIFaddbeginFL \DIFaddFL{" }\DIFaddendFL shape, indicating the model's decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.}\label{fig:dino-check}
 \end{figure}
 
 \begin{figure}[!h]
@@ -1688,7 +1691,7 @@ supporting them.
 
 }
 
-\caption{Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; "U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
+\caption{Lineups of residual plots for the \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL left-triangle", \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL Boston housing", and \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; \DIFdelbeginFL \DIFdelFL{"}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{``}\DIFaddendFL U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
 \end{figure}
 
 \section{Limitations and Future Work}\label{limitations-and-future-work}
