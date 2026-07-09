@@ -131,7 +131,7 @@ rather than indicating a flaw in the model.
 
 }
 
-\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 95\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
+\caption{An example residual vs fitted values plot (red line indicates 0 corresponds to the x-intercept, i.e. $y=0$). The vertical spread of the data points varies with the fitted values. This often indicates the existence of heteroskedasticity, however, here the result is due to skewed distribution of the predictors rather than heteroskedasticity. The Breusch-Pagan test rejects this residual plot at 5\% significance level ($p\text{-value} = 0.046$).}\label{fig:false-finding}
 \end{figure}
 
 The concept of visual inference, as proposed by
@@ -175,12 +175,13 @@ effectiveness in forensic examinations.
 
 A practical limitation of the lineup protocol lies in its reliance on
 human judgments \citep[see][]{li2024plot}. Unlike conventional
-statistical tests that can be performed using in statistical software,
+statistical tests that can be performed using a statistical software,
 the lineup protocol requires human evaluation of images. This
 characteristic makes it less suitable for large-scale applications,
 given the associated high labor costs and time requirements. There is a
 substantial need to develop an approach to substitute these human
-judgement with an automated reading of data plots using computer vision.
+judgement, for example through the automated interpretation of data
+plots using computer vision.
 
 Efforts to automate plot interpretation date back to early work like
 Tukey's ``Scagnostics'' \citep{tukey1985computer}, which is a set of
@@ -361,15 +362,17 @@ statistical test based on the estimated distance.
 
 \subsection{Residual Distribution}\label{residual-distribution}
 
-For the classical normal linear regression model,
-\(\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}\), the
-residual vector is
+Consider the classical normal linear regression model,
+\(\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{e}\),
+where \(\boldsymbol{y}\) is the \(n\times 1\) response vector,
+\(\boldsymbol{X}\) is the design matrix, \(\boldsymbol{\beta}\) is a
+vector of regression coefficients and \(\boldsymbol{e}\) is the vector
+of random errors. The residual vector is
 \(\hat{\boldsymbol{e}}=\boldsymbol{y}-\hat{\boldsymbol{y}} = \boldsymbol{R}\boldsymbol{e}\),
 where
 \(\boldsymbol{R}=\boldsymbol{I}_n-\boldsymbol{X}(\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\)
-is the residual operator, \(\boldsymbol{X}\) is the design matrix,
-\(\boldsymbol{I}_n\) is the \(n\times n\) identity matrix, and \(n\) is
-the sample size.
+is the residual operator, and \(\boldsymbol{I}_n\) is the \(n\times n\)
+identity matrix.
 
 Under the classical assumptions
 \(\boldsymbol{e}\sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
@@ -390,7 +393,7 @@ with its diagonal approximation,
 \(\mathrm{diag}(\sigma^2\boldsymbol{R})\), yielding
 \(Q \approx \mathcal{N}\left(\boldsymbol{0}_n,\mathrm{diag}(\sigma^2\boldsymbol{R})\right)\).
 
-The reference distribution \(Q\) corresponds to correct model
+The reference distribution \(Q\) corresponds to the correct model
 specification. Under misspecification, the residuals follow a different
 distribution \(P\). For example, omitted variables correlated with
 \(\boldsymbol{X}\) alter the residual structure, causing \(P\) to
@@ -414,12 +417,12 @@ probability density functions for \(P\) and \(Q\), respectively.
 This measure was introduced in \citet{li2024plot} to quantify the effect
 size of non-linearity and heteroskedasticity in residual plots. In the
 presence of model misspecification, if the error structure deviates from
-\(\boldsymbol{e} \sim N(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
+\(\boldsymbol{e} \sim \mathcal{N}(\boldsymbol{0}_n,\sigma^2\boldsymbol{I}_n)\),
 for instance with covariance \(\boldsymbol{V}\) and omitted higher-order
 terms \(\boldsymbol{Z}\boldsymbol{\beta}_z\) correlated with
 \(\boldsymbol{X}\), the induced residual distribution can be expressed
 as
-\(P = N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\),
+\(P = \mathcal{N}(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}))\),
 where the diagonal approximation ensures non-degenerate covariance
 matrix. The transformation \(D = \log(1 + D_{KL})\) compresses large
 values of \(D_{KL}\), improves numerical stability during estimation
@@ -498,7 +501,7 @@ width (in pixels), respectively. Here, \(\boldsymbol{s}\) is a vector of
 auxiliary features including scagnostics measures and sample size, and
 \(f_{CV}(\cdot)\) maps the image and auxiliary features to an estimated
 distance \(\hat{D} \in [0, +\infty)\). Details of the model architecture
-and training procedure are provided in Section
+and training procedure are provided in Sections
 \ref{sec-model-architecture} and \ref{sec-model-data-generation},
 respectively.
 
@@ -637,10 +640,10 @@ non-linearity + heteroskedasticity + non-normality & 7,721 & 0.432 & 717 & 0.620
 \end{tabular}}
 \end{table}
 
-Model parameters \(\boldsymbol{\theta}\) were randomly initialized using
-the Glorot Uniform method \citep{glorot2010understanding} and optimized
-with the Adam optimizer \citep{kingma2014adam} under a mean squared
-error objective:
+Computer vision model parameters \(\boldsymbol{\theta}\) were randomly
+initialized using the Glorot Uniform method
+\citep{glorot2010understanding} and optimized with the Adam optimizer
+\citep{kingma2014adam} under a mean squared error objective:
 \[\hat{\boldsymbol{\theta}} = \underset{\boldsymbol{\theta}}{\text{arg min}}\frac{1}{n_{\text{train}}}\sum_{i=1}^{n_{\text{train}}}(D_i - f_{\boldsymbol{\theta}}(V_i, \boldsymbol{s}_i))^2,\]
 \noindent where \(n_{\text{train}}\) denotes the number of training
 samples, \(V_i\) is the \(i\)-th residual plot, and \(\boldsymbol{s}_i\)
@@ -674,10 +677,10 @@ significance should be assessed relative to the distribution of
 estimated distances obtained from null plots rather than by the
 magnitude of \(\hat{D}\) alone.
 
-We briefly recall the null plot generation procedure of
-\citet{buja2009statistical}. Draw an auxiliary response
-\(\boldsymbol{w}\) with entries
-\(w_i \overset{\text{iid}}{\sim} \mathcal{N}(0,1)\) and compute the
+To calibrate \(\hat{D}\), we adopt the residual rotation procedure used
+for null plot generation in \citet{buja2009statistical}. This involves
+drawing an auxiliary response \(\boldsymbol{w}\) from
+\(\mathcal{N}(\boldsymbol{0}_n, \mathbf{I}_n)\) and compute the
 projected residuals
 \(\hat{\boldsymbol{e}}_w = \boldsymbol{R}\boldsymbol{w}\). These are
 then rescaled to match the Euclidean norm of the observed residuals,
@@ -754,8 +757,10 @@ burden.
 
 \subsection{Model Performance}\label{model-performance}
 
-Table \ref{tab:performance} summarizes the test performance of optimized
-models using three input sizes. The \(32 \times 32\) model consistently
+Table \ref{tab:performance} summarizes the test performance of the
+optimized models across three input sizes, using 80,000 training samples
+and 8,000 test samples generated as described in Section
+\ref{sec-model-data-generation}. The \(32 \times 32\) model consistently
 outperformed others, with a mean absolute error of approximately
 \(0.43\), a negligible deviation given the typical \(D\) range of \(0\)
 to \(7\). High \(R^2\) values also indicated strong linear correlation
@@ -774,9 +779,9 @@ For null plots (\(D = 0\)), over-prediction was expected (see Section
 Therefore, we analysed the relationship between residuals and all the
 factors involved in the data generating process. We found that most
 deviations stemmed from non-linearity and the presence of a second
-predictor in the synthetic data model, where small \(\varepsilon\)
-variances caused under-predictions and large \(\varepsilon\) variances
-caused over-prediction, as illustrated in Figure \ref{fig:over-under}.
+predictor in the synthetic data model, where small error variances
+caused under-predictions and large error variances caused
+over-prediction, as illustrated in Figure \ref{fig:over-under}.
 
 To investigate further, we stratified the train and test set by
 violation type and re-evaluated performance (Table
@@ -828,16 +833,15 @@ Experiment}\label{overview-of-the-human-subject-experiment}
 
 In order to check the validity of the proposed computer vision model,
 residual plots presented in the human subject experiment conducted by
-\citet{li2024plot} will be assessed.
-
-The study collected 7,974 responses across 1,152 lineups, each
-containing one randomly positioned true residual plot and 19 null plots.
-Of these, 24 were attention-check lineups with highly obvious patterns,
-36 were null lineups containing only null plots, 279 involved uniformly
-distributed predictors and were evaluated by 11 participants each, and
-the remaining 813 involved discrete, skewed, or normally distributed
-predictors and were evaluated by 5 participants each. Attention-check
-and null lineups are excluded from the present analysis.
+\citet{li2024plot} was assessed. The study collected 7,974 responses
+across 1,152 lineups, each containing one randomly positioned true
+residual plot and 19 null plots. Of these, 24 were attention-check
+lineups with highly obvious patterns, 36 were null lineups containing
+only null plots, 279 involved uniformly distributed predictors and were
+evaluated by 11 participants each, and the remaining 813 involved
+discrete, skewed, or normally distributed predictors and were evaluated
+by 5 participants each. Attention-check and null lineups are excluded
+from the present analysis.
 
 Participants were recruited through Prolific. Most were not experts in
 residual plots, and 56.7\% reported no prior experience with studies
@@ -925,7 +929,7 @@ violations.
 
 }
 
-\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negliable amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the width of the top left yellow rectangle.}\label{fig:conv-mosaic}
+\caption{Rejection rate ($p$-value $\leq0.05$) of computer vision models conditional on conventional tests on non-linearity (left) and heteroskedasticity (right) lineups displayed using a mosaic plot. When the conventional test fails to reject, the computer vision mostly fails to reject the same plot as well as indicated by the height of the top right yellow rectangle, but there are non negligible amount of plots where the conventional test rejects but the computer vision model fails to reject as indicated by the height of the top left yellow rectangle.}\label{fig:conv-mosaic}
 \end{figure}
 
 To further illustrate these patterns, Figure \ref{fig:pcp} presents
@@ -1055,24 +1059,24 @@ decision-making.
 \subsection{Left-triangle}\label{left-triangle}
 
 In Section \ref{sec-model-introduction}, we introduced a residual plot
-(Figure \ref{fig:false-finding}) where the ``left-triangle'' shape could
+(Figure \ref{fig:false-check}A) where the ``left-triangle'' shape could
 be misinterpreted as evidence of heteroskedasticity. Although the
 residuals are drawn from a correctly specified model, the Breusch-Pagan
 test rejects \(H_0\) (\(p = 0.046\)). This visual artifact stems from
-the skewed distribution of fitted values, as illustrated in the lineup
-in Figure \ref{fig:lineup}A, where similar ``left-triangle'' patterns
-appear across all residual plots. Since the true plot (at position 10)
-is visually indistinguishable from the null plots, a visual test would
-not reject \(H_0\).
+the skewed distribution of fitted values, as later illustrated in the
+lineup in Figure \ref{fig:lineup}A, where similar ``left-triangle''
+patterns appear across all residual plots. Since the true plot (at
+position 10) is visually indistinguishable from the null plots, a visual
+test would not reject \(H_0\).
 
-The computer vision model yields a consistent conclusion. As shown in
-Figure \ref{fig:false-check}, the estimated distance \(\hat{D}\) falls
-well below the 95\% quantile of the null distribution, with a
-\(p\)-value of \(0.33\). The bootstrapped distribution further suggests
-that rejection of the fitted model is highly unlikely. Together, the
-visual and model-based tests do not reject \(H_0\), in contrast to the
-Breusch-Pagan test, which lacks the context provided by null plots and
-may be misled by visual artifacts.
+The computer vision model yields the same conclusion from the lineup. As
+shown in Figure \ref{fig:false-check}C, the estimated distance
+\(\hat{D}\) falls well below the 95\% quantile of the null distribution,
+with a \(p\)-value of \(0.33\). The bootstrapped distribution further
+suggests that rejection of the fitted model is highly unlikely.
+Together, the visual and model-based tests do not reject \(H_0\), in
+contrast to the Breusch-Pagan test, which lacks the context provided by
+null plots and may be misled by visual artifacts.
 
 To further interpret the model's output, the attention map in Figure
 \ref{fig:false-check}B, computed as the gradient of the output with
@@ -1092,7 +1096,7 @@ visually indistinct, aligning with our interpretation of the lineup.
 
 }
 
-\caption{A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.}\label{fig:false-check}
+\caption{A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a ``left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.}\label{fig:false-check}
 \end{figure}
 
 \subsection{Boston Housing}\label{boston-housing}
@@ -1130,7 +1134,7 @@ visual test would also likely reject \(H_0\) in this case.
 
 }
 
-\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.}\label{fig:boston-check}
+\caption{A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a ``U" shape. (B) The attention map highlights the central region of the ``U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.}\label{fig:boston-check}
 \end{figure}
 
 \subsection{DatasauRus}\label{datasaurus}
@@ -1180,7 +1184,7 @@ supporting them.
 
 }
 
-\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model's decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.}\label{fig:dino-check}
+\caption{A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a ``dinosaur" shape. (B) The attention map highlights the ``dinosaur" shape, indicating the model's decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\hat{D} \geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.}\label{fig:dino-check}
 \end{figure}
 
 \begin{figure}[!h]
@@ -1189,7 +1193,7 @@ supporting them.
 
 }
 
-\caption{Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; "U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
+\caption{Lineups of residual plots for the ``left-triangle", ``Boston housing", and ``datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; ``U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.}\label{fig:lineup}
 \end{figure}
 
 \section{Limitations and Future Work}\label{limitations-and-future-work}

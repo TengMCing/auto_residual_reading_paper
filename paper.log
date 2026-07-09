@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.13)  19 FEB 2026 15:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  10 JUL 2026 03:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **paper.tex
 (./paper.tex
-LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-09-02>
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
 (./interact.cls
 Document Class: interact 2016/10/17 v1.03 Interact LaTeX document class
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
@@ -25,7 +25,7 @@ File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \belowcaptionskip=\skip50
 \bibindent=\dimen148
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2025/06/16 v2.17y AMS math features
+Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip51
 For additional information on amsmath, use the `?' option.
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -85,8 +85,8 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \multlinegap=\skip52
 \multlinetaggap=\skip53
 \mathdisplay@stack=\toks21
-LaTeX Info: Redefining \[ on input line 2949.
-LaTeX Info: Redefining \] on input line 2950.
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
@@ -248,13 +248,13 @@ LaTeX Info: Redefining \cite on input line 694.
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+Package: hyperref 2026-01-29 v7.01p Hypertext links for LaTeX
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
@@ -271,7 +271,7 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 \Hy@linkcounter=\count315
 \Hy@pagecounter=\count316
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2026-01-29 v7.01p Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -279,23 +279,23 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count317
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2026-01-29 v7.01p Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4195.
-Package hyperref Info: Link nesting OFF on input line 4200.
-Package hyperref Info: Hyper index ON on input line 4203.
-Package hyperref Info: Plain pages OFF on input line 4210.
-Package hyperref Info: Backreferencing OFF on input line 4215.
+Package hyperref Info: Hyper figures OFF on input line 4201.
+Package hyperref Info: Link nesting OFF on input line 4206.
+Package hyperref Info: Hyper index ON on input line 4209.
+Package hyperref Info: Plain pages OFF on input line 4216.
+Package hyperref Info: Backreferencing OFF on input line 4221.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4462.
+Package hyperref Info: Bookmarks ON on input line 4468.
 \c@Hy@tempcnt=\count318
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4801.
+LaTeX Info: Redefining \url on input line 4807.
 \XeTeXLinkMargin=\dimen190
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -305,20 +305,20 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 \Fld@menulength=\count319
 \Field@Width=\dimen191
 \Fld@charsize=\dimen192
-Package hyperref Info: Hyper figures OFF on input line 6078.
-Package hyperref Info: Link nesting OFF on input line 6083.
-Package hyperref Info: Hyper index ON on input line 6086.
-Package hyperref Info: backreferencing OFF on input line 6093.
-Package hyperref Info: Link coloring OFF on input line 6098.
-Package hyperref Info: Link coloring with OCG OFF on input line 6103.
-Package hyperref Info: PDF/A mode OFF on input line 6108.
+Package hyperref Info: Hyper figures OFF on input line 6084.
+Package hyperref Info: Link nesting OFF on input line 6089.
+Package hyperref Info: Hyper index ON on input line 6092.
+Package hyperref Info: backreferencing OFF on input line 6099.
+Package hyperref Info: Link coloring OFF on input line 6104.
+Package hyperref Info: Link coloring with OCG OFF on input line 6109.
+Package hyperref Info: PDF/A mode OFF on input line 6114.
 \Hy@abspage=\count320
 \c@Item=\count321
 \c@Hfootnote=\count322
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+File: hpdftex.def 2026-01-29 v7.01p Hyperref driver for pdfTeX
 \Fld@listcount=\count323
 \c@bookmark@seq@number=\count324
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
@@ -336,7 +336,7 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
-Package: longtable 2024-12-18 v4.23 Multi-page Table package (DPC)
+Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \LTleft=\skip69
 \LTright=\skip70
 \LTpre=\skip71
@@ -354,7 +354,7 @@ Package: longtable 2024-12-18 v4.23 Multi-page Table package (DPC)
 \c@LT@chunks=\count329
 \LT@p@ftn=\toks33
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
-Package: array 2025/06/08 v2.6j Tabular extension package (FMi)
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
 \col@sep=\dimen194
 \ar@mcellbox=\box61
 \extrarowheight=\dimen195
@@ -476,7 +476,7 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 ) (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count343
 ) (./paper.aux)
 \openout1 = `paper.aux'.
@@ -580,314 +580,258 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 77.
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-[1
+) [1
 
 
 
 {/Users/patrickli/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<paper_files/figure-latex/false-finding-1.pdf, id=142, 289.08pt x 230.8625pt>
+<paper_files/figure-latex/false-finding-1.pdf, id=138, 289.08pt x 230.8625pt>
 File: paper_files/figure-latex/false-finding-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/false-finding-1.pdf>
 Package pdftex.def Info: paper_files/figure-latex/false-finding-1.pdf  used on input line 130.
 (pdftex.def)             Requested size: 204.0pt x 162.9166pt.
-
-
 [2
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.150 
+l.149 
        <./paper_files/figure-latex/false-finding-1.pdf>]
-<paper_files/figure-latex/ex-lineup-1.pdf, id=165, 578.16pt x 108.405pt>
+<paper_files/figure-latex/ex-lineup-1.pdf, id=162, 578.16pt x 108.405pt>
 File: paper_files/figure-latex/ex-lineup-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/ex-lineup-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/ex-lineup-1.pdf  used on input line 153.
+Package pdftex.def Info: paper_files/figure-latex/ex-lineup-1.pdf  used on input line 158.
 (pdftex.def)             Requested size: 408.0pt x 76.49995pt.
-
-
 [3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.194 
-       <./paper_files/figure-latex/ex-lineup-1.pdf>]
-
-[4]
-
-[5]
-
-[6]
-
-[7]
+l.200 
+       <./paper_files/figure-latex/ex-lineup-1.pdf>] [4] [5] [6] [7]
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 359.
+(Font)              size <5> substituted on input line 366.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <5.5> not available
-(Font)              size <5> substituted on input line 359.
+(Font)              size <5> substituted on input line 366.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 359.
+(Font)              size <5> substituted on input line 366.
 
-
-
-[8]
-
-[9]
-
-[10]
-
-[11]
-
-[12]
-
-[13]
-<figures/cnn.pdf, id=368, 1046.94543pt x 420.60437pt>
+[8] [9] [10]
+<figures/cnn.pdf, id=331, 1046.94543pt x 420.60437pt>
 File: figures/cnn.pdf Graphic file (type pdf)
 <use figures/cnn.pdf>
-Package pdftex.def Info: figures/cnn.pdf  used on input line 673.
+Package pdftex.def Info: figures/cnn.pdf  used on input line 541.
 (pdftex.def)             Requested size: 408.0pt x 163.90668pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-
-[14]
-
-[15
+[11] [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.722 
-       <./figures/cnn.pdf>]
-
-[16]
-
-[17
+l.588 
+       <./figures/cnn.pdf>] [13] [14
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.827 
-      ]
-<paper_files/figure-latex/model-performance-1.png, id=453, 2409.0pt x 903.375pt>
+l.679 
+      ] [15]
+Underfull \hbox (badness 1616) in paragraph at lines 748--755
+[]\OT1/cmr/m/n/10.95 This pro-ce-dure is com-pu-ta-tion-ally ex-pen-sive be-cause it re-quires eval-u-at-ing
+ []
+
+[16]
+<paper_files/figure-latex/model-performance-1.png, id=437, 2409.0pt x 903.375pt>
 File: paper_files/figure-latex/model-performance-1.png Graphic file (type png)
 <use paper_files/figure-latex/model-performance-1.png>
-Package pdftex.def Info: paper_files/figure-latex/model-performance-1.png  used on input line 870.
+Package pdftex.def Info: paper_files/figure-latex/model-performance-1.png  used on input line 812.
 (pdftex.def)             Requested size: 408.0pt x 152.99277pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<paper_files/figure-latex/over-under-1.png, id=455, 2409.0pt x 1204.5pt>
+<paper_files/figure-latex/over-under-1.png, id=439, 2409.0pt x 1204.5pt>
 File: paper_files/figure-latex/over-under-1.png Graphic file (type png)
 <use paper_files/figure-latex/over-under-1.png>
-Package pdftex.def Info: paper_files/figure-latex/over-under-1.png  used on input line 879.
+Package pdftex.def Info: paper_files/figure-latex/over-under-1.png  used on input line 821.
 (pdftex.def)             Requested size: 408.0pt x 203.99036pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[17]
 
+LaTeX Warning: Text page 18 contains only floats.
 
-[18]
-
-LaTeX Warning: Text page 19 contains only floats.
-
-
-
-[19
+[18
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.906 
+l.845 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.906 
+l.845 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.906 
-       <./paper_files/figure-latex/model-performance-1.png> <./paper_files/figure-latex/over-under-1.png>]
-
-[20]
-<paper_files/figure-latex/conv-mosaic-1.pdf, id=496, 578.16pt x 216.81pt>
+l.845 
+       <./paper_files/figure-latex/model-performance-1.png> <./paper_files/figure-latex/over-under-1.png>] [19]
+<paper_files/figure-latex/conv-mosaic-1.pdf, id=478, 578.16pt x 216.81pt>
 File: paper_files/figure-latex/conv-mosaic-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/conv-mosaic-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/conv-mosaic-1.pdf  used on input line 983.
+Package pdftex.def Info: paper_files/figure-latex/conv-mosaic-1.pdf  used on input line 928.
 (pdftex.def)             Requested size: 408.0pt x 152.99994pt.
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[21
+[20
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.999 
+l.944 
       
 pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.999 
-      
+l.944 
+      ]
+<paper_files/figure-latex/pcp-1.pdf, id=488, 578.16pt x 252.945pt>
+File: paper_files/figure-latex/pcp-1.pdf Graphic file (type pdf)
+<use paper_files/figure-latex/pcp-1.pdf>
+Package pdftex.def Info: paper_files/figure-latex/pcp-1.pdf  used on input line 947.
+(pdftex.def)             Requested size: 408.0pt x 178.49992pt.
+<paper_files/figure-latex/power-1.pdf, id=490, 505.89pt x 252.945pt>
+File: paper_files/figure-latex/power-1.pdf Graphic file (type pdf)
+<use paper_files/figure-latex/power-1.pdf>
+Package pdftex.def Info: paper_files/figure-latex/power-1.pdf  used on input line 966.
+(pdftex.def)             Requested size: 408.0pt x 204.00433pt.
+[21
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.999 
-       <./paper_files/figure-latex/conv-mosaic-1.pdf>]
-<paper_files/figure-latex/pcp-1.pdf, id=513, 578.16pt x 252.945pt>
-File: paper_files/figure-latex/pcp-1.pdf Graphic file (type pdf)
-<use paper_files/figure-latex/pcp-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/pcp-1.pdf  used on input line 1002.
-(pdftex.def)             Requested size: 408.0pt x 178.49992pt.
-<paper_files/figure-latex/power-1.pdf, id=515, 505.89pt x 252.945pt>
-File: paper_files/figure-latex/power-1.pdf Graphic file (type pdf)
-<use paper_files/figure-latex/power-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/power-1.pdf  used on input line 1021.
-(pdftex.def)             Requested size: 408.0pt x 204.00433pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[22
+l.971 \end{figure}
+                  
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1043 
-        <./paper_files/figure-latex/pcp-1.pdf>]
-
-[23
+l.971 \end{figure}
+                   <./paper_files/figure-latex/conv-mosaic-1.pdf> <./paper_files/figure-latex/pcp-1.pdf>] [22
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1063 
-        <./paper_files/figure-latex/power-1.pdf>]
-<paper_files/figure-latex/delta-1.pdf, id=546, 433.62pt x 216.81pt>
+l.995 \]
+         <./paper_files/figure-latex/power-1.pdf>]
+<paper_files/figure-latex/delta-1.pdf, id=530, 433.62pt x 216.81pt>
 File: paper_files/figure-latex/delta-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/delta-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/delta-1.pdf  used on input line 1074.
+Package pdftex.def Info: paper_files/figure-latex/delta-1.pdf  used on input line 1019.
 (pdftex.def)             Requested size: 326.40125pt x 163.2092pt.
-
-
-[24
+[23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1104 
-        <./paper_files/figure-latex/delta-1.pdf>]
-
-[25]
-<paper_files/figure-latex/false-check-1.pdf, id=585, 578.16pt x 578.16pt>
+l.1041 
+        <./paper_files/figure-latex/delta-1.pdf>] [24]
+<paper_files/figure-latex/false-check-1.pdf, id=567, 578.16pt x 578.16pt>
 File: paper_files/figure-latex/false-check-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/false-check-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/false-check-1.pdf  used on input line 1150.
+Package pdftex.def Info: paper_files/figure-latex/false-check-1.pdf  used on input line 1095.
 (pdftex.def)             Requested size: 326.40125pt x 326.39635pt.
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[25]
+<paper_files/figure-latex/boston-check-1.pdf, id=582, 578.16pt x 578.16pt>
+File: paper_files/figure-latex/boston-check-1.pdf Graphic file (type pdf)
+<use paper_files/figure-latex/boston-check-1.pdf>
+Package pdftex.def Info: paper_files/figure-latex/boston-check-1.pdf  used on input line 1133.
+(pdftex.def)             Requested size: 326.40125pt x 326.39635pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [26
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1169 
-        <./paper_files/figure-latex/false-check-1.pdf>]
-<paper_files/figure-latex/boston-check-1.pdf, id=612, 578.16pt x 578.16pt>
-File: paper_files/figure-latex/boston-check-1.pdf Graphic file (type pdf)
-<use paper_files/figure-latex/boston-check-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/boston-check-1.pdf  used on input line 1188.
+l.1149 
+        <./paper_files/figure-latex/false-check-1.pdf>] [27
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.1164 
+        <./paper_files/figure-latex/boston-check-1.pdf>]
+<paper_files/figure-latex/dino-check-1.pdf, id=628, 578.16pt x 578.16pt>
+File: paper_files/figure-latex/dino-check-1.pdf Graphic file (type pdf)
+<use paper_files/figure-latex/dino-check-1.pdf>
+Package pdftex.def Info: paper_files/figure-latex/dino-check-1.pdf  used on input line 1183.
 (pdftex.def)             Requested size: 326.40125pt x 326.39635pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-
-[27]
-
-[28
-pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.1235 
-        <./paper_files/figure-latex/boston-check-1.pdf>]
-<paper_files/figure-latex/dino-check-1.pdf, id=644, 578.16pt x 578.16pt>
-File: paper_files/figure-latex/dino-check-1.pdf Graphic file (type pdf)
-<use paper_files/figure-latex/dino-check-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/dino-check-1.pdf  used on input line 1238.
-(pdftex.def)             Requested size: 326.40125pt x 326.39635pt.
-<paper_files/figure-latex/lineup-1.pdf, id=645, 722.7pt x 289.08pt>
+<paper_files/figure-latex/lineup-1.pdf, id=629, 722.7pt x 289.08pt>
 File: paper_files/figure-latex/lineup-1.pdf Graphic file (type pdf)
 <use paper_files/figure-latex/lineup-1.pdf>
-Package pdftex.def Info: paper_files/figure-latex/lineup-1.pdf  used on input line 1247.
+Package pdftex.def Info: paper_files/figure-latex/lineup-1.pdf  used on input line 1192.
 (pdftex.def)             Requested size: 408.0pt x 163.19817pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[28]
 
+LaTeX Warning: Text page 29 contains only floats.
 
 [29
 pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1274 
-        <./paper_files/figure-latex/dino-check-1.pdf>]
-
-[30
+l.1225 
+       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1298 
-        <./paper_files/figure-latex/lineup-1.pdf>]
-
-[31]
-Underfull \hbox (badness 2600) in paragraph at lines 1358--1361
+l.1225 
+        <./paper_files/figure-latex/dino-check-1.pdf> <./paper_files/figure-latex/lineup-1.pdf>] [30]
+Underfull \hbox (badness 2600) in paragraph at lines 1303--1306
 \OT1/cmr/m/n/10.95 The data that sup-port the find-ings of this study are openly avail-able in
  []
 
-(./paper.bbl
-
-[32]
-
-[33]
-
-[34]
-
-[35]
-Underfull \hbox (badness 2065) in paragraph at lines 173--174
+[31] (./paper.bbl [32] [33] [34] [35]
+Underfull \hbox (badness 2065) in paragraph at lines 167--168
 \OT1/cmr/m/n/10 2017. ``Deep con-vo-lu-tional neu-ral net-works for pair-wise causal-ity.'' \OT1/cmr/m/it/10 arXiv preprint
  []
 
-
-
-[36])
-
-[37] (./paper.aux)
+[36]) [37] (./paper.aux)
  ***********
-LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-09-02>
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
  ***********
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 6CE6F1F58AB1410031B2D3B956A635BA;4950.
+(rerunfilecheck)             Checksum: 6D695FC0EF318FE106A2199F53D90C15;5075.
  ) 
 Here is how much of TeX's memory you used:
- 14106 strings out of 469718
- 221401 string characters out of 5475560
- 643700 words of memory out of 5000000
- 42150 multiletter control sequences out of 15000+600000
- 640821 words of font info for 91 fonts, out of 8000000 for 9000
+ 14110 strings out of 469503
+ 221376 string characters out of 5468091
+ 646679 words of memory out of 5000000
+ 42367 multiletter control sequences out of 15000+600000
+ 641919 words of font info for 95 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,10n,93p,847b,681s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on paper.pdf (37 pages, 2867919 bytes).
+ 87i,10n,93p,847b,691s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
+
+</Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on paper.pdf (37 pages, 2873546 bytes).
 PDF statistics:
- 908 PDF objects out of 1000 (max. 8388607)
- 778 compressed objects within 8 object streams
- 156 named destinations out of 1000 (max. 500000)
- 306 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 902 PDF objects out of 1000 (max. 8388607)
+ 770 compressed objects within 8 object streams
+ 154 named destinations out of 1000 (max. 500000)
+ 298 words of extra memory for PDF output out of 10000 (max. 10000000)
 
