@@ -181,7 +181,4 @@ We focus on rejection rates as a function of the true distance $D$, since $D$ re
 
 By contrast, reporting rejection rates against the estimated distance $\hat{D}$ is less directly interpretable. The estimate $\hat{D}$ depends on the computer vision model and introduces additional variability, which may not align with how either classical tests or human visual inference conceptualise model deviation. As a result, curves indexed by $\hat{D}$ primarily describe performance conditional on the computer vision system’s perception of deviation, rather than the true underlying signal. In practice, we find that the qualitative conclusions remain unchanged, and the fitted curves are visually similar, aside from minor horizontal distortions due to heteroskedasticity (e.g., a slight compression of the range from approximately $0–8$ to $0–6$).
 
-For completeness, we include the corresponding results based on $\hat{D}$ in the Appendix for interested readers.
-
-
 [TODO]
