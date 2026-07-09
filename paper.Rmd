@@ -947,7 +947,7 @@ if (!file.exists(here("cached_data/fig1_attention_map.rds"))) {
 ```
 
 
-```{r false-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.', fig.height = 8, out.width = "80%"}
+```{r false-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a ``left-triangle" shape. (B) The attention map highlights the top-right and bottom-right corners of the residual plot as the most influential.  (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is not rejected because $\\hat{D} < Q_{null}(0.95)$. (D) Null and bootstrapped plots cluster together in the space defined by the first two principal components of the global pooling layer. The cluster also covers the true residual plot.', fig.height = 8, out.width = "80%"}
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here("cached_data/fig1_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
@@ -1070,7 +1070,7 @@ if (!file.exists(here("cached_data/boston_attention_map.rds"))) {
 ```
 
 
-```{r boston-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a "U" shape. (B) The attention map highlights the central region of the "U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.', fig.height = 8, out.width = "80%"}
+```{r boston-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the Boston housing fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The true residual plot exhibiting a ``U" shape. (B) The attention map highlights the central region of the ``U" shape as the most influential part of the residual plot. (C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) Bootstrapped and null plots form distinct clusters in the space of the first two principal components from the global pooling layer, highlighting their visual separability.', fig.height = 8, out.width = "80%"}
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here("cached_data/boston_attention_map.rds")) + ggtitle("(B) Attention map")
 p3 <- my_vi$summary_plot() +
@@ -1198,7 +1198,7 @@ if (!file.exists(here("cached_data/dino_attention_map.rds"))) {
 }
 ```
 
-```{r dino-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a "dinosaur" shape. (B) The attention map highlights the dinosaur shape, indicating the model\'s decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.', fig.height = 8, out.width = "80%"}
+```{r dino-check, fig.pos = "!h", fig.cap = 'A summary of the residual plot assessment for the datasauRus fitted model evaluated on 200 null plots and 200 bootstrapped plots. (A) The residual plot exhibits a ``dinosaur" shape. (B) The attention map highlights the ``dinosaur" shape, indicating the model\'s decision is driven by human-recognizable features.(C) The density plot shows estimated distances for null (yellow) and bootstrapped (green) plots. The fitted model is rejected because $\\hat{D} \\geq Q_{null}(0.95)$. (D) The bootstrapped plots cluster at the corner of the null plot cluster, yet remain isolated in the space defined by the first two principal components of the global pooling layer.', fig.height = 8, out.width = "80%"}
 
 p1 <- my_vi$plot_resid(theme = theme_light()) + ggtitle(glue("(A) Residual plot")) 
 p2 <- readRDS(here("cached_data/dino_attention_map.rds")) + ggtitle("(B) Attention map")
@@ -1233,7 +1233,7 @@ p4 <- pca_result %>%
 patchwork::wrap_plots(p1, p2, p3, p4, nrow = 2, widths = c(1, 1), heights = c(1, 1))
 ```
 
-```{r dino-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the fitted model on the "dinosaur" dataset. The true residual plot is at position 17. It can be easily identified as the most different plot as the visual pattern is extremely artificial.', fig.height = 8, out.width = "70%"}
+```{r dino-lineup, fig.pos = "!h", fig.cap = 'A lineup of residual plots for the fitted model on the ``dinosaur" dataset. The true residual plot is at position 17. It can be easily identified as the most different plot as the visual pattern is extremely artificial.', fig.height = 8, out.width = "70%"}
 pos <- 17
 result <- tibble()
 for (i in c(1:20)[-pos]) {
@@ -1253,7 +1253,7 @@ l3 <- result %>%
   ggtitle("(C) Lineup for datasauRus")
 ```
 
-```{r lineup, fig.pos = "!h", fig.cap = 'Lineups of residual plots for the "left-triangle", "Boston housing", and "datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; "U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.', fig.width = 10, fig.height = 4}
+```{r lineup, fig.pos = "!h", fig.cap = 'Lineups of residual plots for the ``left-triangle", ``Boston housing", and ``datasauRus" datasets. (A) True plot at position 10; no clear visual difference. (B) True plot at position 7; ``U"-shape clearly stands out. (C) True plot at position 17; distinctly artificial and easily identifiable.', fig.width = 10, fig.height = 4}
 patchwork::wrap_plots(l1, l2, l3, ncol = 3, widths = c(1, 1, 1))
 ```
 
