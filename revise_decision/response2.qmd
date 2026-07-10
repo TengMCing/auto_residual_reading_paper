@@ -29,7 +29,9 @@ format:
 
 We thank the editor, associate editor and reviewers for their time and constructive comments to improve this paper. The reviewer comments are colored in [purple]{.review} below and our response in black below. In addition, we also include an annotated version of the paper (`diff2.pdf`) with the difference between the original and revised versions produced using `latexdiff`. 
 
-[TODO] In this revision, we improve ...
+In this revision, we have substantially reorganised the manuscript to more clearly separate the definition of the proposed distance measure, its estimation using computer vision, the statistical testing procedure, and the bootstrap procedure. We have clarified the theoretical motivation for the transformation $D=\log(1+D_{KL})$, simplified the presentation of the induced residual distribution, and expanded the discussion of the interpretation of $D$ and $\hat{D}$. We have also clarified the generation of null residual plots under the null hypothesis, distinguished this procedure from the bootstrap method, and provided explicit definitions of "true residual plots" and "null plots". In addition, we have improved the description of the computer vision model and image representation, clarified the participant description in the human visual inference study, and made numerous revisions throughout the manuscript to improve clarity and readability.
+
+
 
 ## Reviewer
 
@@ -43,9 +45,9 @@ other idea is to use computer vision models to estimate $D$ with $\hat{D}$. The 
 
 :::
 
-[TODO]
 
-Thank you for your valuable comments. 
+Thank you for your valuable comments. We appreciate your thoughtful assessment of the manuscript and your suggestions for improving the presentation and clarification of the proposed methodology. The issues raised here, including the separation of the methodology, the interpretation of the proposed distance measure $D$, the role of its computer vision estimate $\hat{D}$, and the statistical testing and bootstrap procedures, are addressed individually in the detailed responses below.
+ 
 
 
 
@@ -91,9 +93,6 @@ Finally, the goal of the procedure is not to interpret the magnitude of $\hat{D}
 
 We have revised the relevant section to clarify these points and to better articulate the role of $\hat{D}$ and its null counterpart in the testing procedure. We have also separated the bootstrap component from this section to avoid potential confusion.
 
-[TODO]
-
-
 ::: reviewer
 
 pg 13: line 57: "we can apply bootstrapping to the estimated distance $D$":
@@ -107,8 +106,6 @@ We have substantially revised the bootstrap section and separated it from the st
 We have also added a dedicated paragraph in the statistical testing section describing the generation of null residuals and null plots. Following Buja et al. (2009), this procedure constructs null datasets under $H_0$ based on the fitted regression model. Specifically, under $H_0: \boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{e}$, null residuals are generated as $(\boldsymbol{I}_n - \boldsymbol{H})\boldsymbol{w}$, where $\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top$ and $\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{0}, \hat{\sigma}^2 \boldsymbol{I}_n)$, with $\hat{\sigma}^2$ estimated from the fitted model. This yields the exact conditional distribution of residuals under $H_0$, as described in Buja et al. (2009), and we have clarified this explicitly in the revised text.
 
 We consistently use the terms “true residual plot” and “null plot” throughout the manuscript, following standard terminology in the visual inference literature. To avoid ambiguity, we have added explicit definitions at their first occurrence in the introduction.
-
-[TODO]
 
 
 ::: reviewer
@@ -125,8 +122,6 @@ The quantity $n$ denotes the sample size, $h$ and $w$ are the height and width o
 
 We use RGB images primarily to ensure consistency with the stimuli used in the human subject experiment reported in our previous study. Although the inputs are represented in RGB format, they are immediately converted to grayscale before being processed by the computer vision model. This is appropriate because the images are largely black-and-white, with the exception of a red $y = 0$ reference line. The grayscale conversion preserves sufficient contrast for this feature to remain distinguishable in the resulting intensity representation, and this has now been clarified in Section 4.1.
 
-[TODO]
-
 
 ::: reviewer
 
@@ -138,8 +133,6 @@ These sections are all about how to generate training datasets with known $D$ to
 
 
 Thank you for this helpful suggestion. We have substantially reorganised the manuscript accordingly. The revised structure is now as follows: Section 3 introduces the definition of the distance $D$; Section 4 focuses on its estimation, including the computer vision model architecture (Section 4.1) and the generation of training data together with model training (Section 4.2); Section 5 presents the statistical testing procedure based on $\hat{D}$; and Section 6 discusses bootstrap methods for assessing variability of $\hat{D}$.
-
-[TODO]
 
 
 ::: reviewer
@@ -158,8 +151,6 @@ The distinction between "true residual plots" and "null plots" has also been cla
 We agree that an individual visual judgment is inherently subjective. However, the visual inference framework and lineup protocol are specifically designed to aggregate many independent judgments from multiple participants. Through repeated evaluation across observers, subjective assessments can be translated into objective statistical evidence, allowing formal visual hypothesis tests to be conducted. This is the basis of the human subject experiments reported in the previous study.
 
 We believe the comparison with human-evaluated lineups remains important because the proposed computer vision framework is motivated by the goal of automating the lineup protocol within the visual inference framework. Comparing the model's performance with human evaluations therefore provides a useful benchmark for assessing whether the automated approach captures visual patterns that are meaningful to human observers.
-
-[TODO]
 
 
 ::: reviewer
@@ -180,5 +171,3 @@ In our analysis, we use a logistic regression model to report the rejection prob
 We focus on rejection rates as a function of the true distance $D$, since $D$ reflects the underlying severity of model misspecification and thus the strength of the visual signal present in the residual plots. This allows us to characterise how each method responds across varying degrees of true deviation from the null model.
 
 By contrast, reporting rejection rates against the estimated distance $\hat{D}$ is less directly interpretable. The estimate $\hat{D}$ depends on the computer vision model and introduces additional variability, which may not align with how either classical tests or human visual inference conceptualise model deviation. As a result, curves indexed by $\hat{D}$ primarily describe performance conditional on the computer vision system’s perception of deviation, rather than the true underlying signal. In practice, we find that the qualitative conclusions remain unchanged, and the fitted curves are visually similar, aside from minor horizontal distortions due to heteroskedasticity (e.g., a slight compression of the range from approximately $0–8$ to $0–6$).
-
-[TODO]
