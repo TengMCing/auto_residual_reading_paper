@@ -87,7 +87,7 @@ $D$ is a measure defined in terms of the underlying data-generating process. As 
 
 However, $D$ is not observable in practice because it depends on the unknown data-generating mechanism. In applications, we therefore work with its empirical counterpart $\hat{D}$, which is computed from the observed sample. As expected, $\hat{D}$ depends on the realized sample and varies across samples.
 
-Importantly, the proposed testing procedure does not attempt to eliminate or normalize away this dependence, and no bootstrap procedure is used. Instead, inference is based on comparing $\hat{D}$ with the distribution of $\hat{D}{\text{null}}$, where $\hat{D}{\text{null}}$ is generated under the null model using the same sample size. This ensures that any dependence on sample size is consistently reflected in both quantities, making them directly comparable.
+Importantly, the proposed testing procedure does not attempt to eliminate or normalize away this dependence, and no bootstrap procedure is used. Instead, inference is based on comparing $\hat{D}$ with the distribution of $\hat{D}_{\text{null}}$, where $\hat{D}_{\text{null}}$ is generated under the null model using the same sample size. This ensures that any dependence on sample size is consistently reflected in both quantities, making them directly comparable.
 
 Finally, the goal of the procedure is not to interpret the magnitude of $\hat{D}$ alone, but to assess whether the observed $\hat{D}$ is consistent with the distribution induced by the null model. Model violations manifest through systematic deviations of $\hat{D}$ from $\hat{D}_{\text{null}}$, which is what enables detection.
 
