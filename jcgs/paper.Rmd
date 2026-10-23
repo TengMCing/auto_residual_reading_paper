@@ -763,6 +763,90 @@ ggplot() +
   ylab("Reject")
 ```
 
+```{r power-d-hat, eval=FALSE, fig.pos = "!h", fig.cap = "Comparison of power of visual tests, conventional tests and the computer vision model. Marks along the x-axis at the bottom of the plot represent rejections made by each type of test. Marks at the top of the plot represent acceptances. Power curves are fitted by logistic regression models with no intercept but an offset equals to $\\text{log}(0.05/0.95)$. The model is less sensitive than conventional tests for small $D$ but similarly sensitive for large $D$. Visual tests are least sensitive overall. The model’s curve lies between those of conventional and visual tests.", fig.width = 7, fig.height = 3.5}
+
+max_vss <- max(filter(experiment, !attention_check, !null_lineup)$vss)
+max_poly_ss <- max(filter(experiment, !attention_check, !null_lineup, type == "polynomial")$vss)
+max_heter_ss <- max(filter(experiment, !attention_check, !null_lineup, type != "polynomial")$vss)
+
+model_glm_pred_poly <- glm(model_reject_20 ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type == "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_poly_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_poly_ss, 0.01), type = "Non-linearity", name = "Computer vision model", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+visual_glm_pred_poly <- glm(reject ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type == "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_poly_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_poly_ss, 0.01), type = "Non-linearity", name = "Visual test", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+conv_glm_pred_poly <- glm(conventional_reject ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type == "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_poly_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_poly_ss, 0.01), type = "Non-linearity", name = "Conventional test", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+model_glm_pred_heter <- glm(model_reject_20 ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type != "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_heter_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_heter_ss, 0.01), type = "Heteroskedasticity", name = "Computer vision model", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+visual_glm_pred_heter <- glm(reject ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type != "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_heter_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_heter_ss, 0.01), type = "Heteroskedasticity", name = "Visual test", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+conv_glm_pred_heter <- glm(conventional_reject ~ vss - 1, 
+    data = filter(experiment, !attention_check, !null_lineup, type != "polynomial") %>% mutate(offset0 = log(0.05/0.95)), 
+    offset = offset0,
+    family = binomial()) %>%
+  predict(data.frame(vss = seq(0, max_heter_ss, 0.01), offset0 = log(0.05/0.95)),
+          type = "response") %>%
+  data.frame(d = seq(0, max_heter_ss, 0.01), type = "Heteroskedasticity", name = "Conventional test", value = .) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity")))
+
+mutate(experiment, type = ifelse(type == "polynomial", "Non-linearity", "Heteroskedasticity")) %>%
+  mutate(type = factor(type, levels = c("Non-linearity", "Heteroskedasticity"))) %>%
+  filter(!null_lineup, !attention_check) %>%
+ggplot() +
+  geom_line(data = model_glm_pred_poly, aes(d, value, col = "Computer vision model"), linewidth = 0.8) +
+  geom_line(data = model_glm_pred_heter, aes(d, value, col = "Computer vision model"), linewidth = 0.8) +
+  geom_line(data = visual_glm_pred_poly, aes(d, value, col = "Visual test"), linewidth = 0.8) +
+  geom_line(data = visual_glm_pred_heter, aes(d, value, col = "Visual test"), linewidth = 0.8) +
+  geom_line(data = conv_glm_pred_poly, aes(d, value, col = "Conventional test"), linewidth = 0.8) +
+  geom_line(data = conv_glm_pred_heter, aes(d, value, col = "Conventional test"), linewidth = 0.8) +
+  geom_segment(data = ~filter(.x, !reject), aes(x = vss, xend = vss, y = -0.1, yend = -0.1 + 0.03, col = "Visual test"), alpha = 0.4) +
+  geom_segment(data = ~filter(.x, reject), aes(x = vss, xend = vss, y = 1.1 - 0.03 * 2, yend = 1.1 - 0.03 * 3, col = "Visual test"), alpha = 0.4) +
+  geom_segment(data = ~filter(.x, !model_reject_20), aes(x = vss, xend = vss, y = -0.1 + 0.03, yend = -0.1 + 0.03 * 2, col = "Computer vision model"), alpha = 0.4) +
+  geom_segment(data = ~filter(.x, model_reject_20), aes(x = vss, xend = vss, y = 1.1 - 0.03, yend = 1.1 - 0.03 * 2, col = "Computer vision model"), alpha = 0.4) +
+  geom_segment(data = ~filter(.x, !conventional_reject), aes(x = vss, xend = vss, y = -0.1 + 0.03 * 2, yend = -0.1 + 0.03 * 3, col = "Conventional test"), alpha = 0.4) +
+  geom_segment(data = ~filter(.x, conventional_reject), aes(x = vss, xend = vss, y = 1.1, yend = 1.1 - 0.03, col = "Conventional test"), alpha = 0.4) +
+  facet_grid(~type, scales = "free_x") +
+  theme_bw() +
+  scale_color_brewer("", palette = "Dark2") +
+  theme(legend.position = "bottom") +
+  xlab("hat{D}") +
+  ylab("Reject")
+```
+
 
 Finally, the power curves in Figure \ref{fig:power} are fitted using logistic regression without intercepts and with an offset of $\log(0.05/0.95)$ to ensure a 5% rejection rate under $H_0$. The model’s rejection curve consistently lies between those of conventional and human visual tests, indicating potential to further align its decision boundary with human visual assessment.
 

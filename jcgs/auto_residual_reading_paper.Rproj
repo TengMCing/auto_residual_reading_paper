@@ -14,3 +14,7 @@ LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
+
+PythonType: conda
+PythonVersion: 3.11.9
+PythonPath: /opt/homebrew/Caskroom/miniconda/base/envs/auto_residual_reading_paper/bin/python3.11
