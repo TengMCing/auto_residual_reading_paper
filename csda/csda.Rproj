@@ -1,0 +1,20 @@
+Version: 1.0
+
+RestoreWorkspace: Default
+SaveWorkspace: Default
+AlwaysSaveHistory: Default
+
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
+Encoding: UTF-8
+
+RnwWeave: Sweave
+LaTeX: pdfLaTeX
+
+AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
+
+PythonType: conda
+PythonVersion: 3.11.9
+PythonPath: /opt/homebrew/Caskroom/miniconda/base/envs/auto_residual_reading_paper/bin/python3.11
