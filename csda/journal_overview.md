@@ -130,6 +130,10 @@ Points to weigh:
 - Simulation studies must be documented thoroughly (RNGs, algorithms, hardware,
   software) to meet the journal's methodological standards.
 
+## See also
+
+- [Submission requirements](submission_requirements.md) — template, formatting rules, declarations, and review process.
+
 ## Sources
 
 - Aims and scope:

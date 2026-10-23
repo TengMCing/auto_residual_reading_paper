@@ -109,6 +109,10 @@ Points to weigh:
 - The 2026 editorial resignations introduce some uncertainty about review
   capacity during the transition.
 
+## See also
+
+- [Submission requirements](submission_requirements.md) — template, formatting rules, declarations, and review process.
+
 ## Sources
 
 - Journal home and metrics: <https://link.springer.com/journal/11222>
