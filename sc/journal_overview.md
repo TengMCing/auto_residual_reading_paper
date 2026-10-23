@@ -112,6 +112,7 @@ Points to weigh:
 ## See also
 
 - [Submission requirements](submission_requirements.md) — template, formatting rules, declarations, and review process.
+- [Gap analysis of the current JCGS package](gap_analysis.md) — current form versus S&C requirements.
 
 ## Sources
 
