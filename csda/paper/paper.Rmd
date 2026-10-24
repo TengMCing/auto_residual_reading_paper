@@ -8,9 +8,13 @@
 title: "Automated Assessment of Residual Plots with Computer Vision Models"
 
 author:
+  # NOTE: affiliation labels must be comma-separated without spaces ("1,2").
+  # elsarticle.cls builds each superscript from the literal token between
+  # commas; with a space ("1, 2") the label lookup fails and the marker
+  # silently prints as "1". See submission_requirements.md (author addresses).
   - name: Weihao Li
     email: patrick.li@anu.edu.au
-    affiliation: 1, 2
+    affiliation: "1,2"
     correspondingauthor: true
   - name: Dianne Cook
     email: dicook@monash.edu
@@ -20,7 +24,7 @@ author:
     affiliation: 2
   - name: Susan VanderPlas
     email: susan.vanderplas@usu.edu
-    affiliation: 3, 4
+    affiliation: "3,4"
   - name: Klaus Ackermann
     email: klaus.ackermann@monash.edu
     affiliation: 1
@@ -30,24 +34,28 @@ address:
     organization: Monash University
     addressline: Department of Econometrics and Business Statistics
     city: Clayton
+    # postcode:
     state: VIC
     country: Australia
   - code: 2
     organization: Australian National University
     addressline: Research School of Finance, Actuarial Studies and Statistics
     city: Acton
+    # postcode:
     state: ACT
     country: Australia
   - code: 3
     organization: University of Nebraska
     addressline: Department of Statistics
     city: Lincoln
+    # postcode:
     state: Nebraska
     country: USA
   - code: 4
     organization: Utah State University
     addressline: Department of Mathematics & Statistics
     city: Logan
+    # postcode:
     state: Utah
     country: USA
 
@@ -82,9 +90,9 @@ abstract: |
   examples from classical papers and contemporary data demonstrate the method's
   practical utility in automating residual diagnostics.
 
-# The bibliography currently lives in the JCGS folder. Copy it into this folder
-# (and update the path) before submission.
-bibliography: ../../jcgs/bibliography.bib
+# The bibliography is kept in this folder so the submission source is
+# self-contained (Elsevier requires the editable source at revision).
+bibliography: bibliography.bib
 
 output:
   rticles::elsevier_article:
@@ -92,8 +100,9 @@ output:
     citation_package: natbib
 ---
 
-<!-- CSDA highlights (3-5 bullet points, at most 85 characters each) are
-submitted as a separate editable file, not in this document. -->
+<!-- CSDA highlights (3-5 bullet points, at most 85 characters each) live in
+highlights.md and are submitted as a separate editable file, not in this
+document. Export with: pandoc highlights.md -o Highlights.docx -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -131,6 +140,11 @@ appropriate heading. Figures and tables should be added where they belong. -->
 ## Model Architecture {#sec-model-architecture}
 
 ## Data Generation and Model Training {#sec-model-data-generation}
+
+<!-- CSDA requires computational reporting: describe the pseudo-random-number
+generators (RNG type and seed), numerical algorithms, computers/hardware,
+programming languages, and major software versions (with package versions)
+used for data generation and model training. -->
 
 # Statistical Testing {#sec-model-statistical-testing}
 
@@ -173,9 +187,12 @@ the public, commercial, or not-for-profit sectors." -->
 
 # Competing Interests {-}
 
-No potential conflict of interest was reported by the author(s).
+Declarations of interest: none
 
-<!-- Also complete Elsevier's separate Declaration of Interest form. -->
+<!-- Elsevier now runs this through its online declarations tool: every author
+completes it (choosing "I have nothing to declare" where applicable) and the
+generated Word document is uploaded under "attach/upload files". Keep this
+manuscript statement for the record. -->
 
 # Author Contributions {-}
 
@@ -194,7 +211,7 @@ in the project's GitHub repository
 <!-- Describe the appendix, provide a concise caption, and upload it as a
 separate supplementary file (published as received). -->
 
-# Declaration of Generative AI and AI-assisted technologies in the writing process {-}
+# Declaration of generative AI and AI-assisted technologies in the manuscript preparation process {-}
 
 During the preparation of this work the author(s) used ChatGPT (OpenAI) in
 order to improve the clarity and fluency of the manuscript text. After using

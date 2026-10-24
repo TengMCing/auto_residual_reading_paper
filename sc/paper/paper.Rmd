@@ -103,9 +103,9 @@ abstract: |
   examples from classical papers and contemporary data demonstrate the method's
   practical utility in automating residual diagnostics.
 
-# The bibliography currently lives in the JCGS folder. Copy it into this folder
-# (and update the path) before submission.
-bibliography: ../../jcgs/bibliography.bib
+# The bibliography is kept in this folder so the submission source set
+# (.tex + class + bst + bib) is self-contained, as Springer Nature requires.
+bibliography: bibliography.bib
 
 output:
   rticles::springer_article:
