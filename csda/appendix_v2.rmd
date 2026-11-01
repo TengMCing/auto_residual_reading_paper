@@ -1,0 +1,191 @@
+---
+title: "Automated Assessment of Residual Plots with Computer Vision Models: Supplementary Material"
+
+author:
+  - name: Weihao Li
+    email: patrick.li@anu.edu.au
+    affiliation: "1,2"
+    correspondingauthor: true
+  - name: Dianne Cook
+    email: dicook@monash.edu
+    affiliation: 1
+  - name: Emi Tanaka
+    email: emi.tanaka@anu.edu.au
+    affiliation: 2
+  - name: Susan VanderPlas
+    email: susan.vanderplas@usu.edu
+    affiliation: "3,4"
+  - name: Klaus Ackermann
+    email: klaus.ackermann@monash.edu
+    affiliation: 1
+
+address:
+  - code: 1
+    organization: Monash University
+    addressline: Department of Econometrics and Business Statistics
+    city: Clayton
+    state: VIC
+    country: Australia
+  - code: 2
+    organization: Australian National University
+    addressline: Research School of Finance, Actuarial Studies and Statistics
+    city: Acton
+    state: ACT
+    country: Australia
+  - code: 3
+    organization: University of Nebraska
+    addressline: Department of Statistics
+    city: Lincoln
+    state: Nebraska
+    country: USA
+  - code: 4
+    organization: Utah State University
+    addressline: Department of Mathematics & Statistics
+    city: Logan
+    state: Utah
+    country: USA
+
+journal: "Computational Statistics & Data Analysis"
+classoption: preprint, 3p, authoryear
+biblio-style: elsarticle-harv
+numbersections: true
+
+abstract: |
+  This is supplementary material for the paper "Automated Assessment of Residual Plots with Computer Vision Models". It records the hyperparameters that were searched when training the network and the protocol applied to each candidate, and it defines the model violations index with the thresholds used to describe the strength of a violation.
+
+header-includes:
+  - \usepackage{float}
+
+bibliography: bibliography.bib
+
+output:
+  rticles::elsevier_article:
+    keep_tex: true
+    citation_package: natbib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  echo = FALSE,
+  fig.width = 8,
+  fig.height = 6,
+  out.width = "100%",
+  fig.align = "center"
+)
+```
+
+```{r libraries, include=FALSE}
+pkgs <- c("tidyverse", "glue", "here", "kableExtra", "patchwork", "autovi")
+for (p in pkgs) {
+  if (!requireNamespace(p, quietly = TRUE)) install.packages(p)
+}
+
+library(tidyverse)
+library(glue)
+library(kableExtra)
+library(patchwork)
+library(here)
+library(autovi)
+```
+
+# Appendix A: Model training {-}
+
+The main text describes the network and states the optimisation procedure in summary. This appendix records the hyperparameters that were searched and the protocol that was applied to every candidate.
+
+The number of base filters sets the number of filters in the first two-dimensional convolutional layer, and each subsequent block doubles it except the last, which keeps the same number as the block before it. A larger number of base filters, or a larger number of units in the fully connected block, admits more trainable parameters and a more complex model. The dropout rate and the presence of batch normalisation are searched jointly with the other settings, a higher dropout rate being necessary when the model begins to fit noise in the training data and a lower rate being preferred when training does not converge. Batch normalisation stabilises and accelerates training by normalising the activations of each layer. The learning rate sets the step size of the optimisation, and it was searched over six orders of magnitude because the boundary between unstable and slow convergence is not known in advance. The tuner was also allowed to determine whether the auxiliary inputs, the Scagnostics measures and the sample size, improved prediction accuracy.
+
+The search ran on the MASSIVE M3 platform [@goscinski2014multi] with TensorFlow [@abadi2016tensorflow] and Keras [@chollet2015keras]. Each candidate was fitted on 80\% of the training data and validated on the remaining 20\%, and 100 trials of Bayesian optimisation selected the values by validation root mean square error. The best epoch of the best trial was restored, training stopped if the validation error had not improved for 50 epochs, and the ceiling of 2,000 epochs was never reached.
+
+Table \ref{tab:hyperparameter} gives the domains that were searched, and Table \ref{tab:best-hyperparameter} the values that the optimised models settled on.
+
+```{r}
+data.frame(`Hyperparameter` = c("Number of base filters", "Dropout rate for convolutional blocks", "Batch normalization for convolutional blocks", "Type of global pooling", "Ignore additional inputs", "Number of units for the fully-connected layer", "Batch normalization for the fully-connected layer", "Dropout rate for the fully-connected layer", "Learning rate"),
+           Domain = c("\\{4, 8, 16, 32, 64\\}", "[0.1, 0.6]", "\\{false, true\\}", "\\{max, average\\}", "\\{false, true\\}", "\\{128, 256, 512, 1024, 2048\\}", "\\{false, true\\}", "[0.1, 0.6]", "[$10^{-8}$, $10^{-1}$]")) %>%
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
+                    label = "hyperparameter",
+                    caption = "Name of hyperparameters and their correspoding domain for the computer vision model.",
+                    escape = FALSE)
+```
+
+
+Based on the tuning process described above, the optimized hyperparameter values are presented in Table \ref{tab:best-hyperparameter}. It was observable that a minimum of $32$ base filters was necessary, with the preferable choice being $64$ base filters for both the $64 \times 64$ and $128 \times 128$ models, mirroring the original VGG16 architecture. The optimized dropout rate for convolutional blocks hovered around $0.4$, and incorporating batch normalization for convolutional blocks proved beneficial for performance.
+
+All optimized models chose to retain the additional inputs, contributing to the reduction of validation error. The number of units required for the fully-connected layer was $256$, a relatively modest number compared to the VGG16 classifier, suggesting that the problem at hand was less complex. The optimized learning rates were higher for models with higher resolution input, likely because models with more parameters are more prone to getting stuck in local minima, requiring a higher learning rate.
+
+```{r}
+data.frame(`Hyperparameter` = c("Number of base filters", "Dropout rate for convolutional blocks", "Batch normalization for convolutional blocks", "Type of global pooling", "Ignore additional inputs", "Number of units for the fully-connected layer", "Batch normalization for the fully-connected layer", "Dropout rate for the fully-connected layer", "Learning rate"),
+           `32` = c("32", "0.4", "true", "max", "false", "256", "false", "0.2", "0.0003"),
+           `64` = c("64", "0.3", "true", "average", "false", "256", "true", "0.4", "0.0006"),
+           `128` = c("64", "0.4", "true", "average", "false", "256", "true", "0.1", "0.0052")) %>%
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE, 
+                    label = "best-hyperparameter",
+                    caption = "Hyperparameters values for the optimized computer vision models with different input sizes.",
+                    col.names = c("Hyperparameter", "$32 \\times 32$", "$64 \\times 64$", "$128 \\times 128$"),
+                    escape = FALSE) %>%
+  kableExtra::kable_styling(latex_options = c("scale_down"))
+```
+
+
+# Appendix B: Model violations index {-}
+
+The predicted distance can also be used on a single residual plot, without constructing a lineup. One adjustment is needed before it can be compared across datasets, because the value of $D$ grows with the sample size. Under independence $D_{KL}$ is the sum of a contribution from each observation, so $D=\log(1+D_{KL})$ increases roughly logarithmically in $n$ even when the extent of the violation is unchanged. This is not a defect of the distance. A larger sample makes a departure easier to see in a residual plot, which is the behaviour the measure is designed to record.
+
+For a standardised index, we adjust for the sample size and define the model violations index
+\begin{equation*} \label{eq:mvi}
+\text{MVI} = C + \hat{D} - \log(n),
+\end{equation*}
+where $C$ is a constant large enough to keep the index positive and the $\log(n)$ term offsets the growth of $\hat{D}$ with the sample size. With $C = 10$, the thresholds in Table \ref{tab:mvi} separate degrees of violation as they appear in a residual plot.
+
+
+Figure \ref{fig:index} places residual plots along this scale. With $C = 10$ the non-linearity patterns are strong and easy to see once $\text{MVI} > 8$, and faint below $\text{MVI} < 6$, with the same ordering for heteroskedasticity.
+
+The index is descriptive. It is not a test, and it does not replace the rotation test described in the main text, which supplies the $p$-value. It gives a scale on which plots from different datasets, and different sample sizes, can be placed alongside one another.
+
+
+```{r mvi-table}
+data.frame(degree = c("Strong", "Moderate", "Weak"),
+           range = c("$\\text{MVI} > 8$", "$6 < \\text{MVI} < 8$", "$\\text{MVI} < 6$")) %>%
+  kableExtra::kable(format = "latex",
+                    booktabs = TRUE,
+                    label = "mvi",
+                    caption = "Degree of model violations or the strength of the visual signals according to the Model Violations Index (MVI). The constant $C$ is set to be 10.",
+                    escape = FALSE,
+                    col.names = c("Degree of model violations", "Range ($C$ = 10)"),
+                    align = "lc")
+```
+
+
+```{r index, fig.pos = "H", fig.height = 10, fig.cap = "Residual plots generated from fitted models exhibiting varying degrees of (A) non-linearity and (B) heteroskedasticity violations. The model violations index (MVI) is displayed atop each residual plot. The non-linearity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$, while the heteroskedasticity patterns are relatively strong for $MVI > 8$, and relatively weak for $MVI < 6$."}
+dat_combined <- readRDS(here::here("cached_data/poly_index.rds"))
+vss <- readRDS(here::here("cached_data/poly_index_vss.rds"))
+
+p1 <- dat_combined %>%
+  autovi::AUTO_VI$plot_resid() +
+  facet_wrap(~e_sigma, scales = "free", 
+             labeller = function(...){ 
+               tibble(nb = map(glue("'MVI' == {format(vss - log(300) + 10, digits = 3)}"), str2expression))
+               },
+             ncol = 5) +
+  theme(strip.text = element_text(size = 10), plot.title = element_text(size = 10)) +
+  ggtitle("(A) Non-linearity")
+
+dat_combined <- readRDS(here::here("cached_data/heter_index.rds"))
+vss <- readRDS(here::here("cached_data/heter_index_vss.rds"))
+
+p2 <- dat_combined %>%
+  autovi::AUTO_VI$plot_resid() +
+  facet_wrap(~nb, scales = "free", 
+             labeller = function(...){ 
+               tibble(nb = map(glue("'MVI' == {format(vss - log(300) + 10, digits = 3)}"), str2expression))
+               },
+             ncol = 5) +
+  theme(strip.text = element_text(size = 10), plot.title = element_text(size = 10)) +
+  ggtitle("(B) Heteroskedasticity")
+
+patchwork::wrap_plots(p1, p2, ncol = 1)
+```
+
