@@ -15,8 +15,9 @@ human visual inference, and it scales to large numbers of plots.
 
 ## Repository layout
 
-The repository root contains this README and the [`jcgs/`](jcgs/) folder, which
-holds all project files.
+The repository root contains this README and three journal folders:
+[`jcgs/`](jcgs/), which holds all project files, plus [`sc/`](sc/) and
+[`csda/`](csda/), which hold journal overviews and submission requirements.
 
 | Path | Description |
 | --- | --- |
