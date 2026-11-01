@@ -15,7 +15,9 @@
 - **Article types:** original research reports, authoritative review papers,
   discussed papers, and special issues. The journal also publishes book review
   and software review sections.
-- **Length:** no word or page limit is stated.
+- **Length:** no page limit and no word limit is stated; the only length constraint is
+  the 150–250-word abstract. (Long papers are routine in this journal —
+  "discussed papers" and review papers are accepted article types.)
 - **Abstract:** 150–250 words, with no undefined abbreviations or unspecified
   references.
 - **Keywords:** 4–6 keywords for indexing.
@@ -37,7 +39,12 @@
   1.1.1).
 - **Footnotes**, not endnotes. A footnote must not consist only of a citation,
   contain bibliographic details, or contain figures or tables.
-- Define abbreviations at first use.
+- Define abbreviations at first use and use them consistently.
+- **Table of symbols / notation:** the guidelines neither require one nor express a
+  preference. A notation table is optional; if included, treat it as an ordinary
+  numbered and captioned table and place it as a normal section or appendix,
+  staying within the three-heading-level limit. Figures in an appendix continue
+  the main-text figure numbering; appendix figures are not numbered "A1, A2".
 
 ## 3. Title page and declarations
 
@@ -217,6 +224,44 @@ Two separate statements are required before the reference list:
     (4–6) in the YAML; the default template abstract is a placeholder.
   - Keep the `.tex`, `.cls`, `.bst`, and figure files from the rendered output
     for submission.
+
+## How to re-fetch these sources
+
+`link.springer.com` will not serve a terminal client: plain `curl` returns a
+~315-byte "Client Challenge / JavaScript is disabled" page and redirects to
+`idp.springer.com`. Every page cited below was therefore read through the Jina
+reader proxy. This record is here so a later session or co-author can re-verify
+the claims without rediscovering the workarounds.
+
+The working pattern is to prefix the target URL with `https://r.jina.ai/`:
+
+```bash
+curl -sS "https://r.jina.ai/https://link.springer.com/journal/11222/submission-guidelines" \
+     -o /tmp/sc_guidelines.md      # HTTP 200, ~62 KB of markdown
+```
+
+The same pattern works for `/aims-and-scope`, `/how-to-publish-with-us`,
+`/pre-submission?journalId=11222`, and
+`/pre-submission/structure-and-layout?journalId=11222`.
+
+- The submission portal (`submission.nature.com`) needs no proxy.
+- `editorialmanager.com/stco` returns HTTP 200, but the body is only the
+  "Site under development. Do not use for live manuscript submission." notice.
+- The Springer Nature LaTeX template zip is linked from
+  `springernature.com/gp/authors/campaigns/latex-author-support`; the download is
+  JavaScript-gated, and guessed
+  `resource-cms.springernature.com/springer-cms/rest/v1/content/<id>/data/v<N>`
+  URLs mostly 404 (id 19238648 is the LNCS template, not the journal template).
+
+To rebuild the HTML twin after editing this file:
+
+```bash
+export PATH="/Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64:$PATH"
+Rscript -e "rmarkdown::render('sc/submission_requirements.md', output_format=rmarkdown::html_document(self_contained=TRUE), quiet=TRUE)"
+```
+
+The `PATH` line matters: without the bundled pandoc, render stops with
+"pandoc version 1.12.3 or higher is required".
 
 ## Sources
 
