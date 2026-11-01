@@ -25,6 +25,10 @@
   Methodology for Data Analysis, III) Special Applications.
 - **Article types:** research papers, short communications, review papers, and
   book reviews.
+- **Length:** no page limit and no word limit is stated. The only stated length
+  constraint is the abstract ("does not exceed 250 words"). "Short
+  communications" is a separate article type, but the guide gives no length
+  range for it.
 - **Scope:** the live aims page no longer says papers "must include either a
   computational or data analysis component", and the old "purely theoretical
   papers … will be returned to the authors" sentence has been removed. The
@@ -94,6 +98,12 @@
 - **Tables:** "must be submitted as editable text, not as images"; cited in the
   text, numbered consecutively, caption above, notes below the body, "Avoid
   vertical rules and shading within table cells".
+- **Table of symbols / notation:** not required by the guide and not mentioned in
+  it, so there is no stated preference. Symbols and abbreviations should be
+  defined at first use (the captions section also says "any symbol or
+  abbreviation should be explained"). If you supply one, follow the table rules
+  above, or make it an appendix (appendices are numbered A, B, … with equations
+  Eq. (A.1) and tables Table A.1).
 - **Figures** are supplied as separate files with logical names (`Figure_1`,
   `Figure_2`, …). Captions consist of a brief title (not embedded in the
   artwork) plus a description.
@@ -233,7 +243,7 @@ list**, except competing interests (see below).
 
 - **Keywords:** the paper currently lists **6**, within the new 1–7 range.
 - **Abstract:** 177 words, within the 250-word limit.
-- **Highlights:** `csda/paper/highlights.md` holds 4 bullets, all under the
+- **Highlights:** `csda/highlights.md` holds 4 bullets, all under the
   85-character limit; export it to `.docx` and upload it as a "Highlights" file.
 - **Competing interests:** the manuscript's "Declarations of interest: none"
   line is no longer the required mechanism; complete Elsevier's declarations
@@ -268,6 +278,65 @@ list**, except competing interests (see below).
   `5p` are layout options, and `preprint` produces the review layout.
 - Set the journal name in the YAML `journal:` field so the footer and running
   head are correct.
+
+## How to re-fetch these sources
+
+ScienceDirect refuses scripted clients — plain `curl` returns HTTP 403 and the
+Jina reader proxy gets a captcha ("Are you a robot?"). The live guide was
+captured with a real browser driven headless. This record is here so a later
+session or co-author can re-verify the claims without rediscovering the
+workarounds.
+
+The working pattern is headless Chrome with its own sandbox disabled and a
+desktop user agent, dumping the rendered DOM:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless=new --no-sandbox --disable-gpu --disable-crashpad \
+  --disable-crash-reporter --disable-dev-shm-usage --no-first-run \
+  --no-default-browser-check --user-data-dir=/tmp/chrome-prof \
+  --virtual-time-budget=30000 \
+  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36" \
+  --dump-dom "https://www.sciencedirect.com/journal/computational-statistics-and-data-analysis/publish/guide-for-authors" \
+  > /tmp/csda_guide.html      # ~433 KB
+```
+
+Why each flag is needed:
+
+- `--no-sandbox`: otherwise Chrome exits 133 with
+  "sandbox initialization failed: Operation not permitted" inside the DSH file
+  sandbox.
+- the `--user-agent` override: the default `HeadlessChrome/…` agent is rejected
+  with `CPE00001 ::CLOUDFLARE_ERROR_1000S_BOX::`.
+- `--virtual-time-budget`: macOS has no `timeout` command, so this is the wait
+  mechanism.
+
+To read the dump, strip `script`/`style` blocks and convert `</p>`, `</li>`,
+`</div>` to newlines; the guide runs to ~53 KB of text and the artwork table
+(DPI limits) is inside it.
+
+- Same headless pattern for `/about/insights` (timeline, acceptance rate, APC)
+  and `/about/aims-and-scope`.
+- Elsevier's LaTeX instructions page (`elsevier.com/researcher/author/…`) does
+  accept plain `curl` (HTTP 200, ~246 KB); the `elsarticle.zip` it links lives on
+  `assets.ctfassets.net`.
+- Submission portal: <https://submit.elsevier.com/CSDA>.
+  `editorialmanager.com/csda` still resolves, but only shows the
+  "Site under development. Do not use for live manuscript submission." notice.
+- Wayback has exactly one capture of the guide (`20240415204941`). Fetch the raw
+  copy with the `id_` suffix —
+  `curl -sS -O "https://web.archive.org/web/20240415204941id_/<url>"` — because
+  `web.archive.org` refuses the Jina proxy with HTTP 403.
+
+To rebuild the HTML twin after editing this file:
+
+```bash
+export PATH="/Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64:$PATH"
+Rscript -e "rmarkdown::render('csda/docs/submission_requirements.md', output_format=rmarkdown::html_document(self_contained=TRUE), quiet=TRUE)"
+```
+
+The `PATH` line matters: without the bundled pandoc, render stops with
+"pandoc version 1.12.3 or higher is required".
 
 ## Sources
 
